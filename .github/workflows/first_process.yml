@@ -1,4 +1,4 @@
-name: "Check for Running Workflows"
+name: "first_process"
 
 on:
   workflow_dispatch:
