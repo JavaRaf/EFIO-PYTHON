@@ -1,0 +1,37 @@
+name: "Check for Running Workflows"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */5 * * *"
+
+permissions:
+  contents: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  check_if_any_workflow_is_running:
+    runs-on: ubuntu-latest
+    steps:                      # check if any workflow is running
+      - name: "Check if any workflow is running"
+        run: |
+          # Obtenha uma lista de todas as execuções recentes e verifique se alguma está "in_progress"
+          running=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+                          -H "Accept: application/vnd.github+json" \
+                          "https://api.github.com/repos/${{ github.repository_owner }}/{{ github.event.repository.name }}/actions/runs" \
+                          | jq '.workflow_runs[] | select(.status == "in_progress")')
+
+          if [ -n "$running" ]; then
+            echo "Another workflow is already running."
+            exit 1
+          else
+            echo "No other workflows are running. Proceeding with this job."
+          fi
+
+
+
+
+
+
