@@ -19,12 +19,14 @@ jobs:
     second_process:
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
             - name: run_main.py
               run: |
                   python main.py
 
     
-
             - name: auto-commit
               uses: stefanzweifel/git-auto-commit-action@v5
               with:
