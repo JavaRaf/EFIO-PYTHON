@@ -14,7 +14,7 @@ env:
 jobs:
   check_if_any_workflow_is_running:
     runs-on: ubuntu-latest
-    steps:                      # check if any workflow is running
+    steps: # check if any workflow is running
       - name: "Check if any workflow is running"
         run: |
           # Obtenha uma lista de todas as execuções recentes e verifique se alguma está "in_progress"
