@@ -1,67 +1,21 @@
 name: second process
 
-
 on:
     workflow_dispatch:
-    workflow_run:
-        workflows: ["first_process"]
-        types:
-            - completed
-
 
 permissions:
     contents: write
-  
-env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    actions: write
+
 
 jobs:
-    second_process:
+    checks:
         runs-on: ubuntu-latest
+
         steps:
-            - name: Checkout
+            - name: Checkout repository
               uses: actions/checkout@v4
 
-
-            - name: "Check if first process was successful"
+            - name: "run main"
               run: |
-                # Obtém a última execução do workflow especificado
-                workflow_id=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                  -H "Accept: application/vnd.github+json" \
-                  https://api.github.com/repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/actions/workflows/first_process.yml \
-                  | jq -r .id)
-            
-                # Verifica se o ID do workflow foi encontrado
-                if [ "$workflow_id" == "null" ]; then
-                  echo "Workflow not found. Check if the name or file path in FIRST_PROCESS_NAME is correct."
-                  exit 1
-                fi
-            
-                # Obtém a última execução do workflow e checa o status
-                last_run=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                  -H "Accept: application/vnd.github+json" \
-                  "https://api.github.com/repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/actions/workflows/$workflow_id/runs?per_page=1" \
-                  | jq -r '.workflow_runs[0]')
-            
-                # Verifica o status da última execução
-                conclusion=$(echo "$last_run" | jq -r .conclusion)
-            
-                if [ "$conclusion" == "success" ]; then
-                  echo "The first process completed successfully."
-                else
-                  echo "The first process did not complete successfully. Conclusion: $conclusion"
-                  exit 1
-                fi
-                  
-            - name: run_main.py
-              run: |
-                  python main.py
-
-            - name: auto-commit
-              uses: stefanzweifel/git-auto-commit-action@v5
-              with:
-                  push_options: '--force'
-                  commit_message: "auto-commit"
-                  file_pattern: text.txt
-
-
+                python main.py
