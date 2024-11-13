@@ -20,7 +20,7 @@ jobs:
         run: |
           workflow_id=$(curl -s -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{secrets.GITHUB_TOKEN}}" \
-          https://api.github.com/repos/${{github.repository}}/actions/workflows | jq -r '.workflows[] | select(.name == "second_process.yml") | .id')
+          https://api.github.com/repos/${{github.repository}}/actions/workflows | jq -r '.workflows[] | select(.name == "second_process") | .id')
           
           echo "workflow_id=$workflow_id" >> $GITHUB_ENV
 
