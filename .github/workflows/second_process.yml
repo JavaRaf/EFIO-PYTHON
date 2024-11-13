@@ -1,4 +1,4 @@
-name: second process
+name: second_process
 
 on:
     workflow_dispatch:
