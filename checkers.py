@@ -1,9 +1,9 @@
+from parse_configs import parse_configs
+configs: dict = parse_configs()
 
 
 
-
-
-def check_total_frames_posted() -> int:
+def total_frames_posted() -> int:
 
     """
     This function checks the total number of frames posted by the bot.
@@ -20,5 +20,12 @@ def check_total_frames_posted() -> int:
                 return number_total_frames_posted
         
                 
+def check_total_frames_are_posted():
 
+    if total_frames_posted() == int(configs["total_frame"]):
+        print("All frames were posted")
+        return True
 
+    else:
+        print("Not all frames were posted")
+        return False
