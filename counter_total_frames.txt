@@ -1,0 +1,7 @@
+counter_total_frames = 4000
+
+
+# This file saves the number of total frames posted so far
+# use "#" to comment or note something here.
+# Don't mess with counter_total_frames unless you know what you're doing
+

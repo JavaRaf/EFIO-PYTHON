@@ -1,11 +1,16 @@
-import time
+from parse_configs import parse_configs
+from checkers import check_total_frames_posted
 
 
-def main():
-    with open('text.txt', 'a', encoding='utf-8') as f:
-        f.write('Hello world!\n')
+total_frames_posted: int = check_total_frames_posted()
+configs: dict = parse_configs()
 
 
-if __name__ == '__main__':
-    time.sleep(6 * 60)
-    main()
+if total_frames_posted == int(configs["total_frame"]):
+    print("All frames have been posted.")
+else:
+    print("Not all frames have been posted.")
+
+
+
+
