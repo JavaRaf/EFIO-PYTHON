@@ -2,6 +2,10 @@ name: "first_process"
 
 on:
   workflow_dispatch:
+  schedule:
+     # You can change this CRON syntax to customize execute interval
+     - cron: "0 */2 * * *"
+  
 
 permissions:
   contents: write

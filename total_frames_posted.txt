@@ -1,4 +1,4 @@
-counter_total_frames = 4000
+total_frames_posted = 4000
 
 
 # This file saves the number of total frames posted so far
