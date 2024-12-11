@@ -1,83 +1,45 @@
 import logging
 import config
 import re
+from jsoncomment import JsonComment
 
 
-
-
-def total_frames_posted() -> int:
+def jsonc_configs() -> dict:
     """
-    This function checks the total number of frames posted by the bot.
-    Returns the total number of frames posted.
+    Read the JSONC configuration file
+        Returns:
+        The JSON configuration data
     """
+    parse = JsonComment()
+    with open("episodios/Configs.jsonc", "r") as f:
+        data = f.read()
+        json_data = parse.loads(data)
+        return json_data
 
-    with open("total_frames_posted.txt", "r", encoding="utf-8") as file_counter_total_frames:
-        counter_total_frames = file_counter_total_frames.readlines()
-       
-        for line in counter_total_frames:
-            if line.startswith("total_frames_posted"):
-                number_total_frames_posted = int(line.replace(" ", "").split("=")[1])
 
-                return number_total_frames_posted
-        
-            
 
-def check_total_frames_are_posted():
+def completed_episode() -> bool:
     """
-    Checks if all the frames were posted.
-    Returns True if all the frames were posted, False otherwise.
+    Check if the episode is completed
+        Returns:
+        True if the episode is completed, False otherwise
     """
-    all_posted: bool = total_frames_posted() == int(config.total_frames)
+    Jsonc_Configs: dict = jsonc_configs()
 
-    if all_posted == True:
-        print (message := "All frames were posted")
-        logging.info(message)  # log the message
+    if Jsonc_Configs.get("episodes")[Jsonc_Configs.get("current_episode") - 1].get("completed") == True:
+        print("Completed episode")
+        return True
+    else:
+        print("Not completed episode")
+        return False
 
-    return all_posted
-
-
-
-# # this function is weak, and may fail in more detailed crons
-def get_execution_interval() -> int:
+def get_frame_interator_value() -> int:
     """
-    This function checks the execution interval of the bot.
-    Returns the execution interval of the bot.
+    Get the frame interator value from the JSON configuration
+        Returns:
+        The frame interator value
     """
-
-    with open(".github/workflows/first_process.yml", "r", encoding="utf-8") as file_first_process:
-        first_process = file_first_process.readlines()
-        for line in first_process:
-            if line.replace(" ", "").startswith("-cron:") and not line.replace(" ", "").startswith("#"):
-                execution_interval = re.findall("\d+", line)[1]
-
-                return int(execution_interval)
-
-                
-
-
-                        
-                    
-                
-
-                
-
-
-
-
-                
-
-
-get_execution_interval()
-
-                
-
-# configure logging settings
-logging.basicConfig(
-    filename="system_log.txt",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-
-
-        
+    Jsonc_Configs: dict = jsonc_configs()
+    frame_interator = Jsonc_Configs.get("episodes")[Jsonc_Configs.get("current_episode") - 1].get("frame_interator")
+    
+    return frame_interator

@@ -1,7 +1,0 @@
-2024-12-06 00:05:33,724 - INFO - All frames were posted
-2024-12-06 00:22:33,046 - INFO - Not all frames were posted
-2024-12-06 00:27:00,604 - INFO - Not all frames were posted
-2024-12-06 00:31:00,605 - INFO - Not all frames were posted
-2024-12-06 01:54:39 - INFO - All frames were posted
-2024-12-07 20:31:39 - INFO - All frames were posted
-2024-12-07 23:39:32 - INFO - All frames were posted

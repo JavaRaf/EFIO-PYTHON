@@ -1,19 +1,24 @@
 import sys
-from checkers import check_total_frames_are_posted
-from checkers import logging
+import config
+from checkers import completed_episode, get_frame_interator_value
+
+
 
 
 
 #main function
 def main():
-    if check_total_frames_are_posted() == True:
+    if completed_episode == True:
         sys.exit(1) # the program will crash and close if the conditions are met
 
     
-    # loop para postar a quatidade de frames escolhida o config.conf
+    frame_interator = get_frame_interator_value()
 
+    for i in range(int(config.fph)):
+        print((i+1) + frame_interator)
+    
 
-
+    
 
 if __name__ == "__main__":
     main()
