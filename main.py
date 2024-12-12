@@ -1,24 +1,23 @@
 import sys
-import config
-from checkers import completed_episode, get_frame_interator_value
+from scripts.checks_configs import CheckConfigs
+
+
+checks = CheckConfigs()
 
 
 
-
-
-#main function
+# main function
 def main():
-    if completed_episode == True:
+    if checks.episode_is_completed() == True:
         sys.exit(1) # the program will crash and close if the conditions are met
 
-    
-    frame_interator = get_frame_interator_value()
 
-    for i in range(int(config.fph)):
-        print((i+1) + frame_interator)
-    
 
     
+    for i in range(1, checks.get_config("fph") + 1):
+        print(i + checks.get_frame_iterator_value())
+        
+         
 
 if __name__ == "__main__":
     main()

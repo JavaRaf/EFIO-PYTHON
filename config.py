@@ -4,10 +4,10 @@ import os
 # ------------------------------------------ bots settings ------------------------------------------------#
 
 EFIO           = True       # Every frame in order. Basic bot that posts all frames in sequence
-frame_download = False      # If active, allows the download of posted frames via commands
-Random_post    = False      # If active, allows the random posting of frames
+frame_download = False      # If true, allows the download of posted frames by commands
+Random_post    = False      # If true, allows the random posting of frames
                             # Be careful when activating more than one bot at a time
-                            
+
 # ------------------------------------------ Basic settings ------------------------------------------------#
 
 # You can find these settings in the episodes folder. File name is Configs.jsonc
@@ -53,20 +53,21 @@ page_bio = (
 
 # ---------------------------------- Posting Subtitles Variables --------------------------------------------#
                             
-posting_subtitles = "1"     # If 1, make a comment on the post with the subtitle referring to the posted frame
-random_crop      =  "1"     # If 1, make a random cut of the frame and post it in the comments
-fph = "15"                  # Number of frames posted in the execution interval
-sub_posting_interval = "2"  # Interval between each frame (in minutes), (Default is 2)
-delay_action = "3"          # Delay of the Each action (in seconds), (Default is 3)
+posting_subtitles       = True  # If true, make a comment on the post with the subtitle referring to the posted frame
+random_crop             = True  # If true, make a random cut of the frame and post it in the comments
+fph                     = 15    # Number of frames posted in the execution interval
+sub_posting_interval    = 2     # Interval between each frame (in minutes), (Default is 2)
+delay_action            = 3     # Delay of the Each action (in seconds), (Default is 3)
 
 
-rcrop_x = "200" # x-coordinate of the random crop
-rcrop_y = "600" # y-coordinate of the random crop
+rcrop_x = 200 # x-coordinate of the random crop
+rcrop_y = 600 # y-coordinate of the random crop
 # The value must be smaller than the resolution of your frame
 
 
 # ---------------------------------- Environment variables -----------------------------------------------#
 
 FB_API_VERSION = "v21.0"         # Facebook API version ( changing in case of deprecation )
+FB_URL = f"https://graph.facebook.com/{FB_API_VERSION}/" # Facebook API URL
 FB_TOKEN = os.getenv("FB_TOKEN") # Facebook access token ( present in actions secrets )
 

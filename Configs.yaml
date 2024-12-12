@@ -1,0 +1,47 @@
+your_page_name: "Your Page Name here!"
+# Name of your frames page (needs to be exact), used to check your FB_TOKEN is valid
+
+episodes:
+  - season: 1
+    episode: 1 # episode 1
+    total_frames: 4000
+    img_fps: 3.5
+    frame_interator: 100
+    fb_frames_album: "Your Album ID here"
+    completed: false
+
+  - season: 1
+    episode: 2 # episode 2
+    total_frames: 4000
+    img_fps: 3.5
+    frame_interator: 0
+    fb_frames_album: "Your Album ID here"
+    completed: false
+
+
+current_episode: 1
+# Defines the episode to be posted or the episode that is already being posted
+
+post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {total_frame}"
+# Available variables are:
+# {season}, {episode}, {total_frames}, {frame_timestamp}, {fph}, {page_name}, \n
+
+page_bio: |
+  Chopped {img_fps} FPS, Posting {fph} Frames every
+  {execution_interval} hours. Total of {total_frames_posted} frame was successfully posted!!
+# Message for Facebook page bio, variables: {season}, {episode}, {img_fps}, {fph}, {execution_interval}, {total_frames_posted}
+
+posting_subtitles: true
+random_crop: true
+fph: 15
+sub_posting_interval: 2
+delay_action: 3
+
+rcrop_x: 200
+rcrop_y: 600
+# random_crop cordinates
+
+FB_API_VERSION: "v21.0"              # Facebook API version (changing in case of deprecation)
+FB_URL: "https://graph.facebook.com" # Facebook API URL
+
+
