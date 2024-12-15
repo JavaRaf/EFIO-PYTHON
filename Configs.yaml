@@ -1,17 +1,14 @@
-your_page_name: "Your Page Name here!"
-# Name of your frames page (needs to be exact), used to check your FB_TOKEN is valid
+
 
 episodes:
-  - season: 1
-    episode: 1 # episode 1
+  - episode: 1 # episode 1
     total_frames: 4000
     img_fps: 3.5
     frame_interator: 100
     fb_frames_album: "Your Album ID here"
     completed: false
 
-  - season: 1
-    episode: 2 # episode 2
+  - episode: 2 # episode 2
     total_frames: 4000
     img_fps: 3.5
     frame_interator: 0
@@ -19,12 +16,14 @@ episodes:
     completed: false
 
 
-current_episode: 1
-# Defines the episode to be posted or the episode that is already being posted
+your_page_name: "Your Page Name here!" # Name of your frames page (needs to be exact), used to check your FB_TOKEN is valid
+season: 1 # Define the season to be posted
+current_episode: 1 # Defines the episode to be posted or the episode that is already being posted
 
-post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {total_frame}"
+
+post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {total_frames}"
 # Available variables are:
-# {season}, {episode}, {total_frames}, {frame_timestamp}, {fph}, {page_name}, \n
+# {season}, {episode}, {total_frames}, {current_frame}, {frame_timestamp}, {fph}, {page_name}, \n
 
 page_bio: |
   Chopped {img_fps} FPS, Posting {fph} Frames every
