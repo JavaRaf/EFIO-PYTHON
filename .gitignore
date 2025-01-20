@@ -1,3 +1,29 @@
-__pycache__
-**/__pycache__
-episodes/
+# Ambiente virtual
+venv/
+env/
+.env
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+
+# Arquivos de distribuição
+dist/
+build/
+*.egg-info/
+
+# Arquivos temporários
+*.log
+*.tmp
+
+# pasta temporaria
+1/
+temp_crops/
+frames/
+subtitles/

@@ -1,46 +1,90 @@
+# Facebook Configuration
+your_page_name: "Your Page Name here!"      # Nome exato da sua página no Facebook
+fb_api_version: "v21.0"                     # Versão da API do Facebook
 
+# episode configuration
+season: 1                                   # Temporada atual
+current_episode: 1                          # Episódio atual sendo postado
+total_frames_posted: 15                     # Total de frames postados na pagina ate o momento
 
 episodes:
-  - episode: 1 # episode 1
-    total_frames: 4000
+  - episode: 1
+    episode_total_frames: 4000                # Número total de frames do vídeo
+    img_fps: 3.5                              # Taxa de frames por segundo usada para gerar os frames do vídeo
+    frame_iterator: 15                        # Contador de frames postados (so altere se sabe o que está fazendo)(começa do 0)
+    fb_frames_album: "Your Album ID here"     # ID do álbum no Facebook para este episódio
+    completed: false                          # Status de conclusão do episódio(se true, não será mais postado frames)
+
+  - episode: 2
+    episode_total_frames: 4000
     img_fps: 3.5
-    frame_interator: 100
+    frame_iterator: 0
     fb_frames_album: "Your Album ID here"
     completed: false
 
-  - episode: 2 # episode 2
-    total_frames: 4000
-    img_fps: 3.5
-    frame_interator: 0
-    fb_frames_album: "Your Album ID here"
-    completed: false
+
+# Posting Configuration
+posting:
+  fph: 15
+  posting_interval: 2                      # intervalo entre postagens (em minutos)
+  random_posting: false                    # Postar frames aleatoriamente (true = posta frames aleatoriamente, false = posta frames sequencialmente)
+  posting_subtitles: true                  # Incluir legendas nos frames
+  multi_language_subtitles: false          # Incluir legendas em multiplos idiomas
+
+  random_crop:                             # Configurações de corte aleatório
+    enabled: true
+    min_x: 200                             # Largura mínima do corte
+    min_y: 600
 
 
-your_page_name: "Your Page Name here!" # Name of your frames page (needs to be exact), used to check your FB_TOKEN is valid
-season: 1 # Define the season to be posted
-current_episode: 1 # Defines the episode to be posted or the episode that is already being posted
+image_filters:                            # aplica filtros nas imagens (somente se image_filters.enabled = true)
+  enabled: false                          # Habilita ou desabilita o uso de filtros nas imagens
+  options:
+    - type: "mirror_image"
+      probability: 50                     # Probabilidade em porcentagem
+    - type: "negative_filter"
+      probability: 30
+    - type: "generate_palette"
+      probability: 25
+      params:
+        colors: "6-10"                   # Range de cores para a paleta
+    - type: "warp_in"
+      probability: 20
+    - type: "warp_out"
+      probability: 20
 
 
-post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {total_frames}"
-# Available variables are:
-# {season}, {episode}, {total_frames}, {current_frame}, {frame_timestamp}, {fph}, {page_name}, \n
+# timezone configuration
+timezone_offset: "-3"                      # Fuso horário (formato: string com sinal)
 
-page_bio: |
-  Chopped {img_fps} FPS, Posting {fph} Frames every
-  {execution_interval} hours. Total of {total_frames_posted} frame was successfully posted!!
-# Message for Facebook page bio, variables: {season}, {episode}, {img_fps}, {fph}, {execution_interval}, {total_frames_posted}
 
-posting_subtitles: true
-random_crop: true
-fph: 15
-sub_posting_interval: 2
-delay_action: 3
+# Message Templates
+templates:
+  post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
 
-rcrop_x: 200
-rcrop_y: 600
-# random_crop cordinates
+  page_bio: |
+    Chopped {img_fps} FPS, Posting {fph} Frames every
+    {execution_interval} hours. Total of {total_frames_posted} frames was successfully posted!!
 
-FB_API_VERSION: "v21.0"              # Facebook API version (changing in case of deprecation)
-FB_URL: "https://graph.facebook.com" # Facebook API URL
+# Variáveis disponíveis para templates:
+# - {season}              : Número da temporada atual
+# - {episode}             : Número do episódio atual
+# - {current_frame}       : Número do frame atual
+# - {total_frames}        : Total de frames do episódio
+# - {frame_timestamp}     : Timestamp do frame
+# - {fph}                 : Frames por intervalo
+# - {page_name}           : Nome da página
+# - {execution_interval}  : Intervalo entre postagens
+# - {total_frames_posted} : Total de frames já postados
+
+# - {img_fps}             : Taxa de frames por segundo usada para gerar os frames do vídeo
+#                           Exemplo de comando ffmpeg para gerar frames:
+
+#                           ffmpeg -i "video.mkv" -vf "fps=2" -fps_mode vfr -q:v 3 frame_%00d.jpg
+
+#                           Onde:
+#                           - fps=2: define 2 frames por segundo 
+#                           - fps_mode vfr: modo de taxa variável de frames
+#                           - q:v 3: qualidade do JPEG (menor = melhor)
 
 
