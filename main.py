@@ -17,19 +17,23 @@ def main():
     current_frame = config.get("episodes")[config.get("current_episode") - 1].get("frame_iterator")
 
     for frame in range(current_frame + 1, current_frame + fph + 1):
+        
         print(f"Posting frame {frame} of {current_frame + fph}", flush=True)
         frame_path = build_frame_file_path(frame_number=frame, config=config)          
         post_message = format_post_message(frame_number=frame, message=config.get("templates")["post_message"], config=config)
         
+        # post frame
         post_id = fb_post(message=post_message, frame_path=frame_path, config=config)
         time.sleep(2)
 
+        # post subtitles
         if config.get("posting")["posting_subtitles"]:
             subtitle_text = combine_episode_subtitles(frame_number=frame, config=config)
             if subtitle_text:
                 fb_post(message=subtitle_text, parent_id=post_id, config=config)
         time.sleep(2)
 
+        # post random crop
         if config.get("posting")["random_crop"].get("enabled"):
             crop_path, crop_message = generate_random_frame_crop(frame_path=frame_path, frame_number=frame, config=config)
             fb_post(message=crop_message, frame_path=crop_path, parent_id=post_id, config=config)

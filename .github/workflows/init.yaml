@@ -1,7 +1,1 @@
 # Don't change this `name` below, the script might broke at some point
-name: "init banner"
-on:
-   workflow_dispatch:
-   schedule:
-     # You can change this CRON syntax to customize execute interval
-     - cron: "0 */12 * * *"
