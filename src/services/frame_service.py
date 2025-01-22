@@ -18,6 +18,7 @@ def build_frame_file_path(frame_number: int, config: dict) -> Path:
     Raises:
         FileNotFoundError: Se o arquivo do frame não existir
     """
+
     episode_num = config.get("current_episode")
     episode_dir = Path(f"episodes/frames/{episode_num:02d}")
     

@@ -1,61 +1,92 @@
 import time
-import os
-from src.config.config_loader import load_config
-from src.config.time_utils import get_local_time
+from src.config.config_loader import load_necessary_configs, parse_config
 from src.integrations.facebook import fb_post, fb_update_bio
-from src.utils.subtitle_handler import combine_episode_subtitles
+from src.utils.subtitle_handler import extract_all_subtitles
 from src.utils.frame_utils import generate_random_frame_crop
 from src.utils.message_formatter import format_post_message
 from src.services.frame_service import build_frame_file_path
 from src.managers.episode_manager import update_episode_progress
+from utils.logger import log_facebook_interaction
+from src.config.config_loader import load_necessary_configs
+from src.config.logging_config import setup_logging
+
+# Inicializa o logger
+logger = setup_logging()
 
 def main():
-    config = load_config("configs.yaml")
-    current_time = get_local_time(config)
+    """
+    Função principal que gerencia o processo de postagem de frames no Facebook.
+    
+    O programa realiza as seguintes operações:
+    1. Carrega e valida as configurações
+    2. Posta frames sequencialmente com legendas (se configurado)
+    3. Gera e posta crops aleatórios (se configurado)
+    4. Atualiza o progresso do episódio
+    5. Atualiza a biografia da página
+    """
+    try:
+        # Carrega e valida configurações
+        config = parse_config("configs.yaml")
+        fph, frame_intarator, post_interval, current_time = load_necessary_configs(config)  
+        logs_fb = []
+        print(f"Iniciando execução em {current_time}", flush=True)
+    except Exception as e:
+        logger.error(f"Erro ao carregar configurações: {str(e)}")
 
-    fph = config.get("posting")["fph"]  
-    current_frame = config.get("episodes")[config.get("current_episode") - 1].get("frame_iterator")
+    try:
+        for post in range(1, fph + 1):
+            
+            frame_number = frame_intarator + post
+            frame_path = build_frame_file_path(frame_number, config)
 
-    for frame in range(current_frame + 1, current_frame + fph + 1):
+            if frame_path:
+                # Posta frame
+                post_message = format_post_message(frame_number, config.get("templates").get("post_message"), config)
+                post_id = fb_post(post_message,frame_path=frame_path, config=config)
+                print(f"frame {frame_number} posted", flush=True)
+
+                time.sleep(2)
+
+                # Posta legendas
+                if config.get("posting").get("posting_subtitles"):
+                    subtitle_message = extract_all_subtitles(frame_number, config)
+                    # Verifica se há legendas para postar
+                    if subtitle_message:
+                        for subtitle in subtitle_message:
+                            fb_post(subtitle, parent_id=post_id, config=config)
+                            print(f"subtitle of frame {frame_number} posted", flush=True)
+
+                        time.sleep(2)
+
+                # Posta crops aleatórios
+                if config.get("posting").get("random_crop"):
+                    crop_path, crop_message = generate_random_frame_crop(frame_path,frame_number, config)
+                    fb_post(crop_message, frame_path=crop_path, parent_id=post_id, config=config)
+                    print(f"random crop of frame {frame_number} posted", flush=True)
+
+                    time.sleep(2)
+
+                # salva a interação do Facebook para futura logagem
+                logs_fb.append((config.get("current_episode"), frame_number, post_id))
+
+                # espera o intervalo de postagem (2 minutos default)
+                time.sleep(post_interval * 2) 
+
+        # Atualiza o progresso do episódio se não está em modo random_posting
+        if not config.get("posting").get("random_posting"):
+            update_episode_progress(config) # consetar isso aqui depois
+            log_facebook_interaction(current_time, logs_fb)
+
+        # Atualiza a biografia da página
+        bio_message = format_post_message(frame_number, config.get("templates").get("bio_message"), config)
+        fb_update_bio(bio_message, config)
+
         
-        print(f"Posting frame {frame} of {current_frame + fph}", flush=True)
-        frame_path = build_frame_file_path(frame_number=frame, config=config)          
-        post_message = format_post_message(frame_number=frame, message=config.get("templates")["post_message"], config=config)
-        
-        # post frame
-        post_id = fb_post(message=post_message, frame_path=frame_path, config=config)
-        time.sleep(2)
 
-        # post subtitles
-        if config.get("posting")["posting_subtitles"]:
-            subtitle_text = combine_episode_subtitles(frame_number=frame, config=config)
-            if subtitle_text:
-                fb_post(message=subtitle_text, parent_id=post_id, config=config)
-        time.sleep(2)
+    except Exception as e:
+        logger.error(f"Erro ao postar frames: {str(e)}")
 
-        # post random crop
-        if config.get("posting")["random_crop"].get("enabled"):
-            crop_path, crop_message = generate_random_frame_crop(frame_path=frame_path, frame_number=frame, config=config)
-            fb_post(message=crop_message, frame_path=crop_path, parent_id=post_id, config=config)
-
-        time.sleep(config.get("posting")["posting_interval"] * 60) # intervalo entre posts(em minutos)
-
-    # update episode progress
-    update_episode_progress(config=config)
-
-    # update page biography
-    biography_text = format_post_message(frame_number=frame, message=config.get("templates")["page_bio"], config=config)
-    fb_update_bio(biography_text=biography_text, config=config)
-
-
-    # save_logs(config=config)
-
+    
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-    

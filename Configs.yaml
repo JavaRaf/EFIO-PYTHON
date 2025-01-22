@@ -5,27 +5,27 @@ fb_api_version: "v21.0"                     # Versão da API do Facebook
 # episode configuration
 season: 1                                   # Temporada atual
 current_episode: 1                          # Episódio atual sendo postado
-total_frames_posted: 15                     # Total de frames postados na pagina ate o momento
+total_frames_posted: 500                     # Total de frames postados na pagina ate o momento
 
 episodes:
   - episode: 1
-    episode_total_frames: 4000                # Número total de frames do vídeo
     img_fps: 3.5                              # Taxa de frames por segundo usada para gerar os frames do vídeo
-    frame_iterator: 15                        # Contador de frames postados (so altere se sabe o que está fazendo)(começa do 0)
+    frame_iterator: 500                         # Contador de frames postados (so altere se sabe o que está fazendo)(começa do 0)
     fb_frames_album: "Your Album ID here"     # ID do álbum no Facebook para este episódio
-    completed: false                          # Status de conclusão do episódio(se true, não será mais postado frames)
+    episode_total_frames: 5                   # Número total de frames do vídeo
+    completed: false                            # Status de conclusão do episódio(se true, não será mais postado frames)
 
   - episode: 2
-    episode_total_frames: 4000
     img_fps: 3.5
     frame_iterator: 0
     fb_frames_album: "Your Album ID here"
+    episode_total_frames: 5
     completed: false
 
 
 # Posting Configuration
 posting:
-  fph: 15
+  fph: 5                                   # Frames por hora
   posting_interval: 2                      # intervalo entre postagens (em minutos)
   random_posting: false                    # Postar frames aleatoriamente (true = posta frames aleatoriamente, false = posta frames sequencialmente)
   posting_subtitles: true                  # Incluir legendas nos frames
@@ -62,7 +62,7 @@ timezone_offset: "-3"                      # Fuso horário (formato: string com 
 templates:
   post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
 
-  page_bio: |
+  bio_message: |
     Chopped {img_fps} FPS, Posting {fph} Frames every
     {execution_interval} hours. Total of {total_frames_posted} frames was successfully posted!!
 

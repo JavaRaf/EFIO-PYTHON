@@ -16,7 +16,7 @@ def convert_frame_to_timestamp(frame_number: int, config: dict) -> datetime:
     Returns:
         datetime: Timestamp correspondente ao frame
     """
-    img_fps = config.get("episodes")[config.get("current_episode")].get("img_fps")
+    img_fps = config.get("episodes")[config.get("current_episode") - 1].get("img_fps")
     return datetime(1900, 1, 1, 0, 0, 0, 0) + timedelta(seconds=frame_number / img_fps)
 
 def generate_random_frame_crop(frame_path: str, frame_number: int, config: dict) -> tuple[str, str]:

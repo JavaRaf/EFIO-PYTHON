@@ -1,65 +1,94 @@
 from datetime import datetime, timedelta
 import os
+from langdetect import detect
+
+LANGUAGE_CODES = {
+    'en': 'English',
+    'pt': 'Português',
+    'es': 'Español',
+    'ja': 'Japanese',
+    'ko': 'Korean',
+    'zh-cn': 'Chinese (Simplified)',
+    'zh-tw': 'Chinese (Traditional)',
+    'fr': 'Français',
+    'de': 'Deutsch',
+    'it': 'Italiano',
+    'ru': 'Русский (Russian)',
+    'ar': 'العربية (Arabic)',
+    'hi': 'हिंदी (Hindi)',
+    'bn': 'বাংলা (Bengali)',
+    'ur': 'اردو (Urdu)',
+    'tr': 'Türkçe (Turkish)',
+    'vi': 'Tiếng Việt (Vietnamese)',
+    'th': 'ภาษาไทย (Thai)',
+    'nl': 'Nederlands (Dutch)',
+    'sv': 'Svenska (Swedish)',
+    'no': 'Norsk (Norwegian)',
+    'da': 'Dansk (Danish)',
+    'fi': 'Suomi (Finnish)',
+    'pl': 'Polski (Polish)',
+    'uk': 'Українська (Ukrainian)',
+    'el': 'Ελληνικά (Greek)',
+    'hu': 'Magyar (Hungarian)',
+    'cs': 'Čeština (Czech)',
+    'ro': 'Română (Romanian)',
+    'sk': 'Slovenčina (Slovak)',
+    'he': 'עברית (Hebrew)',
+    'id': 'Bahasa Indonesia (Indonesian)',
+    'ms': 'Bahasa Melayu (Malay)',
+    'fa': 'فارسی (Persian)',
+    'tl': 'Tagalog (Filipino)',
+    'sw': 'Kiswahili (Swahili)',
+    'am': 'አማርኛ (Amharic)',
+    'et': 'Eesti (Estonian)',
+    'lt': 'Lietuvių (Lithuanian)',
+    'lv': 'Latviešu (Latvian)',
+    'bg': 'Български (Bulgarian)',
+    'sr': 'Српски (Serbian)',
+    'hr': 'Hrvatski (Croatian)',
+    'sl': 'Slovenščina (Slovenian)',
+    'is': 'Íslenska (Icelandic)',
+    'mt': 'Malti (Maltese)',
+    'ga': 'Gaeilge (Irish)',
+    'cy': 'Cymraeg (Welsh)',
+    # Adicione mais idiomas conforme necessário
+}
+
 
 def extract_subtitle_text_for_frame(frame_number: int, subtitle_file: str, config: dict) -> str:
-    """
-    Extrai o texto da legenda correspondente a um frame específico.
-    
-    Args:
-        frame_number: Número do frame
-        subtitle_file: Caminho do arquivo de legendas
-        config: Dicionário de configuração
-        
-    Returns:
-        str: Texto da legenda correspondente ao frame, ou None se não encontrado
-    """
-    # Converte o frame para timestamp
-    img_fps = config.get("episodes")[config.get("current_episode")].get("img_fps")
-    frame_timestamp = datetime(1900, 1, 1, 0, 0, 0, 0) + timedelta(seconds=frame_number / img_fps)
+    """Extrai o texto da legenda para um frame específico."""
+
+    img_fps = config["episodes"][config["current_episode"] - 1]["img_fps"]
+    frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=frame_number / img_fps)
     
     try:
         with open(subtitle_file, "r", encoding="utf_8_sig") as file:
-            for line in file:
-                if line.startswith("Dialogue:"):
-                    start_time, end_time = line.split(",")[1:3]
-                    start_time = datetime.strptime(start_time, "%H:%M:%S.%f")
-                    end_time = datetime.strptime(end_time, "%H:%M:%S.%f")
-                    if frame_timestamp >= start_time and frame_timestamp <= end_time:
-                        return line.split(",,")[-1]
+            content = file.read()
+            language_code = detect(content)
+            language_name = LANGUAGE_CODES.get(language_code, language_code)
+            
+            for line in content.split('\n'):
+                if not line.startswith("Dialogue:"): continue
+                
+                parts = line.split(",")
+                start_time = datetime.strptime(parts[1], "%H:%M:%S.%f")
+                end_time = datetime.strptime(parts[2], "%H:%M:%S.%f")
+                
+                if start_time <= frame_timestamp <= end_time:
+                    return f"--- {language_name} --->\n {line.split(',,')[-1]}"
     except Exception as e:
         print(f"Error: {e}")
-        return None
+    return None
 
-def combine_episode_subtitles(frame_number: int, config: dict) -> str:
-    """
-    Combina as legendas primária e secundária do episódio.
-    
-    Args:
-        frame_number: Número do frame
-        config: Dicionário de configuração
-        
-    Returns:
-        str: Texto combinado das legendas
-    """
-    subtitle_message = ""
-    secondary_subtitle_file = None  # Inicializa a variável como None
-    
-    subtitle_file = os.listdir(f"episodes/subtitles/{config.get('current_episode'):02d}")
-    
-    if len(subtitle_file) == 2:
-        primary_subtitle_file = os.path.join("episodes/subtitles", f"{config.get('current_episode'):02d}", subtitle_file[0])
-        secondary_subtitle_file = os.path.join("episodes/subtitles", f"{config.get('current_episode'):02d}", subtitle_file[1])
-    else:
-        primary_subtitle_file = os.path.join("episodes/subtitles", f"{config.get('current_episode'):02d}", subtitle_file[0])
-        
-    if primary_subtitle_file:
-        primary_text = extract_subtitle_text_for_frame(frame_number, primary_subtitle_file, config=config)
-        if primary_text:  # Verifica se o texto não é None
-            subtitle_message = primary_text
+def extract_all_subtitles(frame_number: int, config: dict) -> list:
+    """Extrai todas as legendas do episódio para um frame específico."""
 
-    if secondary_subtitle_file:  # Agora é seguro verificar
-        secondary_text = extract_subtitle_text_for_frame(frame_number, secondary_subtitle_file, config=config)
-        if secondary_text:  # Verifica se o texto não é None
-            subtitle_message += "\n\n\n" + secondary_text
-
-    return subtitle_message
+    subtitle_dir = f"episodes/subtitles/{config['current_episode']:02d}"
+    return [
+        text for file in os.listdir(subtitle_dir)
+        if (text := extract_subtitle_text_for_frame(
+            frame_number,
+            os.path.join(subtitle_dir, file),
+            config
+        ))
+    ]
