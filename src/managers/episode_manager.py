@@ -17,7 +17,6 @@ def update_episode_progress(config: dict) -> dict:
     
     if config["episodes"][current_episode_index]["frame_iterator"] >= config["episodes"][current_episode_index]["episode_total_frames"]:
         print(f"Episódio {config['current_episode']} finalizado", flush=True)
-        config["episodes"][current_episode_index]["completed"] = True
         
         next_episode_index = current_episode_index + 1
         if next_episode_index < len(config["episodes"]):

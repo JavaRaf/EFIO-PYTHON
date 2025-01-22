@@ -51,10 +51,9 @@ def main():
                 if config.get("posting").get("posting_subtitles"):
                     subtitle_message = extract_all_subtitles(frame_number, config)
                     # Verifica se há legendas para postar
-                    if subtitle_message:
-                        for subtitle in subtitle_message:
-                            fb_post(subtitle, parent_id=post_id, config=config)
-                            print(f"subtitle of frame {frame_number} posted", flush=True)
+                    if subtitle_message:               
+                        fb_post(subtitle_message, parent_id=post_id, config=config)
+                        print(f"subtitle of frame {frame_number} posted", flush=True)
 
                         time.sleep(2)
 
