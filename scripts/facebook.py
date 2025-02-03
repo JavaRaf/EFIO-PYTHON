@@ -2,7 +2,7 @@ import time
 import httpx
 import os
 
-
+from scripts.load_configs import load_configs
 
 
 def with_retries(max_attempts: int = 3, delay: float = 2.0):
@@ -28,7 +28,9 @@ def fb_update_bio(biography_text: str, config: dict) -> None:
     """
     Atualiza a biografia da página do Facebook.
     """
-    endpoint = f"https://graph.facebook.com/{config.get("fb_api_version")}/me/"
+    fb_api_version = config.get("fb_api_version") or "v21.0"
+    endpoint = f"https://graph.facebook.com/{fb_api_version}/me/"
+
     data = {
         "access_token": os.getenv("TOK_FB"),
         "about": biography_text
@@ -42,16 +44,14 @@ def fb_update_bio(biography_text: str, config: dict) -> None:
 
 
 @with_retries(max_attempts=3, delay=2.0)
-def fb_post(message: str, frame_path: str = None, parent_id: str = None, config: dict = None) -> str:
+def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> str:
     """
     Realiza postagens no Facebook com suporte a retry automático.
 
     Args:
-        endpoint (str): Endpoint da API do Facebook (ex: "photos", "feed")
         message (str): Mensagem/texto da postagem
         frame_path (str, opcional): Caminho para arquivo de imagem. Padrão None
         parent_id (str, opcional): ID do post pai para comentários. Padrão None
-        fb_api_version (str, opcional): Versão da API do Facebook. Padrão "v21.0"
 
     Returns:
         str: ID da postagem/comentário criado
@@ -59,18 +59,17 @@ def fb_post(message: str, frame_path: str = None, parent_id: str = None, config:
     Raises:
         Exception: Se todas as tentativas de postagem falharem
     """
-    fb_api_version = config.get("fb_api_version") or "v21.0"
-    endpoint = "photos"
+    fb_api_version = load_configs().get("fb_api_version") or "v21.0"
     # Construir o endpoint base
     if parent_id:
         # Para comentários em posts existentes
         endpoint = f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
     else:
         # Para novos posts
-        endpoint = f"https://graph.facebook.com/{fb_api_version}/me/{endpoint}"
+        endpoint = f"https://graph.facebook.com/{fb_api_version}/me/photos"
     
     data = {
-        "access_token": os.getenv("TOK_FB"),
+        "access_token": os.getenv("FB_TOKEN"),
         "message": message
     }
 
@@ -84,17 +83,20 @@ def fb_post(message: str, frame_path: str = None, parent_id: str = None, config:
     return response.json()["id"]
 
 
-# Exemplo de uso:
-# try:
-#     # Postar imagem
-#     post_id = fb_post(endpoint="photos", message="post title", frame_path="frame.gif")
-#     # Adicionar comentário
-#     comment_id = fb_post(endpoint="photos", message="subtitle", parent_id=post_id)
-#     # Adicionar random crop
-#     rand_crop = fb_post(endpoint="photos", message="random crop", parent_id=post_id, frame_path="frame.gif")
+
+# example:
+#     # post image
+#     post_id = fb_post(message="post title", frame_path="frame.jpg")
+
+
+#     # add comment
+#     comment_id = fb_post(message="subtitle", parent_id=post_id)
 #     print(comment_id)
-# except Exception as e:
-#     print(f"Todas as tentativas falharam. Erro final: {e}")
+
+
+#     # random crop
+#     random_crop = fb_post(message="random crop", frame_path="frameCrop.jpg", parent_id=post_id)
+#     print(random_crop)
 
 
 

@@ -1,35 +1,29 @@
 # Facebook Configuration
-your_page_name: "Your Page Name here!"      # Nome exato da sua página no Facebook
-fb_api_version: "v21.0"                     # Versão da API do Facebook
+your_page_name: "Your Page Name here!"        # Nome exato da sua página no Facebook
+fb_api_version: "v21.0"                       # Versão da API do Facebook
 
-# episode configuration
-season: 1                                   # Temporada atual
-current_episode: 1                          # Episódio atual sendo postado
-total_frames_posted: 505                     # Total de frames postados na pagina ate o momento
 
 episodes:
   - episode: 1
     img_fps: 3.5                              # Taxa de frames por segundo usada para gerar os frames do vídeo
-    frame_iterator: 2                         # Contador de frames postados (so altere se sabe o que está fazendo)(começa do 0)
     fb_frames_album: "Your Album ID here"     # ID do álbum no Facebook para este episódio
-    episode_total_frames: 5                   # Número total de frames do vídeo
+    episode_total_frames: 4000                # Número total de frames do vídeo
 
 
   - episode: 2
     img_fps: 3.5
-    frame_iterator: 0
     fb_frames_album: "Your Album ID here"
-    episode_total_frames: 5
-
+    episode_total_frames: 4000
 
 
 # Posting Configuration
 posting:
-  fph: 5                                   # Frames por hora
+  fph: 15                                  # Frames por hora
   posting_interval: 2                      # intervalo entre postagens (em minutos)
-  random_posting: false                    # Postar frames aleatoriamente (true = posta frames aleatoriamente, false = posta frames sequencialmente)
+  random_posting: true                     # Postar frames aleatoriamente se true, posta sequencialmente se false
   posting_subtitles: true                  # Incluir legendas nos frames
   multi_language_subtitles: false          # Incluir legendas em multiplos idiomas
+
 
   random_crop:                             # Configurações de corte aleatório
     enabled: true
@@ -37,34 +31,16 @@ posting:
     min_y: 600
 
 
-image_filters:                            # aplica filtros nas imagens (somente se image_filters.enabled = true)
-  enabled: false                          # Habilita ou desabilita o uso de filtros nas imagens
-  options:
-    - type: "mirror_image"
-      probability: 50                     # Probabilidade em porcentagem
-    - type: "negative_filter"
-      probability: 30
-    - type: "generate_palette"
-      probability: 25
-      params:
-        colors: "6-10"                   # Range de cores para a paleta
-    - type: "warp_in"
-      probability: 20
-    - type: "warp_out"
-      probability: 20
-
-
 # timezone configuration
 timezone_offset: "-3"                      # Fuso horário (formato: string com sinal)
 
 
 # Message Templates
-templates:
-  post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
+post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
 
-  bio_message: |
-    Chopped {img_fps} FPS, Posting {fph} Frames every
-    {execution_interval} hours. Total of {total_frames_posted} frames was successfully posted!!
+bio_message: |
+  "Chopped {img_fps} FPS, Posting {fph} Frames every
+  {execution_interval} hours. Total of {total_frames_posted} frames was successfully posted!!!"
 
 # Variáveis disponíveis para templates:
 # - {season}              : Número da temporada atual

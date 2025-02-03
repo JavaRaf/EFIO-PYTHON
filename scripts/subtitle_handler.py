@@ -1,7 +1,10 @@
-from datetime import datetime, timedelta
 import os
-from langdetect import detect
 import re
+from scripts.paths import subtitles_dir
+from datetime import datetime, timedelta
+from langdetect import detect
+from scripts.load_configs import load_configs
+
 
 LANGUAGE_CODES = {
     'en': 'English',
@@ -29,10 +32,11 @@ LANGUAGE_CODES = {
 }
 
 
-def extract_srt_subtitle(frame_number: int, subtitle_file: str, config: dict) -> str:
+def extract_srt_subtitle(episode_num: int, frame_number: int, subtitle_file: str) -> str:
     """Extrai o texto da legenda para um frame específico."""
-    frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=frame_number / config["episodes"][config["current_episode"] - 1]["img_fps"])
+    frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=frame_number / load_configs().get("episodes")[episode_num - 1]["img_fps"])
     
+
     try:
         with open(subtitle_file, 'r', encoding='utf-8') as file:
             content = file.read()
@@ -65,10 +69,9 @@ def extract_srt_subtitle(frame_number: int, subtitle_file: str, config: dict) ->
         print(f"Error: {e}")
         return None
 
-
-def extract_ass_subtitle(frame_number: int, subtitle_file: str, config: dict) -> str:
+def extract_ass_subtitle(episode_num: int, frame_number: int, subtitle_file: str) -> str:
     """Extrai o texto da legenda para um frame específico."""
-    frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=frame_number / config["episodes"][config["current_episode"] - 1]["img_fps"])
+    frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=frame_number / load_configs().get("episodes")[episode_num - 1]["img_fps"])
     
     try:
         with open(subtitle_file, "r", encoding="utf_8_sig") as file:
@@ -94,19 +97,19 @@ def extract_ass_subtitle(frame_number: int, subtitle_file: str, config: dict) ->
         print(f"Error: {e}")
         return None
 
-def extract_all_subtitles(frame_number: int, config: dict) -> str:
+def get_subtitle_message(episode_num: int, frame_number: int) -> str:
     """Extrai todas as legendas do episódio para um frame específico."""
 
-    subtitle_dir = f"episodes/subtitles/{config['current_episode']:02d}"
+    subtitle_dir = subtitles_dir / f"{episode_num:02d}"
     message = "Subtitles:\n"
     
     for file in sorted(os.listdir(subtitle_dir), reverse=True): # reversed for English come first
         if file.endswith(".ass") or file.endswith(".ssa"):  
-            subtitle = extract_ass_subtitle(frame_number, os.path.join(subtitle_dir, file), config)
+            subtitle = extract_ass_subtitle(episode_num, frame_number, os.path.join(subtitle_dir, file))
             if subtitle:
                 message += subtitle + "\n\n"
         else:
-            subtitle = extract_srt_subtitle(frame_number, os.path.join(subtitle_dir, file), config)
+            subtitle = extract_srt_subtitle(episode_num, frame_number, os.path.join(subtitle_dir, file))
             if subtitle:
                 message += subtitle + "\n\n"
 
@@ -125,6 +128,9 @@ def extract_all_subtitles(frame_number: int, config: dict) -> str:
 
     return message
         
-        
 
-
+def get_frame_timestamp(episode_num: int, frame_number: int) -> str:
+    frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=frame_number / load_configs().get("episodes")[episode_num - 1]["img_fps"])
+    
+    hr, min, sec, ms = frame_timestamp.hour, frame_timestamp.minute, frame_timestamp.second, frame_timestamp.microsecond // 10000
+    return f"{hr:01d}:{min:02d}:{sec:02d}:{ms:02d}"

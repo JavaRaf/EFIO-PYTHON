@@ -1,1 +1,18 @@
 # Don't change this `name` below, the script might broke at some point
+name: Init
+
+on:
+  workflow_dispatch:
+    inputs:
+      season:
+        required: true
+      episode:
+        required: true
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+

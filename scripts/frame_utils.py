@@ -1,28 +1,45 @@
-from datetime import datetime, timedelta
+from scripts.paths import frames_dir
+from scripts.load_configs import load_frame_couter
+from scripts.load_configs import load_configs
+from scripts.paths import episodes_dir
+from pathlib import Path
 from PIL import Image
 import random
 import subprocess
 import os
-from pathlib import Path
 
-def convert_frame_to_timestamp(frame_number: int, config: dict) -> datetime:
+
+
+
+
+def build_frame_file_path(frame_number: int) -> tuple[Path, int]:
     """
-    Converte número do frame para timestamp.
-    
+    Constrói o caminho do arquivo para um frame específico
+
     Args:
-        frame_number: Número do frame
-        config: Dicionário de configuração
-        
+        frame_number: Número do frame desejado    
     Returns:
-        datetime: Timestamp correspondente ao frame
+        Path: Caminho do arquivo do frame
+        int: Número do episódio
     """
-    img_fps = config.get("episodes")[config.get("current_episode") - 1].get("img_fps")
-    return datetime(1900, 1, 1, 0, 0, 0, 0) + timedelta(seconds=frame_number / img_fps)
 
-def generate_random_frame_crop(frame_path: str, frame_number: int, config: dict) -> tuple[str, str]:
+    episode_number = load_frame_couter()["current_episode"]
+    frame_path = frames_dir / f"{episode_number:02d}" / f"frame_{frame_number:04d}.jpg"
+
+    if not frame_path.exists():
+        frame_path = frames_dir / f"{episode_number:02d}" / f"frame_{frame_number}.jpg"
+
+    
+    return frame_path, episode_number
+
+
+
+def random_crop_generator(frame_path: str, frame_number: int) -> tuple[str, str]:
     """
+
     Gera um recorte aleatório de um frame.
     
+
     Args:
         frame_path: Caminho do arquivo do frame
         frame_number: Número do frame
@@ -32,8 +49,8 @@ def generate_random_frame_crop(frame_path: str, frame_number: int, config: dict)
         tuple[str, str]: (caminho do arquivo gerado, mensagem descritiva)
     """
 
-    min_x = config.get("posting")["random_crop"].get("min_x")
-    min_y = config.get("posting")["random_crop"].get("min_y")
+    min_x = load_configs().get("posting")["random_crop"].get("min_x")
+    min_y = load_configs().get("posting")["random_crop"].get("min_y")
     
     crop_width = crop_height = random.randint(min_x, min_y) # min_x = 200, min_y = 600
     
@@ -45,11 +62,7 @@ def generate_random_frame_crop(frame_path: str, frame_number: int, config: dict)
     crop_x = random.randint(0, 65535) % (image_width - crop_width)
     crop_y = random.randint(0, 65535) % (image_height - crop_height)
     
-
-    output_crop_path = os.path.join(
-        "episodes", "temp_crops",
-        f"{config.get('current_episode'):02d}_frame_{frame_number:04d}.jpg"
-    )
+    output_crop_path = episodes_dir / "temp_random_crop.jpg"
 
     command = [
         "magick" if os.name == "nt" else "convert",

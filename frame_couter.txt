@@ -1,0 +1,7 @@
+season: 1
+current_episode: 1
+#
+#
+#
+frame_iterator: 435
+total_frames_posted: 3000
