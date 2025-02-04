@@ -101,18 +101,21 @@ def get_subtitle_message(episode_num: int, frame_number: int) -> str:
     """Extrai todas as legendas do episódio para um frame específico."""
 
     subtitle_dir = subtitles_dir / f"{episode_num:02d}"
-    message = "Subtitles:\n"
+    message = ""
     
     for file in sorted(os.listdir(subtitle_dir), reverse=True): # reversed for English come first
         if file.endswith(".ass") or file.endswith(".ssa"):  
             subtitle = extract_ass_subtitle(episode_num, frame_number, os.path.join(subtitle_dir, file))
             if subtitle:
-                message += subtitle + "\n\n"
+                message += "Subtitles:\n" + subtitle + "\n\n"
         else:
             subtitle = extract_srt_subtitle(episode_num, frame_number, os.path.join(subtitle_dir, file))
             if subtitle:
-                message += subtitle + "\n\n"
+                message += "Subtitles:\n" + subtitle + "\n\n"
 
+    if not message:
+        return None
+    
 
     # Remove códigos de formatação ASS/SSA entre chaves
     message = re.sub(r'{[^}]*}', '', message, flags=re.IGNORECASE)

@@ -24,15 +24,15 @@ def with_retries(max_attempts: int = 3, delay: float = 2.0):
 
 
 @with_retries(max_attempts=3, delay=2.0)
-def fb_update_bio(biography_text: str, config: dict) -> None:
+def fb_update_bio(biography_text: str) -> None:
     """
     Atualiza a biografia da página do Facebook.
     """
-    fb_api_version = config.get("fb_api_version") or "v21.0"
+    fb_api_version = load_configs().get("fb_api_version") or "v21.0"
     endpoint = f"https://graph.facebook.com/{fb_api_version}/me/"
 
     data = {
-        "access_token": os.getenv("TOK_FB"),
+        "access_token": os.getenv("FB_TOKEN"),
         "about": biography_text
     }
     response = httpx.post(endpoint, data=data, timeout=15)

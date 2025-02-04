@@ -30,20 +30,22 @@ def format_message(frame_number: int, message: str) -> str:
     Returns:
         str: Mensagem formatada
     """
+    frame_counter = load_frame_couter()
+    configs = load_configs()
+    
     attrs = {
-        "season": load_frame_couter()["season"],
-        "episode": load_frame_couter()["current_episode"],
+        "season": frame_counter["season"],
+        "episode": frame_counter["current_episode"],
         "current_frame": frame_number,
 
-        "episode_total_frames": load_configs().get("episodes")[load_frame_couter()["current_episode"] - 1]["episode_total_frames"],
-        "frame_timestamp": get_frame_timestamp(load_frame_couter()["current_episode"], frame_number),
-        "fph":load_configs().get("posting").get("fph"),
-        "page_name": load_configs().get("your_page_name"),
+        "episode_total_frames": configs.get("episodes")[frame_counter["current_episode"] - 1]["episode_total_frames"],
+        "frame_timestamp": get_frame_timestamp(frame_counter["current_episode"], frame_number),
+        "fph": configs.get("posting").get("fph"),
+        "page_name": configs.get("your_page_name"),
 
         "execution_interval": get_workflow_execution_interval(),
-        "total_frames_posted": load_frame_couter()["total_frames_posted"],
-        "img_fps": load_configs().get("episodes")[load_frame_couter()["current_episode"] - 1].get("img_fps"),
+        "total_frames_posted": frame_counter["total_frames_posted"],
+        "img_fps": configs.get("episodes")[frame_counter["current_episode"] - 1].get("img_fps"),
     }
 
     return message.format(**attrs)
-
