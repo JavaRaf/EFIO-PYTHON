@@ -29,7 +29,7 @@ def build_frame_file_path(frame_number: int) -> tuple[Path, int, int]:
 
     if not length_of_episode.exists():
         return None, None, None
-    
+
     length_of_episode = len(list(length_of_episode.iterdir()))
 
     if not frame_path.exists():

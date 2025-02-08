@@ -9,11 +9,16 @@ from scripts.subtitle_handler import get_subtitle_message
 
 logger = get_logger(__name__)
 
+
 def post_frame(episode_number, frame_number, frame_path, configs, frame_counter):
     post_message = format_message(episode_number, frame_number, configs.get("post_message"), frame_counter, configs)
     post_id = fb_posting(post_message, frame_path)
-    print(f"\n├──Episode {episode_number} frame {frame_number} has been posted", flush=True)
+    print(
+        f"\n├──Episode {episode_number} frame {frame_number} has been posted",
+        flush=True,
+    )
     return post_id
+
 
 def handle_subtitles(episode_number, frame_number, post_id, configs):
     if configs.get("posting").get("posting_subtitles"):
@@ -22,6 +27,7 @@ def handle_subtitles(episode_number, frame_number, post_id, configs):
             fb_posting(subtitle_message, None, post_id)
             print("├──Subtitle has been posted", flush=True)
             sleep(1)
+
 
 def handle_random_crop(frame_path, frame_number, post_id, configs):
     if configs.get("posting").get("random_crop").get("enabled"):
@@ -42,6 +48,7 @@ def update_bio_and_frame_counter(episode_number, frame_counter, configs, frames_
         frame_counter["frame_iterator"] = 0
     update_frame_counter(frame_counter)
 
+
 def main():
     frame_counter = load_frame_counter()
     configs = load_configs()
@@ -49,21 +56,28 @@ def main():
 
     for i in range(1, configs.get("posting").get("fph") + 1):
         frame_number = frame_counter.get("frame_iterator") + i
-        frame_path, episode_number, length_of_episode = build_frame_file_path(frame_number)
+        frame_path, episode_number, length_of_episode = build_frame_file_path(
+            frame_number
+        )
 
         if not frame_path or not episode_number or not length_of_episode:
-            logger.error(f"Error building frame path", exc_info=True)
+            logger.error("Error building frame path", exc_info=True)
             break
 
         if not frame_path.exists():
-            logger.error(f"Episode {episode_number} Frame {frame_number} not found", exc_info=True)
+            logger.error(
+                f"Episode {episode_number} Frame {frame_number} not found",
+                exc_info=True,
+            )
             break
 
         if frame_number > length_of_episode:
             print(f"Episode {episode_number} finished", flush=True)
             break
 
-        post_id = post_frame(episode_number, frame_number, frame_path, configs, frame_counter)
+        post_id = post_frame(
+            episode_number, frame_number, frame_path, configs, frame_counter
+        )
         frames_posted += 1
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)

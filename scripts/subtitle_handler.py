@@ -103,6 +103,7 @@ def remove_tags(message: str) -> str:
 
     return message
 
+
 def extract_ass_subtitle(
     episode_num: int, frame_number: int, subtitle_file: str
 ) -> str:
@@ -130,7 +131,7 @@ def extract_ass_subtitle(
                 end_time = datetime.strptime(parts[2], "%H:%M:%S.%f")
 
                 if start_time >= frame_timestamp and end_time <= end_time:
-                    dialogue = remove_tags(dialogue.split(',,')[-1])
+                    dialogue = remove_tags(dialogue.split(",,")[-1])
                     remove_tags
                     subtitle = f"[{language_name}] - {dialogue}"
 
