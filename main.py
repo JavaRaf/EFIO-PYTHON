@@ -11,7 +11,7 @@ logger = get_logger(__name__)
 
 
 def main():
-    frame_couter = load_frame_couter(                                          )
+    frame_couter = load_frame_couter()
     configs = load_configs()
     frames_posted = 0
 
