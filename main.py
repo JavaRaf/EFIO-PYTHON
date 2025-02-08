@@ -52,7 +52,7 @@ def main():
             fb_posting(crop_message, crop_path, post_id)
             sleep(1)
 
-        # sleep(configs.get("posting").get("posting_interval"))
+        sleep(configs.get("posting").get("posting_interval"))
 
     if frames_posted != 0:
         frame_couter["frame_iterator"] += frames_posted
