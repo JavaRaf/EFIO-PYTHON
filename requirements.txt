@@ -1,4 +1,4 @@
-httpx
-python-dotenv
-Pillow
-langdetect
+httpx==0.28.1
+langdetect==1.0.9
+Pillow==11.1.0
+PyYAML==6.0.2
