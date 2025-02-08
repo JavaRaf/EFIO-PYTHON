@@ -1,6 +1,10 @@
 from time import sleep
 from scripts.facebook import fb_posting, fb_update_bio
-from scripts.frame_utils import build_frame_file_path, random_crop_generator, get_total_episode_frames
+from scripts.frame_utils import (
+    build_frame_file_path,
+    random_crop_generator,
+    get_total_episode_frames,
+)
 from scripts.load_configs import load_configs, load_frame_counter, update_frame_counter
 from scripts.logger import get_logger
 from scripts.messages import format_message
@@ -11,7 +15,13 @@ logger = get_logger(__name__)
 
 
 def post_frame(episode_number, frame_number, frame_path, configs, frame_counter):
-    post_message = format_message(episode_number, frame_number, configs.get("post_message"), frame_counter, configs)
+    post_message = format_message(
+        episode_number,
+        frame_number,
+        configs.get("post_message"),
+        frame_counter,
+        configs,
+    )
     post_id = fb_posting(post_message, frame_path)
     print(
         f"\n├──Episode {episode_number} frame {frame_number} has been posted",
@@ -36,10 +46,17 @@ def handle_random_crop(frame_path, frame_number, post_id, configs):
         print("└──Random Crop has been posted", flush=True)
         sleep(1)
 
+
 def update_bio_and_frame_counter(episode_number, frame_counter, configs, frames_posted):
     frame_counter["frame_iterator"] += frames_posted
     frame_counter["total_frames_posted"] += frames_posted
-    bio_message = format_message(episode_number, frame_counter["frame_iterator"], configs.get("bio_message"), frame_counter, configs)
+    bio_message = format_message(
+        episode_number,
+        frame_counter["frame_iterator"],
+        configs.get("bio_message"),
+        frame_counter,
+        configs,
+    )
     fb_update_bio(bio_message)
     if frame_counter["frame_iterator"] >= get_total_episode_frames(episode_number):
         if frame_counter["current_episode"] >= len(configs["episodes"]):
@@ -81,10 +98,15 @@ def main():
         frames_posted += 1
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
-        sleep(configs.get("posting").get("posting_interval") * 60) # adicione (* 60) para minutos
+        sleep(
+            configs.get("posting").get("posting_interval") * 60
+        )  # adicione (* 60) para minutos
 
     if frames_posted != 0:
-        update_bio_and_frame_counter(episode_number, frame_counter, configs, frames_posted)
+        update_bio_and_frame_counter(
+            episode_number, frame_counter, configs, frames_posted
+        )
+
 
 if __name__ == "__main__":
     main()

@@ -102,6 +102,3 @@ def get_total_episode_frames(episode_number: int) -> int:
     """
     episode_path = frames_dir / f"{episode_number:02d}"
     return len(list(episode_path.iterdir()))
-
-
-

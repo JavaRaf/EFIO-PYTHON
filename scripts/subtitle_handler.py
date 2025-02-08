@@ -8,6 +8,7 @@ from scripts.load_configs import load_configs
 from scripts.paths import subtitles_dir
 
 from scripts.logger import get_logger
+
 logger = get_logger(__name__)
 
 LANGUAGE_CODES = {
@@ -178,16 +179,22 @@ def get_frame_timestamp(episode_number: int, frame_number: int) -> str:
     try:
         configs = load_configs()
         episodes = configs.get("episodes", [])
-        
+
         if episode_number - 1 >= len(episodes):
-            raise ValueError(f"Episódio {episode_number} não encontrado nas configurações.")
-        
+            raise ValueError(
+                f"Episódio {episode_number} não encontrado nas configurações."
+            )
+
         img_fps = episodes[episode_number - 1].get("img_fps")
-        
+
         if img_fps is None:
-            raise ValueError(f"img_fps não encontrado para o episódio {episode_number}.")
-        
-        frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=frame_number / img_fps)
+            raise ValueError(
+                f"img_fps não encontrado para o episódio {episode_number}."
+            )
+
+        frame_timestamp = datetime(1900, 1, 1) + timedelta(
+            seconds=frame_number / img_fps
+        )
 
         hr, min, sec, ms = (
             frame_timestamp.hour,
@@ -196,7 +203,7 @@ def get_frame_timestamp(episode_number: int, frame_number: int) -> str:
             frame_timestamp.microsecond // 10000,
         )
         return f"{hr}:{min:02d}:{sec:02d}:{ms:02d}"
-    
+
     except Exception as e:
         logger.error(f"Erro ao obter o timestamp do frame: {e}", exc_info=True)
         return "0:00:00:00"
