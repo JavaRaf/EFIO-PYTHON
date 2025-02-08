@@ -6,6 +6,5 @@ __pycache__/
 # Arquivos de IDE
 .vscode/
 
-
-episodes/*/*/*.jpg
+# arquivo de testes
 test.py
