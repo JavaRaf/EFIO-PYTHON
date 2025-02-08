@@ -46,7 +46,7 @@ jobs:
           skip_dirty_check: false
           file_pattern: |
             configs.yaml
-            frame_couter.txt
+            frame_counter.txt
             sys/*.log
 
 

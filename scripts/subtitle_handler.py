@@ -19,8 +19,6 @@ LANGUAGE_CODES = {
     "de": "Deutsch",
     "it": "Italiano",
     "ru": "Русский (Russian)",
-    "hi": "हिंदी (Hindi)",
-    "bn": "বাংলা (Bengali)",
     "tr": "Türkçe (Turkish)",
     "vi": "Tiếng Việt (Vietnamese)",
     "nl": "Nederlands (Dutch)",
@@ -28,7 +26,7 @@ LANGUAGE_CODES = {
     "id": "Bahasa Indonesia (Indonesian)",
     "ms": "Bahasa Melayu (Malay)",
     "tl": "Tagalog (Filipino)",
-    # Adicione mais idiomas conforme necessário
+    # add more language codes here
 }
 
 
@@ -80,6 +78,28 @@ def extract_srt_subtitle(
         return None
 
 
+def remove_tags(message: str) -> str:
+    """Remove tags HTML e códigos de formatação da string."""
+    # Remove códigos de formatação ASS/SSA entre chaves
+    message = re.sub(r"{[^}]*}", "", message, flags=re.IGNORECASE)
+
+    # Substitui \N e \n por espaço
+    message = re.sub(r"\\[Nn]", " ", message)
+
+    # Remove múltiplas quebras de linha
+    message = re.sub(r"\\[N]+", " ", message)
+
+    # Remove tags de idioma entre colchetes
+    message = re.sub(r"\[[^\]]+\]", "", message)
+
+    # Remove códigos de formatação ASS/SSA
+    message = re.sub(r"\\[^}]+", "", message)
+
+    # Remove espaços em branco duplos
+    message = re.sub(r"\s+", " ", message).strip()
+
+    return message
+
 def extract_ass_subtitle(
     episode_num: int, frame_number: int, subtitle_file: str
 ) -> str:
@@ -107,7 +127,9 @@ def extract_ass_subtitle(
                 end_time = datetime.strptime(parts[2], "%H:%M:%S.%f")
 
                 if start_time >= frame_timestamp and end_time <= end_time:
-                    subtitle = f"[{language_name}] - {dialogue.split(',,')[-1]}"
+                    dialogue = remove_tags(dialogue.split(',,')[-1])
+                    remove_tags
+                    subtitle = f"[{language_name}] - {dialogue}"
 
                     return subtitle
         return None
@@ -143,18 +165,6 @@ def get_subtitle_message(episode_num: int, frame_number: int) -> str:
 
     if not message:
         return None
-
-    # Remove códigos de formatação ASS/SSA entre chaves
-    message = re.sub(r"{[^}]*}", "", message, flags=re.IGNORECASE)
-
-    # Substitui \N e \n por espaço
-    message = re.sub(r"\\[N]", " ", message)
-
-    # Remove múltiplas quebras de linha
-    message = re.sub(r"\\[N]+", " ", message)
-
-    # Remove tags de idioma entre colchetes
-    message = re.sub(r"\[[^\]]+\]", " ", message)
 
     return message
 

@@ -5,7 +5,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from scripts.load_configs import load_configs, load_frame_couter
+from scripts.load_configs import load_configs, load_frame_counter
 from scripts.logger import get_logger
 from scripts.paths import episodes_dir, frames_dir
 
@@ -23,9 +23,13 @@ def build_frame_file_path(frame_number: int) -> tuple[Path, int, int]:
         int: Número do episódio
     """
 
-    episode_number = load_frame_couter()["current_episode"]
+    episode_number = load_frame_counter()["current_episode"]
     frame_path = frames_dir / f"{episode_number:02d}" / f"frame_{frame_number:04d}.jpg"
     length_of_episode = frames_dir / f"{episode_number:02d}"
+
+    if not length_of_episode.exists():
+        return None, None, None
+    
     length_of_episode = len(list(length_of_episode.iterdir()))
 
     if not frame_path.exists():

@@ -23,8 +23,8 @@ def get_workflow_execution_interval() -> str:
                             parts = cron_expression.split()
                             if len(parts) == 5 and parts[1].startswith("*/"):
                                 execution_interval = int(parts[1].replace("*/", ""))
-                                return f"{execution_interval:02d}"
-        return "00"
+                                return f"{execution_interval}"
+        return "0"
     except Exception as e:
         logger.error(f"Erro ao ler intervalo de execução: {e}", exc_info=True)
-        return "00"
+        return "0"

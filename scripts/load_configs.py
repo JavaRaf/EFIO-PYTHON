@@ -1,51 +1,51 @@
 import yaml
 
 from scripts.logger import get_logger
-from scripts.paths import configs_path, frame_couter_path
+from scripts.paths import configs_path, frame_counter_path
 
 logger = get_logger(__name__)
 
 
-def load_frame_couter() -> dict:
+def load_frame_counter() -> dict:
     """
-    Carrega o contador de quadros a partir do arquivo frame_couter.txt.
+    Carrega o contador de quadros a partir do arquivo frame_counter.txt.
 
     Returns:
         dict: Dicionário com os valores do contador de quadros.
     """
-    frame_couter_json = {}
+    frame_counter_json = {}
     try:
-        with open(frame_couter_path, "r", encoding="utf-8") as file:
-            frame_couter = file.readlines()
+        with open(frame_counter_path, "r", encoding="utf-8") as file:
+            frame_counter = file.readlines()
 
-        for line in frame_couter:
+        for line in frame_counter:
             if not line.startswith("#"):
                 key, value = line.split(":")
-                frame_couter_json[key.strip()] = int(value.strip())
-        return frame_couter_json
+                frame_counter_json[key.strip()] = int(value.strip())
+        return frame_counter_json
 
     except Exception as e:
         logger.error(f"Error loading frame counter: {e}", exc_info=True)
         return {}
 
 
-def update_frame_couter(frame_couter_json: dict) -> None:
+def update_frame_counter(frame_counter_json: dict) -> None:
     """
-    Atualiza o contador de quadros no arquivo frame_couter.txt.
+    Atualiza o contador de quadros no arquivo frame_counter.txt.
 
     Args:
-        frame_couter_json (dict): Dicionário com os valores do contador de quadros.
+        frame_counter_json (dict): Dicionário com os valores do contador de quadros.
     """
     try:
-        with open(frame_couter_path, "w", encoding="utf-8") as file:
-            file.write(f"season: {frame_couter_json['season']}\n")
-            file.write(f"current_episode: {frame_couter_json['current_episode']}\n")
+        with open(frame_counter_path, "w", encoding="utf-8") as file:
+            file.write(f"season: {frame_counter_json['season']}\n")
+            file.write(f"current_episode: {frame_counter_json['current_episode']}\n")
             file.write("# \n")
             file.write("# \n")
             file.write("# \n")
-            file.write(f"frame_iterator: {frame_couter_json['frame_iterator']}\n")
+            file.write(f"frame_iterator: {frame_counter_json['frame_iterator']}\n")
             file.write(
-                f"total_frames_posted: {frame_couter_json['total_frames_posted']}\n"
+                f"total_frames_posted: {frame_counter_json['total_frames_posted']}\n"
             )
     except Exception as e:
         logger.error(f"Error updating frame counter: {e}", exc_info=True)
