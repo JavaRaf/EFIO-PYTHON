@@ -37,7 +37,7 @@ def main():
         )
         post_id = fb_posting(post_message, frame_path)
 
-        print(f"Posting episode {episode_number} frame {frame_number}", flush=True)
+        print(f"Episode {episode_number} frame {frame_number} has been posted", flush=True)
 
         frames_posted += 1
 

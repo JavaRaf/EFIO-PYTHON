@@ -20,7 +20,6 @@ episodes:
 posting:
   fph: 15                                  # Frames por hora
   posting_interval: 2                      # intervalo entre postagens (em minutos)
-  random_posting: true                     # Postar frames aleatoriamente se true, posta sequencialmente se false
   posting_subtitles: true                  # Incluir legendas nos frames
   multi_language_subtitles: false          # Incluir legendas em multiplos idiomas
 
@@ -28,7 +27,7 @@ posting:
   random_crop:                             # Configurações de corte aleatório
     enabled: true
     min_x: 200                             # Largura mínima do corte
-    min_y: 600
+    min_y: 600                             # Altura mínima do corte
 
 
 # timezone configuration
