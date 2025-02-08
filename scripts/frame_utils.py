@@ -88,3 +88,20 @@ def random_crop_generator(frame_path: str, frame_number: int) -> tuple[str, str]
     except Exception as e:
         logger.error(f"Erro ao executar ImageMagick: {e}", exc_info=True)
         return None
+
+
+def get_total_episode_frames(episode_number: int) -> int:
+    """
+    Retorna o total de quadros de um episódio.
+
+    Args:
+        episode_number: Número do episódio
+
+    Returns:
+        int: Total de quadros do episódio
+    """
+    episode_path = frames_dir / f"{episode_number:02d}"
+    return len(list(episode_path.iterdir()))
+
+
+

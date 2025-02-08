@@ -7,13 +7,10 @@ episodes:
   - episode: 1
     img_fps: 3.5                              # Taxa de frames por segundo usada para gerar os frames do vídeo
     fb_frames_album: "Your Album ID here"     # ID do álbum no Facebook para este episódio
-    episode_total_frames: 5                   # Número total de frames do vídeo
-
 
   - episode: 2
     img_fps: 3.5
     fb_frames_album: "Your Album ID here"
-    episode_total_frames: 5
 
 
 # Posting Configuration
@@ -22,7 +19,6 @@ posting:
   posting_interval: 2                      # intervalo entre postagens (em minutos)
   posting_subtitles: true                  # Incluir legendas nos frames
   multi_language_subtitles: false          # Incluir legendas em multiplos idiomas
-
 
   random_crop:                             # Configurações de corte aleatório
     enabled: true
