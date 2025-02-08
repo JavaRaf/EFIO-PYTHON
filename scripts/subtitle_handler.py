@@ -122,6 +122,9 @@ def get_subtitle_message(episode_num: int, frame_number: int) -> str:
     subtitle_dir = subtitles_dir / f"{episode_num:02d}"
     message = ""
 
+    if not subtitle_dir.exists():
+        return None
+
     for file in sorted(
         os.listdir(subtitle_dir), reverse=True
     ):  # reversed for English come first
