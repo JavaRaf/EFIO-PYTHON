@@ -32,6 +32,7 @@ jobs:
             - name: Commit changes
               uses: stefanzweifel/git-auto-commit-action@v5
               with:
+                  skip_dirty_check: false
                   commit_message: "chore: format code with ruff"
                   branch: main
                   file_pattern: "*.py"
