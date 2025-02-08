@@ -51,7 +51,7 @@ def main():
             crop_path, crop_message = random_crop_generator(frame_path, frame_number)
             fb_posting(crop_message, crop_path, post_id)
             sleep(1)
-            
+
         # Aguarda o intervalo entre postagens(em minutos)(default 2 min)
         sleep(configs.get("posting").get("posting_interval") * 60)
 
