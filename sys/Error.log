@@ -12,3 +12,105 @@ NoneType: None
 NoneType: None
 2025-02-09 20:08:27 - __main__ - ERROR - Error building frame path
 NoneType: None
+2025-02-09 20:18:26 - scripts.subtitle_handler - ERROR - Erro ao obter o timestamp do frame: Episódio 3 não encontrado nas configurações.
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/subtitle_handler.py", line 184, in get_frame_timestamp
+    raise ValueError(
+        f"Episódio {episode_number} não encontrado nas configurações."
+    )
+ValueError: Episódio 3 não encontrado nas configurações.
+2025-02-09 20:18:26 - scripts.messages - ERROR - Error formatting message: list index out of range
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/messages.py", line 54, in format_message
+    "img_fps": configs.get("episodes", [{}])[
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        frame_counter.get("current_episode", 1) - 1
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ].get("img_fps", "N/A"),
+    ^
+IndexError: list index out of range
+2025-02-09 20:18:43 - scripts.subtitle_handler - ERROR - Erro ao obter o timestamp do frame: Episódio 3 não encontrado nas configurações.
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/subtitle_handler.py", line 184, in get_frame_timestamp
+    raise ValueError(
+        f"Episódio {episode_number} não encontrado nas configurações."
+    )
+ValueError: Episódio 3 não encontrado nas configurações.
+2025-02-09 20:18:43 - scripts.messages - ERROR - Error formatting message: list index out of range
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/messages.py", line 54, in format_message
+    "img_fps": configs.get("episodes", [{}])[
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        frame_counter.get("current_episode", 1) - 1
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ].get("img_fps", "N/A"),
+    ^
+IndexError: list index out of range
+2025-02-09 20:18:57 - scripts.subtitle_handler - ERROR - Erro ao obter o timestamp do frame: Episódio 3 não encontrado nas configurações.
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/subtitle_handler.py", line 184, in get_frame_timestamp
+    raise ValueError(
+        f"Episódio {episode_number} não encontrado nas configurações."
+    )
+ValueError: Episódio 3 não encontrado nas configurações.
+2025-02-09 20:18:57 - scripts.messages - ERROR - Error formatting message: list index out of range
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/messages.py", line 54, in format_message
+    "img_fps": configs.get("episodes", [{}])[
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        frame_counter.get("current_episode", 1) - 1
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ].get("img_fps", "N/A"),
+    ^
+IndexError: list index out of range
+2025-02-09 20:19:06 - scripts.subtitle_handler - ERROR - Erro ao obter o timestamp do frame: Episódio 3 não encontrado nas configurações.
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/subtitle_handler.py", line 184, in get_frame_timestamp
+    raise ValueError(
+        f"Episódio {episode_number} não encontrado nas configurações."
+    )
+ValueError: Episódio 3 não encontrado nas configurações.
+2025-02-09 20:19:06 - scripts.messages - ERROR - Error formatting message: list index out of range
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/messages.py", line 54, in format_message
+    "img_fps": configs.get("episodes", [{}])[
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        frame_counter.get("current_episode", 1) - 1
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ].get("img_fps", "N/A"),
+    ^
+IndexError: list index out of range
+2025-02-09 20:19:17 - scripts.subtitle_handler - ERROR - Erro ao obter o timestamp do frame: Episódio 3 não encontrado nas configurações.
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/subtitle_handler.py", line 184, in get_frame_timestamp
+    raise ValueError(
+        f"Episódio {episode_number} não encontrado nas configurações."
+    )
+ValueError: Episódio 3 não encontrado nas configurações.
+2025-02-09 20:19:17 - scripts.messages - ERROR - Error formatting message: list index out of range
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/messages.py", line 54, in format_message
+    "img_fps": configs.get("episodes", [{}])[
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        frame_counter.get("current_episode", 1) - 1
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ].get("img_fps", "N/A"),
+    ^
+IndexError: list index out of range
+2025-02-09 20:19:27 - scripts.subtitle_handler - ERROR - Erro ao obter o timestamp do frame: Episódio 3 não encontrado nas configurações.
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/subtitle_handler.py", line 184, in get_frame_timestamp
+    raise ValueError(
+        f"Episódio {episode_number} não encontrado nas configurações."
+    )
+ValueError: Episódio 3 não encontrado nas configurações.
+2025-02-09 20:19:27 - scripts.messages - ERROR - Error formatting message: list index out of range
+Traceback (most recent call last):
+  File "/home/runner/work/EFIO-PYTHON/EFIO-PYTHON/scripts/messages.py", line 54, in format_message
+    "img_fps": configs.get("episodes", [{}])[
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        frame_counter.get("current_episode", 1) - 1
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ].get("img_fps", "N/A"),
+    ^
+IndexError: list index out of range
