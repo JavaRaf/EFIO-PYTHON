@@ -3,8 +3,8 @@ name: 01_init
 on:
   workflow_dispatch:
   schedule:
-     # You can change this CRON syntax to customize execute interval
-     - cron: "0 */2 * * *"
+    # You can change this CRON syntax to customize execute interval
+    - cron: "0 */2 * * *"
 
 permissions:
   contents: write
@@ -26,24 +26,36 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.13"
+
+      - name: check if episode is available
+        run: |
+          if [ -f "frame_counter.txt" ]; then
+            current_episode=$(grep "^current_episode:" "frame_counter.txt" | cut -d ':' -f2 | tr -d ' ')
+
+            if [ -z "$current_episode" ]; then
+              echo "current_episode not found in frame_counter.txt."
+              exit 1
+            fi
+
+            episode_count=$(find "episodes/frames" -mindepth 1 -maxdepth 1 -type d | wc -l)
+
+            if [ "$current_episode" -gt "$episode_count" ]; then
+              echo "No more episodes available."
+              exit 1
+              fi
+          fi
+      
+      # if you need to install imageMagick
+      # - name: install imageMagick
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y imagemagick
       
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      
-      - name: check if episode is available
-        run: |
-          if [ -f "frame_counter.txt" ]; then
-            current_episode=$(grep "^current_episode:" "frame_counter.txt" | cut -d ':' -f2 | tr -d ' ')
-            episode_count=$(find "episodes/frames" -maxdepth 1 -type d | wc -l)
-            
-            if [ "$current_episode" -gt "$episode_count" ]; then
-              echo "No more episodes available."
-              exit 1
-            fi
-          fi
-          
+
       - name: Main
         run: |
           python main.py
@@ -53,6 +65,3 @@ jobs:
         with:
           commit_message: "Update"
           file_pattern: "frame_counter.txt sys/Error.log"
-
-
-

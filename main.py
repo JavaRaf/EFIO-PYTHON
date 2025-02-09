@@ -82,16 +82,21 @@ def main():
 
     for i in range(1, configs.get("posting").get("fph") + 1):
         frame_number = frame_counter.get("frame_iterator") + i
-        frame_path, episode_number, episode_total_frames = build_frame_file_path(
+        frame_path, episode_number, total_frames_in_episode_dir = build_frame_file_path(
             frame_number
         )
-
-        if not frame_path or not episode_number:
+        if frame_path is None or episode_number is None:
             logger.error("Frame path or episode number not found")
             break
 
-        if frame_number > episode_total_frames:
-            logger.error("Frame number exceeds total frames")
+        if frame_number > total_frames_in_episode_dir:
+            logger.error("Frame number exceeds total frames in episode directory")
+            break
+
+        if episode_number > len(configs.get("episodes")):
+            logger.error(
+                "Episode number exceeds total episodes\n \
+                Please check the episode number in configs.yaml")
             break
 
         post_id = post_frame(
