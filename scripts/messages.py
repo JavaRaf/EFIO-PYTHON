@@ -19,7 +19,11 @@ logger = get_logger(__name__)
 
 
 def format_message(
-    episode_number: int, frame_number: int, message: str, frame_counter: dict, configs: dict
+    episode_number: int,
+    frame_number: int,
+    message: str,
+    frame_counter: dict,
+    configs: dict,
 ) -> str:
     """
     Formata uma mensagem com atributos de quadro e página.
@@ -47,7 +51,9 @@ def format_message(
             "page_name": configs.get("your_page_name", "N/A"),
             "execution_interval": get_workflow_execution_interval(),
             "total_frames_posted": frame_counter.get("total_frames_posted", 0),
-            "img_fps": configs.get("episodes", [{}])[frame_counter.get("current_episode", 1) - 1].get("img_fps", "N/A"),
+            "img_fps": configs.get("episodes", [{}])[
+                frame_counter.get("current_episode", 1) - 1
+            ].get("img_fps", "N/A"),
         }
         return message.format(**attrs)
 
