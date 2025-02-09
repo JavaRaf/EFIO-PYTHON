@@ -16,7 +16,13 @@ logger = get_logger(__name__)
 
 def post_frame(episode_number, frame_number, frame_path, configs, frame_counter):
     """Posta um frame."""
-    post_message = format_message(episode_number, frame_number, configs.get("post_message"), frame_counter, configs)
+    post_message = format_message(
+        episode_number,
+        frame_number,
+        configs.get("post_message"),
+        frame_counter,
+        configs,
+    )
     post_id = fb_posting(post_message, frame_path)
     print(
         f"\n├──Episode {episode_number} frame {frame_number} has been posted",
