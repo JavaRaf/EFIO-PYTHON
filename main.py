@@ -4,11 +4,7 @@ from scripts.frame_utils import (
     random_crop_generator,
     get_total_episode_frames,
 )
-from scripts.load_configs import (
-    load_configs,
-    load_frame_counter,
-    update_frame_counter
-)
+from scripts.load_configs import load_configs, load_frame_counter, update_frame_counter
 from scripts.facebook import fb_posting, fb_update_bio
 from scripts.logger import get_logger
 from scripts.messages import format_message
@@ -74,8 +70,9 @@ def update_bio_and_frame_counter(episode_number, frame_counter, configs, frames_
             frame_counter["current_episode"] += 1
             frame_counter["frame_iterator"] = 0
         update_frame_counter(frame_counter)
-    except Exception as e:
+    except Exception:
         logger.error("Error updating frame counter", exc_info=True)
+
 
 def main():
     """Main function"""

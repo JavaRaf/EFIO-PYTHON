@@ -80,7 +80,9 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
     try:
         fb_api_version = load_configs().get("fb_api_version") or "v21.0"
         if parent_id:
-            endpoint = f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
+            endpoint = (
+                f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
+            )
         else:
             endpoint = f"https://graph.facebook.com/{fb_api_version}/me/photos"
 
