@@ -38,19 +38,27 @@ def fb_update_bio(biography_text: str) -> None:
     """
     Atualiza a biografia da página do Facebook.
     """
-    fb_api_version = load_configs().get("fb_api_version") or "v21.0"
-    endpoint = f"https://graph.facebook.com/{fb_api_version}/me/"
+    try:
+        fb_api_version = load_configs().get("fb_api_version") or "v21.0"
+        endpoint = f"https://graph.facebook.com/{fb_api_version}/me/"
 
-    data = {"access_token": os.getenv("FB_TOKEN"), "about": biography_text}
-    response = httpx.post(endpoint, data=data, timeout=15)
-    if response.status_code != 200:
-        logger.error(
-            f"Falha ao atualizar a biografia. Status code: {response.status_code}, message: {response.text}",
-            exc_info=True,
-        )
+        data = {"access_token": os.getenv("FB_TOKEN"), "about": biography_text}
+        response = httpx.post(endpoint, data=data, timeout=15)
+        if response.status_code != 200:
+            logger.error(
+                f"Falha ao atualizar a biografia. Status code: {response.status_code}, message: {response.text}",
+                exc_info=True,
+            )
+            response.raise_for_status()
 
-    print("updated bio", flush=True)
-    return response.json()
+        print("\n", "Biography has been updated", flush=True)
+        return response.json()
+    except httpx.HTTPStatusError as e:
+        logger.error(f"Erro HTTP ao atualizar a biografia: {e}", exc_info=True)
+        raise
+    except Exception as e:
+        logger.error(f"Erro inesperado ao atualizar a biografia: {e}", exc_info=True)
+        raise
 
 
 @with_retries(max_attempts=3, delay=2.0)
@@ -69,29 +77,33 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
     Raises:
         Exception: Se todas as tentativas de postagem falharem
     """
-    fb_api_version = load_configs().get("fb_api_version") or "v21.0"
-    # Construir o endpoint base
-    if parent_id:
-        # Para comentários em posts existentes
-        endpoint = f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
-    else:
-        # Para novos posts
-        endpoint = f"https://graph.facebook.com/{fb_api_version}/me/photos"
+    try:
+        fb_api_version = load_configs().get("fb_api_version") or "v21.0"
+        if parent_id:
+            endpoint = f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
+        else:
+            endpoint = f"https://graph.facebook.com/{fb_api_version}/me/photos"
 
-    data = {"access_token": os.getenv("FB_TOKEN"), "message": message}
+        data = {"access_token": os.getenv("FB_TOKEN"), "message": message}
 
-    files = {"source": open(frame_path, "rb")} if frame_path else None
+        files = {"source": open(frame_path, "rb")} if frame_path else None
 
-    response = httpx.post(endpoint, data=data, files=files, timeout=15)
+        response = httpx.post(endpoint, data=data, files=files, timeout=15)
 
-    if response.status_code != 200:
-        logger.error(
-            f"Falha ao postar. Status code: {response.status_code}, message: {response.text}",
-            exc_info=True,
-        )
-        raise Exception("Tentativa de postagem falhou")
+        if response.status_code != 200:
+            logger.error(
+                f"Falha ao postar. Status code: {response.status_code}, message: {response.text}",
+                exc_info=True,
+            )
+            response.raise_for_status()
 
-    return response.json()["id"]
+        return response.json()["id"]
+    except httpx.HTTPStatusError as e:
+        logger.error(f"Erro HTTP ao realizar postagem: {e}", exc_info=True)
+        raise
+    except Exception as e:
+        logger.error(f"Erro inesperado ao realizar postagem: {e}", exc_info=True)
+        raise
 
 
 # example:

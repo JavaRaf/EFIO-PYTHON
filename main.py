@@ -1,11 +1,15 @@
 from time import sleep
-from scripts.facebook import fb_posting, fb_update_bio
 from scripts.frame_utils import (
     build_frame_file_path,
     random_crop_generator,
     get_total_episode_frames,
 )
-from scripts.load_configs import load_configs, load_frame_counter, update_frame_counter
+from scripts.load_configs import (
+    load_configs,
+    load_frame_counter,
+    update_frame_counter
+)
+from scripts.facebook import fb_posting, fb_update_bio
 from scripts.logger import get_logger
 from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
@@ -62,13 +66,16 @@ def update_bio_and_frame_counter(episode_number, frame_counter, configs, frames_
         configs,
     )
     fb_update_bio(bio_message)
-    if frame_counter["frame_iterator"] >= get_total_episode_frames(episode_number):
-        if frame_counter["current_episode"] >= len(configs["episodes"]):
-            print("All episodes were posted!!!", flush=True)
-        frame_counter["current_episode"] += 1
-        frame_counter["frame_iterator"] = 0
-    update_frame_counter(frame_counter)
 
+    try:
+        if frame_counter["frame_iterator"] >= get_total_episode_frames(episode_number):
+            if frame_counter["current_episode"] >= len(configs["episodes"]):
+                print("\n", "All episodes were posted!!!", flush=True)
+            frame_counter["current_episode"] += 1
+            frame_counter["frame_iterator"] = 0
+        update_frame_counter(frame_counter)
+    except Exception as e:
+        logger.error("Error updating frame counter", exc_info=True)
 
 def main():
     """Main function"""
@@ -86,15 +93,15 @@ def main():
             logger.error("Error building frame path", exc_info=True)
             break
 
+        if frame_number > length_of_episode:
+            print(f"\nEpisode {episode_number} finished", flush=True)
+            break
+
         if not frame_path.exists():
             logger.error(
                 f"Episode {episode_number} Frame {frame_number} not found",
                 exc_info=True,
             )
-            break
-
-        if frame_number > length_of_episode:
-            print(f"Episode {episode_number} finished", flush=True)
             break
 
         post_id = post_frame(

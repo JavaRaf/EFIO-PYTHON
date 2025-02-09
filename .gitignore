@@ -11,3 +11,4 @@ test.py
 
 # arquivos temporários
 temp*.py
+episodes/temp*.jpg
