@@ -115,3 +115,4 @@ Traceback (most recent call last):
     ^
 IndexError: list index out of range
 2025-02-09 21:39:35 - __main__ - ERROR - Frame number exceeds total frames in episode directory
+2025-02-09 21:42:26 - __main__ - ERROR - Frame number exceeds total frames in episode directory
