@@ -30,12 +30,12 @@ def build_frame_file_path(frame_number: int) -> tuple[Path, int, int]:
     if not length_of_episode.exists():
         return None, None, None
 
-    length_of_episode = len(list(length_of_episode.iterdir()))
+    episode_total_frames = len(list(length_of_episode.iterdir()))
 
     if not frame_path.exists():
         frame_path = frames_dir / f"{episode_number:02d}" / f"frame_{frame_number}.jpg"
 
-    return frame_path, episode_number, length_of_episode
+    return frame_path, episode_number, episode_total_frames
 
 
 def random_crop_generator(frame_path: str, frame_number: int) -> tuple[str, str]:

@@ -82,23 +82,16 @@ def main():
 
     for i in range(1, configs.get("posting").get("fph") + 1):
         frame_number = frame_counter.get("frame_iterator") + i
-        frame_path, episode_number, length_of_episode = build_frame_file_path(
+        frame_path, episode_number, episode_total_frames = build_frame_file_path(
             frame_number
         )
 
-        if not frame_path or not episode_number or not length_of_episode:
-            logger.error("Error building frame path", exc_info=True)
+        if not frame_path or not episode_number:
+            logger.error("Frame path or episode number not found")
             break
 
-        if frame_number > length_of_episode:
-            print(f"\nEpisode {episode_number} finished", flush=True)
-            break
-
-        if not frame_path.exists():
-            logger.error(
-                f"Episode {episode_number} Frame {frame_number} not found",
-                exc_info=True,
-            )
+        if frame_number > episode_total_frames:
+            logger.error("Frame number exceeds total frames")
             break
 
         post_id = post_frame(
@@ -111,7 +104,7 @@ def main():
             configs.get("posting").get("posting_interval")
         )  # adicione (* 60) para minutos
 
-    if frames_posted != 0:
+    if frames_posted > 0:
         update_bio_and_frame_counter(
             episode_number, frame_counter, configs, frames_posted
         )
