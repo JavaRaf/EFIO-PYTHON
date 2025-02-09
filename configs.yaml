@@ -37,7 +37,7 @@ bio_message: |
   "Chopped {img_fps} FPS, Posting {fph} Frames every
   {execution_interval} hours. Total of {total_frames_posted} frames was successfully posted!!!"
 
-# Variáveis disponíveis para templates:
+# Variáveis disponíveis para as mensagens templates:
 # - {season}              : Número da temporada atual
 # - {episode}             : Número do episódio atual
 # - {current_frame}       : Número do frame atual

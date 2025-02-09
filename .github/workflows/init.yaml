@@ -1,5 +1,5 @@
 # Don't change this `name` below, the script might broke at some point
-name: Init
+name: 01_init
 
 on:
   workflow_dispatch:

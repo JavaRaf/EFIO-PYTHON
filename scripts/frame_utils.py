@@ -65,7 +65,7 @@ def random_crop_generator(frame_path: str, frame_number: int) -> tuple[str, str]
     crop_x = random.randint(0, 65535) % (image_width - crop_width)
     crop_y = random.randint(0, 65535) % (image_height - crop_height)
 
-    output_crop_path = episodes_dir / "temp_random_crop.jpg"
+    output_crop_path = episodes_dir / "temp_crop.jpg"
 
     command = [
         "magick" if os.name == "nt" else "convert",

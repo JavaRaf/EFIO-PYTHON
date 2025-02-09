@@ -1,0 +1,38 @@
+name: 02_format_code
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+permissions:
+    contents: write
+
+jobs:
+    format:
+        runs-on: ubuntu-24.04
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: "3.13"
+
+            - name: Install Ruff
+              run: python -m pip install ruff
+
+            - name: Format and Fix Code
+              run: |
+                  ruff format .
+                  ruff check --fix .
+
+            - name: Commit changes
+              uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                  skip_dirty_check: false
+                  commit_message: "chore: format code with ruff"
+                  branch: main
+                  file_pattern: "*.py"
