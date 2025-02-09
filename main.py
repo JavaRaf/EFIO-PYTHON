@@ -98,7 +98,7 @@ def main():
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
         sleep(
-            configs.get("posting").get("posting_interval") * 60
+            configs.get("posting").get("posting_interval")
         )  # adicione (* 60) para minutos
 
     if frames_posted != 0:
