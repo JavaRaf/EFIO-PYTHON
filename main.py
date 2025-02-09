@@ -11,6 +11,7 @@ logger = get_logger(__name__)
 
 
 def post_frame(episode_number, frame_number, frame_path, configs, frame_counter):
+    """Posta um frame."""
     post_message = format_message(episode_number, frame_number, configs.get("post_message"), frame_counter, configs)
     post_id = fb_posting(post_message, frame_path)
     print(
@@ -21,6 +22,7 @@ def post_frame(episode_number, frame_number, frame_path, configs, frame_counter)
 
 
 def handle_subtitles(episode_number, frame_number, post_id, configs):
+    """Posta legendas"""
     if configs.get("posting").get("posting_subtitles"):
         subtitle_message = get_subtitle_message(episode_number, frame_number)
         if subtitle_message:
@@ -30,6 +32,7 @@ def handle_subtitles(episode_number, frame_number, post_id, configs):
 
 
 def handle_random_crop(frame_path, frame_number, post_id, configs):
+    """Posta um recorte aleatório"""
     if configs.get("posting").get("random_crop").get("enabled"):
         crop_path, crop_message = random_crop_generator(frame_path, frame_number)
         fb_posting(crop_message, crop_path, post_id)
@@ -37,6 +40,7 @@ def handle_random_crop(frame_path, frame_number, post_id, configs):
         sleep(1)
 
 def update_bio_and_frame_counter(episode_number, frame_counter, configs, frames_posted):
+    """Atualiza a bio e o contador de frames"""
     frame_counter["frame_iterator"] += frames_posted
     frame_counter["total_frames_posted"] += frames_posted
     bio_message = format_message(episode_number, frame_counter["frame_iterator"], configs.get("bio_message"), frame_counter, configs)
@@ -50,6 +54,7 @@ def update_bio_and_frame_counter(episode_number, frame_counter, configs, frames_
 
 
 def main():
+    """Main function"""
     frame_counter = load_frame_counter()
     configs = load_configs()
     frames_posted = 0

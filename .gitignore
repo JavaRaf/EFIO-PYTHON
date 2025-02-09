@@ -8,3 +8,4 @@ __pycache__/
 
 # arquivo de testes
 test.py
+temp*.py
