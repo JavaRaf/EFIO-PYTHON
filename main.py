@@ -96,7 +96,8 @@ def main():
         if episode_number > len(configs.get("episodes")):
             logger.error(
                 "Episode number exceeds total episodes\n \
-                Please check the episode number in configs.yaml")
+                Please check the episode number in configs.yaml"
+            )
             break
 
         post_id = post_frame(
