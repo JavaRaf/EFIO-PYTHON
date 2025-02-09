@@ -7,8 +7,6 @@ on:
      # You can change this CRON syntax to customize execute interval
      - cron: "0 */2 * * *"
 
-  
-
 permissions:
   contents: write
   actions: write
@@ -18,13 +16,14 @@ jobs:
     runs-on: ubuntu-22.04
 
     env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       FB_TOKEN: ${{ secrets.FB_TOKEN }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.10
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.13"
@@ -43,10 +42,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update"
-          file_pattern: |
-            configs.yaml
-            frame_counter.txt
-            sys/*.log
 
 
 
