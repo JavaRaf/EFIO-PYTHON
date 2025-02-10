@@ -78,8 +78,6 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
         Exception: Se todas as tentativas de postagem falharem
     """
     configs = load_configs()
-    frame_counter = load_frame_counter()
-
     try:
         fb_api_version = configs.get("fb_api_version", "v21.0")
 
@@ -202,7 +200,7 @@ def repost_images_in_album(PHOTO_IDS, configs, frame_counter):
         ALBUM_ID = configs.get("episodes", {}).get(frame_counter.get("current_episode"), {}).get("album_id")
         ALBUM_ID = str(ALBUM_ID)
 
-        if not ALBUM_ID or ALBUM_ID.isdigit() == False:
+        if not ALBUM_ID or not ALBUM_ID.isdigit():
             print("Album ID not found in configs or is invalid")
             return False
 
