@@ -3,7 +3,7 @@ import time
 
 import httpx
 
-from scripts.load_configs import load_configs
+from scripts.load_configs import load_configs, load_frame_counter
 from scripts.logger import get_logger
 
 logger = get_logger(__name__)
@@ -61,6 +61,7 @@ def fb_update_bio(biography_text: str) -> None:
         raise
 
 
+
 @with_retries(max_attempts=3, delay=2.0)
 def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> str:
     """
@@ -77,6 +78,9 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
     Raises:
         Exception: Se todas as tentativas de postagem falharem
     """
+    configs = load_configs()
+    frame_counter = load_frame_counter()
+
     try:
         fb_api_version = load_configs().get("fb_api_version") or "v21.0"
         if parent_id:
@@ -84,7 +88,14 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
                 f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
             )
         else:
-            endpoint = f"https://graph.facebook.com/{fb_api_version}/me/photos"
+            album_id = configs.get("episodes").get(frame_counter.get("current_episode")).get("album_id")
+
+            # Convert album_id to string if it's a number
+            if album_id and str(album_id).isdigit():
+                endpoint = f"https://graph.facebook.com/{fb_api_version}/{album_id}/photos"
+            else:
+                endpoint = f"https://graph.facebook.com/{fb_api_version}/me/photos"
+
 
         data = {"access_token": os.getenv("FB_TOKEN"), "message": message}
 

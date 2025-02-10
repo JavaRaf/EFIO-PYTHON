@@ -133,7 +133,6 @@ def extract_ass_subtitle(
 
                 if start_time >= frame_timestamp and end_time <= end_time:
                     dialogue = remove_tags(dialogue.split(",,")[-1])
-                    remove_tags
                     subtitle = f"[{language_name}] - {dialogue}"
 
                     return subtitle
@@ -152,24 +151,35 @@ def get_subtitle_message(episode_num: int, frame_number: int) -> str:
     if not subtitle_dir.exists():
         return None
 
-    for file in sorted(
-        os.listdir(subtitle_dir), reverse=True
-    ):  # reversed for English come first
-        if file.endswith(".ass") or file.endswith(".ssa"):
-            subtitle = extract_ass_subtitle(
-                episode_num, frame_number, os.path.join(subtitle_dir, file)
-            )
-            if subtitle:
-                message += "Subtitles:\n" + subtitle + "\n\n"
-        else:
-            subtitle = extract_srt_subtitle(
-                episode_num, frame_number, os.path.join(subtitle_dir, file)
-            )
-            if subtitle:
-                message += "Subtitles:\n" + subtitle + "\n\n"
+    if load_configs().get("posting").get("multi_language_subtitles"):
+        for file in sorted(os.listdir(subtitle_dir), reverse=True):
+            subtitle_file = subtitle_dir / file
+            if subtitle_file.suffix == ".srt":
+                subtitle_msg = extract_srt_subtitle(
+                    episode_num, frame_number, subtitle_file
+                )
+            elif subtitle_file.suffix == ".ass":
+                subtitle_msg = extract_ass_subtitle(
+                    episode_num, frame_number, subtitle_file
+                )
 
-    if not message:
-        return None
+            if subtitle_msg:
+                message += "Subtitle:" + subtitle_msg + "\n\n"
+
+    else:
+        subtitle_file = subtitle_dir / os.listdir(subtitle_dir)[0]
+
+        if subtitle_file.suffix == ".srt":
+            subtitle_msg = extract_srt_subtitle(
+                episode_num, frame_number, subtitle_file
+            )
+        elif subtitle_file.suffix == ".ass":
+            subtitle_msg = extract_ass_subtitle(
+                episode_num, frame_number, subtitle_file
+            )
+
+        if subtitle_msg:
+            message += "Subtitle:" + subtitle_msg + "\n\n"
 
     return message
 
@@ -183,7 +193,7 @@ def get_frame_timestamp(episode_number: int, frame_number: int) -> str:
             raise ValueError(
                 f"Episódio {episode_number} não encontrado nas configurações."
             )
-        
+
         img_fps = configs.get("episodes", {}).get(episode_number, {}).get("img_fps")
 
         if not img_fps:

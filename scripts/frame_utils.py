@@ -27,7 +27,7 @@ def build_frame_file_path(frame_number: int) -> tuple[Path, int, int]:
 
     if episode_number is None:
         return None, None, None
-    
+
     episode_dir = frames_dir / f"{episode_number:02d}"
 
     if not episode_dir.exists():

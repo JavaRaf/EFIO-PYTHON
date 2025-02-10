@@ -90,15 +90,17 @@ def main():
         )
 
         if not episode_number or not total_frames_in_episode_dir:
-            logger.error(f"Episode not found in configs, check frame_counter.txt and frames folder")
+            logger.error(
+                "Episode not found in configs, check frame_counter.txt and frames folder"
+            )
             break
 
         if not total_frames_in_episode_dir:
-            print(f"All frames in this episode were posted", flush=True)
+            print("All frames in this episode were posted", flush=True)
             break
 
         if not frame_path.exists():
-            print(f"Frame not found, check if episdoe exists", flush=True)
+            print("Frame not found, check if episdoe exists", flush=True)
             break
 
         post_id = post_frame(
