@@ -51,7 +51,9 @@ def format_message(
             "page_name": configs.get("your_page_name", "N/A"),
             "execution_interval": get_workflow_execution_interval(),
             "total_frames_posted": frame_counter.get("total_frames_posted", 0),
-            "img_fps": configs.get("episodes").get(episode_number).get("img_fps", "N/A"),
+            "img_fps": configs.get("episodes")
+            .get(episode_number)
+            .get("img_fps", "N/A"),
         }
         return message.format(**attrs)
 

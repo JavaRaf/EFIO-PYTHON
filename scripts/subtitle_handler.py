@@ -183,7 +183,7 @@ def get_frame_timestamp(episode_number: int, frame_number: int) -> str:
             raise ValueError(
                 f"Episódio {episode_number} não encontrado nas configurações."
             )
-        
+
         img_fps = configs.get("episodes", {}).get(episode_number, {}).get("img_fps")
 
         if not img_fps:
