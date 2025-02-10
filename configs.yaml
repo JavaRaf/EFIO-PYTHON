@@ -16,6 +16,9 @@ episodes:
     img_fps: 3.5
     frames_album_id: "Your Album ID here"
 
+  4:
+    img_fps: 3.5
+    frames_album_id: "Your Album ID here"
 
 
 # Posting Configuration
