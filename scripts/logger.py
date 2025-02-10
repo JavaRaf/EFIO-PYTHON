@@ -19,7 +19,6 @@ def get_logger(name):
     return logging.getLogger(name)
 
 
-
 def update_fb_log(frame_counter, frames, post_ids):
     """Atualiza o arquivo de log do Facebook."""
     season = frame_counter.get("season")
@@ -27,4 +26,6 @@ def update_fb_log(frame_counter, frames, post_ids):
 
     with open(fb_log_path, "a", encoding="utf-8") as f:
         for post_id, frame in zip(post_ids, frames):
-            f.write(f"season: {season} episode: {episode} frame: {frame} https://graph.facebook.com/{post_id}\n")
+            f.write(
+                f"season: {season} episode: {episode} frame: {frame} https://graph.facebook.com/{post_id}\n"
+            )
