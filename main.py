@@ -5,8 +5,8 @@ from scripts.frame_utils import (
     get_total_episode_frames,
 )
 from scripts.load_configs import load_configs, load_frame_counter, update_frame_counter
-from scripts.facebook import fb_posting, fb_update_bio
-from scripts.logger import get_logger
+from scripts.facebook import fb_posting, fb_update_bio, repost_images_in_album
+from scripts.logger import get_logger, update_fb_log
 from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
 
@@ -50,10 +50,10 @@ def handle_random_crop(frame_path, frame_number, post_id, configs):
         sleep(1)
 
 
-def update_bio_and_frame_counter(frame_counter, configs, frames_posted):
+def update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted):
     """Atualiza a bio e o contador de frames"""
-    frame_counter["frame_iterator"] += frames_posted
-    frame_counter["total_frames_posted"] += frames_posted
+    frame_counter["frame_iterator"] += number_of_frames_posted
+    frame_counter["total_frames_posted"] += number_of_frames_posted
 
     bio_message = format_message(
         frame_counter.get("current_episode", None),
@@ -69,7 +69,7 @@ def update_bio_and_frame_counter(frame_counter, configs, frames_posted):
             frame_counter["current_episode"]
         ):
             if not configs.get("episodes").get(frame_counter["current_episode"] + 1):
-                print("\n", "All episodes were posted!!!", flush=True)
+                print("\n\n", "All episodes were posted!!!\n", flush=True)
             frame_counter["current_episode"] += 1
             frame_counter["frame_iterator"] = 0
         update_frame_counter(frame_counter)
@@ -81,7 +81,9 @@ def main():
     """Main function"""
     frame_counter = load_frame_counter()
     configs = load_configs()
-    frames_posted = 0
+    post_ids = []
+    frames_posted = []
+    number_of_frames_posted = 0
 
     for i in range(1, configs.get("posting").get("fph") + 1):
         frame_number = frame_counter.get("frame_iterator") + i
@@ -89,14 +91,14 @@ def main():
             frame_number
         )
 
+        if not total_frames_in_episode_dir:
+            print("All frames in this episode were posted", flush=True)
+            break
+
         if not episode_number or not total_frames_in_episode_dir:
             logger.error(
                 "Episode not found in configs, check frame_counter.txt and frames folder"
             )
-            break
-
-        if not total_frames_in_episode_dir:
-            print("All frames in this episode were posted", flush=True)
             break
 
         if not frame_path.exists():
@@ -106,16 +108,25 @@ def main():
         post_id = post_frame(
             episode_number, frame_number, frame_path, configs, frame_counter
         )
-        frames_posted += 1
+
+        post_ids.append(post_id)
+        frames_posted.append(frame_number)
+        number_of_frames_posted += 1
+
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
         sleep(
             configs.get("posting").get("posting_interval")
         )  # adicione (* 60) para minutos
 
-    if frames_posted > 0:
-        update_bio_and_frame_counter(frame_counter, configs, frames_posted)
+    if number_of_frames_posted > 0:
+        print("\n", "[")
+        repost_images_in_album(post_ids, configs, frame_counter)
+        print("\n", "]")
 
+        update_fb_log(frame_counter, frames_posted, post_ids)
+        update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted)
+        
 
 if __name__ == "__main__":
     main()
