@@ -4,7 +4,7 @@ import time
 import httpx
 import asyncio
 
-from scripts.load_configs import load_configs, load_frame_counter
+from scripts.load_configs import load_configs
 from scripts.logger import get_logger
 
 logger = get_logger(__name__)
@@ -32,6 +32,7 @@ def with_retries(max_attempts: int = 3, delay: float = 2.0):
         return wrapper
 
     return decorator
+
 
 @with_retries(max_attempts=3, delay=2.0)
 def fb_update_bio(biography_text: str) -> None:
@@ -84,8 +85,10 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
         endpoint = f"https://graph.facebook.com/{fb_api_version}/me/photos"
 
         if parent_id:
-            endpoint = f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
-           
+            endpoint = (
+                f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
+            )
+
         data = {"access_token": os.getenv("FB_TOKEN"), "message": message}
 
         files = {"source": open(frame_path, "rb")} if frame_path else None
@@ -125,15 +128,16 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
 
 # ------------------------------------------------------------------------------------------------------------
 
+
 # functions to repost images in album
 async def get_image_url(client, photo_id):
     try:
         url = f"https://graph.facebook.com/v18.0/{photo_id}?fields=images&access_token={os.getenv('FB_TOKEN')}"
-        
+
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
-        
+
         if "images" in data:
             return data["images"][0]["source"]
         else:
@@ -142,6 +146,7 @@ async def get_image_url(client, photo_id):
     except Exception as e:
         logger.error(f"Erro ao obter URL da imagem: {str(e)}")
         return None
+
 
 async def upload_image_to_album(client, album_id, image_url, fb_api_version="v21.0"):
     try:
@@ -154,7 +159,7 @@ async def upload_image_to_album(client, album_id, image_url, fb_api_version="v21
         response = await client.post(url, data=data)
         response.raise_for_status()
         result = response.json()
-        
+
         if "id" in result:
             print(f"repost in album: {result['id']}")
             return True
@@ -165,16 +170,17 @@ async def upload_image_to_album(client, album_id, image_url, fb_api_version="v21
         logger.error(f"Erro ao postar imagem no álbum: {str(e)}", exc_info=True)
         return False
 
+
 async def process_images(PHOTO_IDS, ALBUM_ID, configs):
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
             # Buscar URLs das imagens
             tasks_get = [get_image_url(client, photo_id) for photo_id in PHOTO_IDS]
             image_urls = await asyncio.gather(*tasks_get)
-            
+
             # Filtrar URLs válidas
             image_urls = [url for url in image_urls if url]
-            
+
             if not image_urls:
                 print("Nenhuma URL de imagem válida encontrada")
                 return False
@@ -182,33 +188,33 @@ async def process_images(PHOTO_IDS, ALBUM_ID, configs):
             # Upload das imagens
             tasks_upload = [
                 upload_image_to_album(
-                    client, 
-                    ALBUM_ID, 
-                    url, 
-                    configs.get("fb_api_version")
-                ) for url in image_urls
+                    client, ALBUM_ID, url, configs.get("fb_api_version")
+                )
+                for url in image_urls
             ]
             results = await asyncio.gather(*tasks_upload)
-            
+
             return all(results)
     except Exception as e:
         logger.error(f"Erro ao repostar imagens no álbum: {str(e)}", exc_info=True)
         return False
 
+
 def repost_images_in_album(PHOTO_IDS, configs, frame_counter):
     try:
-        ALBUM_ID = configs.get("episodes", {}).get(frame_counter.get("current_episode"), {}).get("album_id")
+        ALBUM_ID = (
+            configs.get("episodes", {})
+            .get(frame_counter.get("current_episode"), {})
+            .get("album_id")
+        )
         ALBUM_ID = str(ALBUM_ID)
 
         if not ALBUM_ID or not ALBUM_ID.isdigit():
             print("Album ID not found in configs or is invalid")
             return False
 
-            
         result = asyncio.run(process_images(PHOTO_IDS, ALBUM_ID, configs))
         return result
     except Exception as e:
         logger.error(f"Erro ao repostar imagens no álbum: {str(e)}", exc_info=True)
         return False
-
-

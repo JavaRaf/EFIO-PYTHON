@@ -126,7 +126,7 @@ def main():
 
         update_fb_log(frame_counter, frames_posted, post_ids)
         update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted)
-        
+
 
 if __name__ == "__main__":
     main()
