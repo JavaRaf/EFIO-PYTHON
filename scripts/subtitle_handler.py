@@ -40,7 +40,7 @@ def extract_srt_subtitle(
     """Extrai o texto da legenda para um frame específico."""
     frame_timestamp = datetime(1900, 1, 1) + timedelta(
         seconds=frame_number
-        / load_configs().get("episodes")[episode_num - 1]["img_fps"]
+        / load_configs().get("episodes").get(episode_num).get("img_fps")
     )
 
     try:
@@ -111,7 +111,7 @@ def extract_ass_subtitle(
     """Extrai o texto da legenda para um frame específico."""
     frame_timestamp = datetime(1900, 1, 1) + timedelta(
         seconds=frame_number
-        / load_configs().get("episodes")[episode_num - 1]["img_fps"]
+        / load_configs().get("episodes").get(episode_num).get("img_fps")
     )
 
     try:
@@ -178,16 +178,15 @@ def get_frame_timestamp(episode_number: int, frame_number: int) -> str:
     """Retorna o timestamp de um frame."""
     try:
         configs = load_configs()
-        episodes = configs.get("episodes", [])
 
-        if episode_number - 1 >= len(episodes):
+        if configs.get("episodes", {}).get(episode_number) is None:
             raise ValueError(
                 f"Episódio {episode_number} não encontrado nas configurações."
             )
+        
+        img_fps = configs.get("episodes", {}).get(episode_number, {}).get("img_fps")
 
-        img_fps = episodes[episode_number - 1].get("img_fps")
-
-        if img_fps is None:
+        if not img_fps:
             raise ValueError(
                 f"img_fps não encontrado para o episódio {episode_number}."
             )

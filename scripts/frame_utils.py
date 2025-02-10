@@ -19,23 +19,29 @@ def build_frame_file_path(frame_number: int) -> tuple[Path, int, int]:
     Args:
         frame_number: Número do frame desejado
     Returns:
-        Path: Caminho do arquivo do frame
-        int: Número do episódio
+        tuple[Path, int, int]: (caminho do arquivo, número do episódio, total de quadros no episódio)
     """
 
-    episode_number = load_frame_counter()["current_episode"]
-    frame_path = frames_dir / f"{episode_number:02d}" / f"frame_{frame_number:04d}.jpg"
-    length_of_episode = frames_dir / f"{episode_number:02d}"
+    frame_counter = load_frame_counter()
+    episode_number = frame_counter.get("current_episode", None)
 
-    if not length_of_episode.exists():
+    if episode_number is None:
+        return None, None, None
+    
+    episode_dir = frames_dir / f"{episode_number:02d}"
+
+    if not episode_dir.exists():
         return None, None, None
 
-    episode_total_frames = len(list(length_of_episode.iterdir()))
+    frame_path = episode_dir / f"frame_{frame_number}.jpg"
 
     if not frame_path.exists():
-        frame_path = frames_dir / f"{episode_number:02d}" / f"frame_{frame_number}.jpg"
+        frame_path = episode_dir / f"frame_{frame_number:04d}.jpg"
 
-    return frame_path, episode_number, episode_total_frames
+    if not frame_path.exists():
+        return None, None, None
+
+    return frame_path, episode_number, get_total_episode_frames(episode_number)
 
 
 def random_crop_generator(frame_path: str, frame_number: int) -> tuple[str, str]:

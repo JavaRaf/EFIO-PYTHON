@@ -50,12 +50,13 @@ def handle_random_crop(frame_path, frame_number, post_id, configs):
         sleep(1)
 
 
-def update_bio_and_frame_counter(episode_number, frame_counter, configs, frames_posted):
+def update_bio_and_frame_counter(frame_counter, configs, frames_posted):
     """Atualiza a bio e o contador de frames"""
     frame_counter["frame_iterator"] += frames_posted
     frame_counter["total_frames_posted"] += frames_posted
+
     bio_message = format_message(
-        episode_number,
+        frame_counter.get("current_episode", None),
         frame_counter["frame_iterator"],
         configs.get("bio_message"),
         frame_counter,
@@ -64,8 +65,10 @@ def update_bio_and_frame_counter(episode_number, frame_counter, configs, frames_
     fb_update_bio(bio_message)
 
     try:
-        if frame_counter["frame_iterator"] >= get_total_episode_frames(episode_number):
-            if frame_counter["current_episode"] >= len(configs["episodes"]):
+        if frame_counter["frame_iterator"] >= get_total_episode_frames(
+            frame_counter["current_episode"]
+        ):
+            if not configs.get("episodes").get(frame_counter["current_episode"] + 1):
                 print("\n", "All episodes were posted!!!", flush=True)
             frame_counter["current_episode"] += 1
             frame_counter["frame_iterator"] = 0
@@ -85,19 +88,17 @@ def main():
         frame_path, episode_number, total_frames_in_episode_dir = build_frame_file_path(
             frame_number
         )
-        if frame_path is None or episode_number is None:
-            logger.error("Frame path or episode number not found")
+
+        if not episode_number or not total_frames_in_episode_dir:
+            logger.error(f"Episode not found in configs, check frame_counter.txt and frames folder")
             break
 
-        if frame_number > total_frames_in_episode_dir:
-            logger.error("Frame number exceeds total frames in episode directory")
+        if not total_frames_in_episode_dir:
+            print(f"All frames in this episode were posted", flush=True)
             break
 
-        if episode_number > len(configs.get("episodes")):
-            logger.error(
-                "Episode number exceeds total episodes\n \
-                Please check the episode number in configs.yaml"
-            )
+        if not frame_path.exists():
+            print(f"Frame not found, check if episdoe exists", flush=True)
             break
 
         post_id = post_frame(
@@ -111,9 +112,7 @@ def main():
         )  # adicione (* 60) para minutos
 
     if frames_posted > 0:
-        update_bio_and_frame_counter(
-            episode_number, frame_counter, configs, frames_posted
-        )
+        update_bio_and_frame_counter(frame_counter, configs, frames_posted)
 
 
 if __name__ == "__main__":
