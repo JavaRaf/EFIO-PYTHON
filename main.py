@@ -117,7 +117,7 @@ def main():
         handle_random_crop(frame_path, frame_number, post_id, configs)
         sleep(
             configs.get("posting").get("posting_interval")
-        )  # adicione (* 60) para minutos
+        )  # adicione (* 60) para transformar em minutos
 
     if number_of_frames_posted > 0:
         print("\n", "[")

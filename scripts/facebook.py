@@ -150,7 +150,7 @@ async def get_image_url(client, photo_id):
 
 async def upload_image_to_album(client, album_id, image_url, fb_api_version="v21.0"):
     try:
-        url = f"https://facebook.com/{fb_api_version}/{album_id}/photos"
+        url = f"https://graph.facebook.com/{fb_api_version}/{album_id}/photos"
         data = {
             "url": image_url,
             "access_token": os.getenv("FB_TOKEN"),

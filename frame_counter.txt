@@ -1,7 +1,7 @@
 season: 1
-current_episode: 5
+current_episode: 1
 # 
 # 
 # 
 frame_iterator: 0
-total_frames_posted: 13
+total_frames_posted: 0
