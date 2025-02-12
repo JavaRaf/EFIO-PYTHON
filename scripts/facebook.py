@@ -157,13 +157,14 @@ def get_image_url(post_id, api_version="v21.0"):
 def check_album_id(configs, frame_counter, fb_api_version) -> str:
     """
     check if album id is valid
-    """
+    """ 
     ALBUM_ID = (
         configs.get("episodes", {})
         .get(frame_counter.get("current_episode"), {})
         .get("album_id")
     )
     ALBUM_ID = str(ALBUM_ID)
+    
 
     if not ALBUM_ID or not ALBUM_ID.isdigit():
         logger.error("Your album id is invalid, check your configs", exc_info=True)
@@ -171,11 +172,13 @@ def check_album_id(configs, frame_counter, fb_api_version) -> str:
 
     try:
         response = httpx.get(
-            f"https://graph.facebook.com/{fb_api_version}/{ALBUM_ID}/photos",
+            f"https://graph.facebook.com/{fb_api_version}/{ALBUM_ID}",
             params={"access_token": os.getenv("FB_TOKEN")},
             timeout=15,
         )
         response.raise_for_status()
+        ALBUM_NAME = response.json().get("name")
+        
     except httpx.HTTPStatusError:
         logger.error(
             f"Failed to find album. Status code: {response.status_code}, message: {response.text}",
@@ -186,7 +189,7 @@ def check_album_id(configs, frame_counter, fb_api_version) -> str:
         logger.error(f"Unexpected error while finding album: {e}", exc_info=True)
         return None  # ou um valor padrão apropriado
 
-    return ALBUM_ID
+    return ALBUM_ID, ALBUM_NAME
 
 
 def repost_images_in_album(posts_data, configs, frame_counter):
@@ -196,7 +199,7 @@ def repost_images_in_album(posts_data, configs, frame_counter):
     fb_api_version = configs.get("fb_api_version", "v21.0")
 
     # Use the new function in repost_images_in_album
-    ALBUM_ID = check_album_id(configs, frame_counter, fb_api_version)
+    ALBUM_ID, ALBUM_NAME = check_album_id(configs, frame_counter, fb_api_version)
     if not ALBUM_ID:
         return None
 
@@ -224,7 +227,10 @@ def repost_images_in_album(posts_data, configs, frame_counter):
                     )
                     return None  # ou um valor padrão apropriado
                 else:
-                    print("\n", "\tImage has been reposted", flush=True)
+                    print(
+                        f"\t'{message} ' has been reposted in album '{ALBUM_NAME}' with id '{ALBUM_ID}'",
+                        flush=True
+                    )
 
     except httpx.HTTPStatusError as e:
         logger.error(f"Erro HTTP ao repostar imagens: {e}", exc_info=True)

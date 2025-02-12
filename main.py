@@ -78,9 +78,6 @@ def update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted
 
 
 
-
-
-
 def main():
     """Main function"""
     frame_counter = load_frame_counter()
@@ -122,10 +119,14 @@ def main():
         )  # adicione (* 60) para transformar em minutos
 
     if len(posts_data) > 0:
+
+        # repost images in album (Essa função deve ficar antes de update_bio_and_frame_counter)
+        repost_images_in_album(posts_data, configs, frame_counter) 
+
         update_fb_log(frame_counter, posts_data)
         update_bio_and_frame_counter(frame_counter, configs, len(posts_data))
 
-        repost_images_in_album(posts_data, configs, frame_counter)
+        
 
 
 if __name__ == "__main__":
