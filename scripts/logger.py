@@ -1,9 +1,7 @@
 import logging
 import os
 from scripts.paths import fb_log_path
-from scripts.logger import get_logger
 
-logger = get_logger(__name__)
 
 # Cria o diretório sys se não existir
 os.makedirs("sys", exist_ok=True)
@@ -16,11 +14,12 @@ logging.basicConfig(
     handlers=[logging.FileHandler("sys/Error.log"), logging.StreamHandler()],
 )
 
-
 # Função para obter o logger
 def get_logger(name):
     return logging.getLogger(name)
 
+
+logger = get_logger(__name__)
 
 def update_fb_log(frame_counter, posts_data):
     """Atualiza o arquivo de log do Facebook."""

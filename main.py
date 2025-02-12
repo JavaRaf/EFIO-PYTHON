@@ -28,7 +28,7 @@ def post_frame(episode_number, frame_number, frame_path, configs, frame_counter)
         f"\n├──Episode {episode_number} frame {frame_number} has been posted",
         flush=True,
     )
-    return post_id
+    return post_id, post_message
 
 
 def handle_subtitles(episode_number, frame_number, post_id, configs):
