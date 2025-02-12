@@ -1,6 +1,9 @@
 import logging
 import os
 from scripts.paths import fb_log_path
+from scripts.logger import get_logger
+
+logger = get_logger(__name__)
 
 # Cria o diretório sys se não existir
 os.makedirs("sys", exist_ok=True)
@@ -19,13 +22,25 @@ def get_logger(name):
     return logging.getLogger(name)
 
 
-def update_fb_log(frame_counter, frames, post_ids):
+def update_fb_log(frame_counter, posts_data):
     """Atualiza o arquivo de log do Facebook."""
-    season = frame_counter.get("season")
-    episode = frame_counter.get("current_episode")
 
-    with open(fb_log_path, "a", encoding="utf-8") as f:
-        for post_id, frame in zip(post_ids, frames):
-            f.write(
-                f"season: {season} episode: {episode} frame: {frame} https://graph.facebook.com/{post_id}\n"
-            )
+    try:
+        if not fb_log_path.exists():
+            fb_log_path.touch(exist_ok=True)
+
+        season = frame_counter.get("season")
+        episode = frame_counter.get("current_episode")
+
+        with open(fb_log_path, "a", encoding="utf-8") as f:
+            for post_id in posts_data:
+                post_id = post_id.get("post_id")
+                frame_number = post_id.get("frame_number")
+
+                f.write(
+                    f"season: {season}, episode: {episode}, frame: {frame_number} \
+                    https://facebook.com/{post_id}\n"
+                )
+    except Exception as e:
+        logger.error(f"Erro ao atualizar o log do Facebook: {e}", exc_info=True)
+        raise

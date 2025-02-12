@@ -81,9 +81,8 @@ def main():
     """Main function"""
     frame_counter = load_frame_counter()
     configs = load_configs()
-    post_ids = []
-    frames_posted = []
-    number_of_frames_posted = 0
+    posts_data = []
+
 
     for i in range(1, configs.get("posting").get("fph") + 1):
         frame_number = frame_counter.get("frame_iterator") + i
@@ -105,13 +104,11 @@ def main():
             print("Frame not found, check if episdoe exists", flush=True)
             break
 
-        post_id = post_frame(
+        post_id, post_message = post_frame(
             episode_number, frame_number, frame_path, configs, frame_counter
         )
 
-        post_ids.append(post_id)
-        frames_posted.append(frame_number)
-        number_of_frames_posted += 1
+        posts_data.append({"post_id": post_id, "message": post_message, "frame_number": frame_number})
 
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
@@ -119,13 +116,13 @@ def main():
             configs.get("posting").get("posting_interval")
         )  # adicione (* 60) para transformar em minutos
 
-    if number_of_frames_posted > 0:
+    if len(posts_data) > 0:
         print("\n", "[")
-        repost_images_in_album(post_ids, configs, frame_counter)
+        repost_images_in_album(posts_data, configs, frame_counter)
         print("\n", "]")
 
-        update_fb_log(frame_counter, frames_posted, post_ids)
-        update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted)
+        update_fb_log(frame_counter, posts_data)
+        update_bio_and_frame_counter(frame_counter, configs, len(posts_data))
 
 
 if __name__ == "__main__":
