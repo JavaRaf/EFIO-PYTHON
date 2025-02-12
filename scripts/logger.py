@@ -14,12 +14,14 @@ logging.basicConfig(
     handlers=[logging.FileHandler("sys/Error.log"), logging.StreamHandler()],
 )
 
+
 # Função para obter o logger
 def get_logger(name):
     return logging.getLogger(name)
 
 
 logger = get_logger(__name__)
+
 
 def update_fb_log(frame_counter, posts_data):
     """Atualiza o arquivo de log do Facebook."""

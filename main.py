@@ -83,7 +83,6 @@ def main():
     configs = load_configs()
     posts_data = []
 
-
     for i in range(1, configs.get("posting").get("fph") + 1):
         frame_number = frame_counter.get("frame_iterator") + i
         frame_path, episode_number, total_frames_in_episode_dir = build_frame_file_path(
@@ -108,7 +107,9 @@ def main():
             episode_number, frame_number, frame_path, configs, frame_counter
         )
 
-        posts_data.append({"post_id": post_id, "message": post_message, "frame_number": frame_number})
+        posts_data.append(
+            {"post_id": post_id, "message": post_message, "frame_number": frame_number}
+        )
 
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
@@ -121,7 +122,6 @@ def main():
         update_bio_and_frame_counter(frame_counter, configs, len(posts_data))
 
         repost_images_in_album(posts_data, configs, frame_counter)
-
 
 
 if __name__ == "__main__":
