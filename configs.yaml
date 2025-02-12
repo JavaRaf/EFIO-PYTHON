@@ -6,15 +6,15 @@ fb_api_version: "v21.0"                       # Versão da API do Facebook
 episodes:
   1:
     img_fps: 3.5                              # Taxa de frames por segundo usada para gerar os frames do vídeo
-    album_id: "552312297848199"               # ID do álbum no Facebook para este episódio
+    album_id: "553618837717545"               # ID do álbum no Facebook para este episódio
 
   2:
     img_fps: 3.5
-    album_id: "Your Album ID here"
+    album_id: "553619064384189"
 
   3:
     img_fps: 3.5
-    frames_album_id: "Your Album ID here"
+    frames_album_id: "553619207717508"
 
   4:
     img_fps: 3.5
