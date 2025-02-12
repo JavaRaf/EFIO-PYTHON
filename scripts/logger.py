@@ -32,14 +32,13 @@ def update_fb_log(frame_counter, posts_data):
         episode = frame_counter.get("current_episode")
 
         with open(fb_log_path, "a", encoding="utf-8") as f:
-            for post_id in posts_data:
-                post_id = post_id.get("post_id")
-                frame_number = post_id.get("frame_number")
+            for post in posts_data:
+                post_id = post.get("post_id")
+                frame_number = post.get("frame_number")
 
                 f.write(
-                    f"season: {season}, episode: {episode}, frame: {frame_number} \
-                    https://facebook.com/{post_id}\n"
+                    f"season: {season}, episode: {episode}, frame: {frame_number} https://facebook.com/{post_id}\n"
                 )
     except Exception as e:
         logger.error(f"Erro ao atualizar o log do Facebook: {e}", exc_info=True)
-        raise
+        return None

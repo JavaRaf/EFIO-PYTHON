@@ -133,7 +133,9 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
 
 
 def get_image_url(post_id, api_version="v21.0"):
-
+    """
+    Obtém a URL da imagem de um post.
+    """
     try:
         url = f"https://graph.facebook.com/{api_version}/{post_id}"
         data = {"fields": "images", "access_token": os.getenv("FB_TOKEN")}
@@ -152,18 +154,49 @@ def get_image_url(post_id, api_version="v21.0"):
         logger.error(f"Erro inesperado ao obter URL da imagem: {e}", exc_info=True)
         raise
 
-def repost_images_in_album(posts_data, configs, frame_counter):
-    try:
-
-        fb_api_version = configs.get('fb_api_version', 'v21.0')
-
+def check_album_id(configs, frame_counter, fb_api_version) -> str:
+        """
+        check if album id is valid
+        """
         ALBUM_ID = configs.get("episodes", {}).get(frame_counter.get("current_episode"), {}).get("album_id")
         ALBUM_ID = str(ALBUM_ID)
 
         if not ALBUM_ID or not ALBUM_ID.isdigit():
-            print("Album ID not found in configs or is invalid", flush=True)
-            return
+            logger.error("Your album id is invalid, check your configs", exc_info=True)
+            return None
 
+        try:
+            response = httpx.get(
+                f"https://graph.facebook.com/{fb_api_version}/{ALBUM_ID}/photos",
+                params={"access_token": os.getenv("FB_TOKEN")},
+                timeout=15,
+            )
+            response.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            logger.error(
+                f"Failed to find album. Status code: {response.status_code}, message: {response.text}",
+                exc_info=True,
+            )
+            return None  # ou um valor padrão apropriado
+        except Exception as e:
+            logger.error(f"Unexpected error while finding album: {e}", exc_info=True)
+            return None  # ou um valor padrão apropriado
+
+        return ALBUM_ID
+
+
+def repost_images_in_album(posts_data, configs, frame_counter):
+    """
+    Reposta imagens em um album.
+    """
+    fb_api_version = configs.get('fb_api_version', 'v21.0')
+
+    # Use the new function in repost_images_in_album
+    ALBUM_ID = check_album_id(configs, frame_counter, fb_api_version)
+    if not ALBUM_ID:
+        return None
+
+    try:
         for post in posts_data:
             post_id = post.get("post_id")
             message = post.get("message")
@@ -172,7 +205,6 @@ def repost_images_in_album(posts_data, configs, frame_counter):
             if all([post_id, message, image_url]):
                 response = httpx.post(
                     f"https://graph.facebook.com/{fb_api_version}/{ALBUM_ID}/photos",
-            
                     data={
                         "access_token": os.getenv("FB_TOKEN"),
                         "url": image_url,
@@ -186,12 +218,13 @@ def repost_images_in_album(posts_data, configs, frame_counter):
                         f"\tFalha ao postar no album. Status code: {response.status_code}, message: {response.text}",
                         exc_info=True,
                     )
-                    response.raise_for_status()
+                    return None  # ou um valor padrão apropriado
                 else:
                     print("\n", "\tImage has been reposted", flush=True)
+
     except httpx.HTTPStatusError as e:
         logger.error(f"Erro HTTP ao repostar imagens: {e}", exc_info=True)
-        raise
+        return None  # ou um valor padrão apropriado
     except Exception as e:
         logger.error(f"Erro inesperado ao repostar imagens: {e}", exc_info=True)
-        raise
+        return None  # ou um valor padrão apropriado

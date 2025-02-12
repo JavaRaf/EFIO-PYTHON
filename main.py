@@ -117,12 +117,11 @@ def main():
         )  # adicione (* 60) para transformar em minutos
 
     if len(posts_data) > 0:
-        print("\n", "[")
-        repost_images_in_album(posts_data, configs, frame_counter)
-        print("\n", "]")
-
         update_fb_log(frame_counter, posts_data)
         update_bio_and_frame_counter(frame_counter, configs, len(posts_data))
+
+        repost_images_in_album(posts_data, configs, frame_counter)
+
 
 
 if __name__ == "__main__":
