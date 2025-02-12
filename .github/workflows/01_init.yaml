@@ -27,12 +27,13 @@ jobs:
         with:
           python-version: "3.13"
 
+          
       - name: Check if episode is available
         run: |
-          current_episode=$(grep "^current_episode:" "frame_counter.txt" | cut -d ':' -f2 | tr -d ' ')
+          current_episode=$(grep '^current_episode:' frame_counter.yaml | awk '{print $2}')
 
           if [ -z "$current_episode" ]; then
-            echo "Error: current_episode not found or empty in frame_counter.txt"
+            echo "Error: current_episode not found or empty in frame_counter.yaml"
             exit 1
           fi
 
@@ -65,4 +66,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update"
-          file_pattern: "frame_counter.txt sys/Error.log"
+          file_pattern: "frame_counter.yaml sys/Error.log"

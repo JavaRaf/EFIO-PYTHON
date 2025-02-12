@@ -4,7 +4,7 @@ from scripts.frame_utils import (
     random_crop_generator,
     get_total_episode_frames,
 )
-from scripts.load_configs import load_configs, load_frame_counter, update_frame_counter
+from scripts.load_configs import load_configs, load_frame_counter, save_frame_counter
 from scripts.facebook import fb_posting, fb_update_bio, repost_images_in_album
 from scripts.logger import get_logger, update_fb_log
 from scripts.messages import format_message
@@ -72,9 +72,13 @@ def update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted
                 print("\n\n", "All episodes were posted!!!\n", flush=True)
             frame_counter["current_episode"] += 1
             frame_counter["frame_iterator"] = 0
-        update_frame_counter(frame_counter)
+        save_frame_counter(frame_counter)
     except Exception:
         logger.error("Error updating frame counter", exc_info=True)
+
+
+
+
 
 
 def main():
