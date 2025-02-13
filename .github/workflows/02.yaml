@@ -6,6 +6,9 @@ jobs:
     check-variables:
         runs-on: ubuntu-latest
 
+        env:
+          FB_TOKEN: ${{ secrets.FB_TOKEN }}
+
         steps:
             - name: Checkout
               uses: actions/checkout@v4.2.2
@@ -21,7 +24,5 @@ jobs:
                 pip install httpx
         
             - name: Run FB Token Check
-              env:
-                FB_TOKEN: ${{ secrets.FB_TOKEN }}
               run: |
                 python -m checkers.variable_checks
