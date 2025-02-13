@@ -130,7 +130,7 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
 
 # functions to repost images in album
 
-
+@with_retries(max_attempts=2, delay=2.0)
 def get_image_url(post_id, api_version="v21.0"):
     """
     Obtém a URL da imagem de um post.
@@ -153,21 +153,22 @@ def get_image_url(post_id, api_version="v21.0"):
         logger.error(f"Erro inesperado ao obter URL da imagem: {e}", exc_info=True)
         raise
 
-
+@with_retries(max_attempts=2, delay=2.0)
 def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
     """
     check if album id is valid
     """ 
-    ALBUM_ID = (
+    ALBUM_ID = str(
         configs.get("episodes", {})
         .get(frame_counter.get("current_episode"), {})
         .get("album_id")
     )
-    ALBUM_ID = str(ALBUM_ID)
     
-
-    if not ALBUM_ID or not ALBUM_ID.isdigit():
-        logger.error("Your album id is invalid, check your configs", exc_info=True)
+    if not ALBUM_ID:
+        return None, None
+    
+    if not ALBUM_ID.isdigit():
+        logger.error("Your is seted but it is not a valid album id", exc_info=True)
         return None, None
 
     try:
@@ -184,15 +185,15 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
             f"Failed to find album. Status code: {response.status_code}, message: {response.text}",
             exc_info=True,
         )
-        return None, None
+        raise
     except Exception as e:
         logger.error(f"Unexpected error while finding album: {e}", exc_info=True)
-        return None, None
+        raise
 
     return ALBUM_ID, ALBUM_NAME
 
-
-def repost_images_in_album(posts_data, configs, frame_counter):
+@with_retries(max_attempts=2, delay=2.0)
+def repost_images_in_album(posts_data, configs, frame_counter) -> None:
     """
     Reposta imagens em um album.
     """
@@ -202,7 +203,6 @@ def repost_images_in_album(posts_data, configs, frame_counter):
     ALBUM_ID, ALBUM_NAME = check_album_id(configs, frame_counter, fb_api_version)
     if not ALBUM_ID or not ALBUM_NAME:
         return None
-    
 
     try:
         for post in posts_data:
@@ -226,7 +226,7 @@ def repost_images_in_album(posts_data, configs, frame_counter):
                         f"\tFalha ao postar no album. Status code: {response.status_code}, message: {response.text}",
                         exc_info=True,
                     )
-                    return None  # ou um valor padrão apropriado
+                    response.raise_for_status()
                 else:
                     print(
                         f"\t'{message} ' has been reposted in album '{ALBUM_NAME}' with id '{ALBUM_ID}'",
@@ -235,7 +235,7 @@ def repost_images_in_album(posts_data, configs, frame_counter):
 
     except httpx.HTTPStatusError as e:
         logger.error(f"Erro HTTP ao repostar imagens: {e}", exc_info=True)
-        return None  # ou um valor padrão apropriado
+        raise
     except Exception as e:
         logger.error(f"Erro inesperado ao repostar imagens: {e}", exc_info=True)
-        return None  # ou um valor padrão apropriado
+        raise

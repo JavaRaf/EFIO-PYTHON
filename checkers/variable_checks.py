@@ -7,11 +7,11 @@ from scripts.load_configs import load_configs
 
 logger = get_logger(__name__)
 FB_PAGE_NAME = load_configs().get("your_page_name")
+SUMMARY_FILE = os.getenv("GITHUB_STEP_SUMMARY")
 
 def write_to_summary(content: str) -> None:
-    summary_file = os.getenv("GITHUB_STEP_SUMMARY")
-    if summary_file:
-        with open(summary_file, "a") as f:
+    if SUMMARY_FILE:
+        with open(SUMMARY_FILE, "a") as f:
             f.write(content + "\n")
 
 # Cabeçalho do relatório
@@ -21,15 +21,16 @@ write_to_summary('<div align="center">')
 write_to_summary("\n| Variável | Status |")
 write_to_summary("|----------|---------|")
 
+
 def format_success(text: str) -> str:
     return f"$\\fbox{{\\color{{#126329}}\\textsf{{✅  {text}}}}}$"  # LaTeX MathJax
 
 def format_error(text: str) -> str:
     return f"$\\fbox{{\\color{{#82061E}}\\textsf{{❌  {text}}}}}$"   # LaTeX MathJax
 
-
 def format_warning(text: str) -> str:
     return f"$\\fbox{{\\color{{#FFA500}}\\textsf{{⚠️  {text}}}}}$"  # LaTeX MathJax
+
 
 def create_table_row(key: str, status: str) -> None:
     write_to_summary(f"| `{key}` | {status} |")

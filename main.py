@@ -25,7 +25,7 @@ def post_frame(episode_number, frame_number, frame_path, configs, frame_counter)
     )
     post_id = fb_posting(post_message, frame_path)
     print(
-        f"\n├──Episode {episode_number} frame {frame_number} has been posted",
+        f"\n\n├──Episode {episode_number} frame {frame_number} has been posted",
         flush=True,
     )
     return post_id, post_message
