@@ -154,7 +154,7 @@ def get_image_url(post_id, api_version="v21.0"):
         raise
 
 
-def check_album_id(configs, frame_counter, fb_api_version) -> str:
+def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
     """
     check if album id is valid
     """ 
@@ -168,7 +168,7 @@ def check_album_id(configs, frame_counter, fb_api_version) -> str:
 
     if not ALBUM_ID or not ALBUM_ID.isdigit():
         logger.error("Your album id is invalid, check your configs", exc_info=True)
-        return None
+        return None, None
 
     try:
         response = httpx.get(
@@ -179,15 +179,15 @@ def check_album_id(configs, frame_counter, fb_api_version) -> str:
         response.raise_for_status()
         ALBUM_NAME = response.json().get("name")
         
-    except httpx.HTTPStatusError:
+    except httpx.HTTPStatusError as e:
         logger.error(
             f"Failed to find album. Status code: {response.status_code}, message: {response.text}",
             exc_info=True,
         )
-        return None  # ou um valor padrão apropriado
+        return None, None
     except Exception as e:
         logger.error(f"Unexpected error while finding album: {e}", exc_info=True)
-        return None  # ou um valor padrão apropriado
+        return None, None
 
     return ALBUM_ID, ALBUM_NAME
 
@@ -200,8 +200,9 @@ def repost_images_in_album(posts_data, configs, frame_counter):
 
     # Use the new function in repost_images_in_album
     ALBUM_ID, ALBUM_NAME = check_album_id(configs, frame_counter, fb_api_version)
-    if not ALBUM_ID:
+    if not ALBUM_ID or not ALBUM_NAME:
         return None
+    
 
     try:
         for post in posts_data:
