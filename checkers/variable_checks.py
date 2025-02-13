@@ -20,9 +20,9 @@ write_to_summary("|----------|-------|")
 
 def create_table(key: str, value: str, color: str) -> None:
     if color == "red":
-        write_to_summary(f"|{key} | <span style='color:red'>{value}</span>|")
+        write_to_summary(f"| {key} | <span style='color:red'>{value}</span> |")
     elif color == "green":
-        write_to_summary(f"|{key} | <span style='color:green'>{value}</span>|")
+        write_to_summary(f"| {key} | <span style='color:green'>{value}</span> |")
 
 def check_fb_token() -> None:
     """
