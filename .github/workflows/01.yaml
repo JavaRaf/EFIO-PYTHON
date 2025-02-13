@@ -29,6 +29,10 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: install ImageMagick
+        run: |
+          sudo apt-get install -y imagemagick
+
       - name: Is it already running?
         run: |
           RUN_ID=${{ github.run_id }}
