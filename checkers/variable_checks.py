@@ -22,10 +22,14 @@ write_to_summary("\n| Variável | Status |")
 write_to_summary("|----------|---------|")
 
 def format_success(text: str) -> str:
-    return f"$\\fbox{{\\color{{#126329}}\\textsf{{✔️ {text}}}}}$"  # LaTeX MathJax
+    return f"$\\fbox{{\\color{{#126329}}\\textsf{{✅  {text}}}}}$"  # LaTeX MathJax
 
 def format_error(text: str) -> str:
-    return f"$\\fbox{{\\color{{#82061E}}\\textsf{{⚠ {text}}}}}$"   # LaTeX MathJax
+    return f"$\\fbox{{\\color{{#82061E}}\\textsf{{❌  {text}}}}}$"   # LaTeX MathJax
+
+
+def format_warning(text: str) -> str:
+    return f"$\\fbox{{\\color{{#FFA500}}\\textsf{{⚠️  {text}}}}}$"  # LaTeX MathJax
 
 def create_table_row(key: str, status: str) -> None:
     write_to_summary(f"| `{key}` | {status} |")
