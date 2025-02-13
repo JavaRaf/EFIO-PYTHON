@@ -36,12 +36,13 @@ jobs:
       - name: Is it already running?
         run: |
           RUN_ID=${{ github.run_id }}
-          if gh run list --status=in_progress | grep $RUN_ID; then
+          RUN_COUNT=$(gh run list --status=in_progress | grep -c $RUN_ID)
+          if [ "$RUN_COUNT" -gt 1 ]; then
             echo "The workflow init banner is already running"
             echo "IS_RUNNING=true" >> $GITHUB_ENV
-            else
-              echo "IS_RUNNING=false" >> $GITHUB_ENV
-            fi
+          else
+            echo "IS_RUNNING=false" >> $GITHUB_ENV
+          fi
      
       - name: Check if episode is available
         run: |
