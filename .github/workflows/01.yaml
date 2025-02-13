@@ -35,8 +35,9 @@ jobs:
 
       - name: Is it already running?
         run: |
-          RUN_ID=${{ github.run_id }}
-          RUN_COUNT=$(gh run list --status=in_progress | grep -c $RUN_ID)
+          WORKFLOW_NAME="${{ github.workflow }}"
+          RUN_COUNT=$(gh run list --status=in_progress --json name | jq "[.[] | select(.name == \"$WORKFLOW_NAME\")] | length")
+        
           if [ "$RUN_COUNT" -gt 1 ]; then
             echo "The workflow init banner is already running"
             echo "IS_RUNNING=true" >> $GITHUB_ENV
