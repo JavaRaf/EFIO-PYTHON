@@ -1,12 +1,11 @@
 # Facebook Configuration
-your_page_name: "Your Page Name here!"        # Nome exato da sua página no Facebook
-fb_api_version: "v21.0"                       # Versão da API do Facebook
-
+your_page_name: "Todo Sabado a mesma imagem da Hotaru"        # Exact name of your Facebook page
+fb_api_version: "v21.0"                                       # Facebook API version
 
 episodes:
   1:
-    img_fps: 3.5                              # Taxa de frames por segundo usada para gerar os frames do vídeo
-    album_id: "553618837717545"               # ID do álbum no Facebook para este episódio
+    img_fps: 3.5                                              # Frame rate used to generate video frames
+    album_id: "553618837717545"                               # Facebook album ID for this episode
 
   2:
     img_fps: 3.5
@@ -20,23 +19,20 @@ episodes:
     img_fps: 3.5
     frames_album_id: "Your Album ID here"
 
-
 # Posting Configuration
 posting:
-  fph: 15                                  # Frames por hora
-  posting_interval: 2                      # intervalo entre postagens (em minutos)
-  posting_subtitles: true                  # Incluir legendas nos frames
-  multi_language_subtitles: false          # Incluir legendas em multiplos idiomas
+  fph: 15                                  # Frames per hour
+  posting_interval: 2                      # Interval between posts (in minutes)
+  posting_subtitles: true                  # Include subtitles in frames
+  multi_language_subtitles: false          # Include subtitles in multiple languages
 
-  random_crop:                             # Configurações de corte aleatório
+  random_crop:                             # Random crop settings
     enabled: true
-    min_x: 200                             # Largura mínima do corte
-    min_y: 600                             # Altura mínima do corte
+    min_x: 200                             # Minimum crop width
+    min_y: 600                             # Minimum crop height
 
-
-# timezone configuration
-timezone_offset: "-3"                      # Fuso horário (formato: string com sinal)
-
+# Timezone configuration
+timezone_offset: "-3"                      # Timezone offset (format: string with sign)
 
 # Message Templates
 post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
@@ -45,25 +41,23 @@ bio_message: |
   "Chopped {img_fps} FPS, Posting {fph} Frames every
   {execution_interval} hours. Total of {total_frames_posted} frames was successfully posted!!!"
 
-# Variáveis disponíveis para as mensagens templates:
-# - {season}              : Número da temporada atual
-# - {episode}             : Número do episódio atual
-# - {current_frame}       : Número do frame atual
-# - {total_frames}        : Total de frames do episódio
-# - {frame_timestamp}     : Timestamp do frame
-# - {fph}                 : Frames por intervalo
-# - {page_name}           : Nome da página
-# - {execution_interval}  : Intervalo entre postagens
-# - {total_frames_posted} : Total de frames já postados
+# Available variables for message templates:
+# - {season}              : Current season number
+# - {episode}             : Current episode number
+# - {current_frame}       : Current frame number
+# - {total_frames}        : Total frames in the episode
+# - {frame_timestamp}     : Frame timestamp
+# - {fph}                 : Frames per interval
+# - {page_name}           : Page name
+# - {execution_interval}  : Interval between posts
+# - {total_frames_posted} : Total frames posted
 
-# - {img_fps}             : Taxa de frames por segundo usada para gerar os frames do vídeo
-#                           Exemplo de comando ffmpeg para gerar frames:
+# - {img_fps}             : Frame rate used to generate video frames
+#                           Example ffmpeg command to generate frames:
 
 #                           ffmpeg -i "video.mkv" -vf "fps=2" -fps_mode vfr -q:v 3 frame_%00d.jpg
 
-#                           Onde:
-#                           - fps=2: define 2 frames por segundo 
-#                           - fps_mode vfr: modo de taxa variável de frames
-#                           - q:v 3: qualidade do JPEG (menor = melhor)
-
-
+#                           Where:
+#                           - fps=2: sets 2 frames per second 
+#                           - fps_mode vfr: variable frame rate mode
+#                           - q:v 3: JPEG quality (lower = better)
