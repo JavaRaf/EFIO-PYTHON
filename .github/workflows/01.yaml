@@ -37,7 +37,7 @@ jobs:
         run: |
           RUN_ID=${{ github.run_id }}
 
-          if gh run list --status=active | grep $RUN_ID; then
+          if gh run list --status=in_progress | grep $RUN_ID; then
             echo "Already running"
             exit 0
           fi
