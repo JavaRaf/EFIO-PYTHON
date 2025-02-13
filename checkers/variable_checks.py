@@ -1,5 +1,7 @@
 import os
+
 import httpx
+
 from scripts.logger import get_logger
 from scripts.load_configs import load_configs
 
@@ -20,10 +22,10 @@ write_to_summary("\n| Variável | Status |")
 write_to_summary("|----------|---------|")
 
 def format_success(text: str) -> str:
-    return f'<span style="color: green">✓ {text}</span>'
+    return f"$\\fbox{{\\color{{#126329}}\\textsf{{✔️ {text}}}}}$"  # LaTeX MathJax
 
 def format_error(text: str) -> str:
-    return f'<span style="color: red">⚠ {text}</span>'
+    return f"$\\fbox{{\\color{{#82061E}}\\textsf{{⚠ {text}}}}}$"   # LaTeX MathJax
 
 def create_table_row(key: str, status: str) -> None:
     write_to_summary(f"| `{key}` | {status} |")
