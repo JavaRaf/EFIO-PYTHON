@@ -36,11 +36,12 @@ jobs:
       - name: Is it already running?
         run: |
           RUN_ID=${{ github.run_id }}
-
           if gh run list --status=in_progress | grep $RUN_ID; then
-            echo "Already running"
-            exit 0
-          fi
+            echo "The workflow init banner is already running"
+            echo "IS_RUNNING=true" >> $GITHUB_ENV
+            else
+              echo "IS_RUNNING=false" >> $GITHUB_ENV
+            fi
      
       - name: Check if episode is available
         run: |
@@ -65,9 +66,13 @@ jobs:
           python -m pip install --upgrade pip 
           pip install -r requirements.txt
 
+      # checa se o processo está rodando, se true, não roda o main.py
       - name: Main
         run: |
-          python main.py
+          if [[ "$IS_RUNNING" == "false" ]]; then 
+            python main.py
+          fi
+          
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
