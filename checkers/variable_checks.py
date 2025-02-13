@@ -20,10 +20,10 @@ write_to_summary("\n| Variável | Status |")
 write_to_summary("|----------|---------|")
 
 def format_success(text: str) -> str:
-    return f'<span style="color: #126329">✓ {text}</span>'
+    return f'<span style="color: green">✓ {text}</span>'
 
 def format_error(text: str) -> str:
-    return f'<span style="color: #82061E">⚠ {text}</span>'
+    return f'<span style="color: red">⚠ {text}</span>'
 
 def create_table_row(key: str, status: str) -> None:
     write_to_summary(f"| `{key}` | {status} |")
