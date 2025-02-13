@@ -7,6 +7,10 @@ from scripts.load_configs import load_configs
 logger = get_logger(__name__)
 FB_PAGE_NAME = load_configs().get("your_page_name")
 
+# Define as cores
+COLOR_SUCCESS = "#126329"
+COLOR_ERROR = "#82061E"
+
 # Função para escrever no GITHUB_STEP_SUMMARY
 def write_to_summary(content: str) -> None:
     summary_file = os.getenv("GITHUB_STEP_SUMMARY")
@@ -20,9 +24,9 @@ write_to_summary("|----------|-------|")
 
 def create_table(key: str, value: str, color: str) -> None:
     if color == "red":
-        write_to_summary(f"| {key} | <span style='color:red'>{value}</span> |")
+        write_to_summary(f"| {key} | <span style='color:{COLOR_ERROR}'>{value}</span> |")
     elif color == "green":
-        write_to_summary(f"| {key} | <span style='color:green'>{value}</span> |")
+        write_to_summary(f"| {key} | <span style='color:{COLOR_SUCCESS}'>{value}</span> |")
 
 def check_fb_token() -> None:
     """
