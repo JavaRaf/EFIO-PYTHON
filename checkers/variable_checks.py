@@ -85,7 +85,7 @@ def check_frames() -> None:
         create_table_row("Frames", format_error("Nenhum frame encontrado"))
         return
 
-    create_table_row("Frames", format_success(f"{frames_count} frames encontrados"))
+    create_table_row(f"Frames: EP [{EPISODE_NUMBER:02}]", format_success(f"{frames_count} frames encontrados"))
 
 def check_subtitle() -> None:
     pass
