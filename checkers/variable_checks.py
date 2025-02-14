@@ -3,11 +3,18 @@ import os
 import httpx
 
 from scripts.logger import get_logger
-from scripts.load_configs import load_configs
+from scripts.load_configs import load_configs, load_frame_counter
+from scripts.paths import frames_dir
 
 logger = get_logger(__name__)
 
-FB_PAGE_NAME = load_configs().get("your_page_name")
+configs = load_configs()
+frame_counter = load_frame_counter()
+
+FB_PAGE_NAME = configs.get("your_page_name")
+SUBTITLE = configs.get("posting").get("posting_subtitles")
+EPISODE_NUMBER = frame_counter.get("current_episode")
+
 SUMMARY_FILE = os.getenv("GITHUB_STEP_SUMMARY")
 
 def write_to_summary(content: str) -> None:
@@ -32,10 +39,12 @@ def format_error(text: str) -> str:
 def format_warning(text: str) -> str:
     return f"$\\fbox{{\\color{{#FFA500}}\\textsf{{⚠️  {text}}}}}$"  # LaTeX MathJax
 
-
 def create_table_row(key: str, status: str) -> None:
     write_to_summary(f"| `{key}` | {status} |")
 
+
+
+# Verificação do token do Facebook
 def check_fb_token() -> None:
     fb_token = os.getenv("FB_TOKEN")
     if not fb_token:
@@ -62,6 +71,29 @@ def check_fb_token() -> None:
     except Exception as e:
         logger.error(f"Erro inesperado: {e}", exc_info=True)
         create_table_row("FB_TOKEN", format_error("Erro inesperado"))
+# Verificação do diretório de frames
+def check_frames() -> None:
+    episode_dir = frames_dir / f"{EPISODE_NUMBER:02}"
+    
+    if not episode_dir.exists():
+        create_table_row("Frames", format_error("Diretório de frames não encontrado"))
+        return
+    
+    frames_count = len(list(episode_dir.glob("*.jpg")))
+
+    if frames_count == 0:
+        create_table_row("Frames", format_error("Nenhum frame encontrado"))
+        return
+
+    create_table_row("Frames", format_success(f"{frames_count} frames encontrados"))
+
+def check_subtitle() -> None:
+    pass
+
+
+
 
 check_fb_token()
+check_frames()
+check_subtitle()
 write_to_summary("\n</div>")
