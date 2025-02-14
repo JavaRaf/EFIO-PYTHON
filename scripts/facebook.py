@@ -156,19 +156,17 @@ def get_image_url(post_id, api_version="v21.0"):
 @with_retries(max_attempts=2, delay=2.0)
 def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
     """
-    check if album id is valid
-    """ 
+    Verifica se o ID do álbum é válido.
+    """
     ALBUM_ID = str(
         configs.get("episodes", {})
         .get(frame_counter.get("current_episode"), {})
         .get("album_id")
     )
-    
-    if not ALBUM_ID:
-        return None, None
-    
-    if not ALBUM_ID.isdigit():
-        logger.error("Your is seted but it is not a valid album id", exc_info=True)
+
+    # um album id é valdio quando é um número inteiro presente no arquivo de configuração
+    # Essa verificção não gera erros pois album_id pode esta preenchido com uma descrição do álbum
+    if ALBUM_ID and not ALBUM_ID.isdigit():
         return None, None
 
     try:
@@ -182,12 +180,12 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
         
     except httpx.HTTPStatusError as e:
         logger.error(
-            f"Failed to find album. Status code: {response.status_code}, message: {response.text}",
+            f"Falha ao encontrar o álbum. Status code: {response.status_code}, message: {response.text}",
             exc_info=True,
         )
         raise
     except Exception as e:
-        logger.error(f"Unexpected error while finding album: {e}", exc_info=True)
+        logger.error(f"Erro inesperado ao encontrar o álbum: {e}", exc_info=True)
         raise
 
     return ALBUM_ID, ALBUM_NAME

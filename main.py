@@ -91,7 +91,7 @@ def main():
         )
 
         if not total_frames_in_episode_dir:
-            print("All frames in this episode were posted", flush=True)
+            print("\n\n", "All frames in this episode were posted", flush=True)
             break
 
         if not episode_number or not total_frames_in_episode_dir:
