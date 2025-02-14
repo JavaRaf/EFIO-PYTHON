@@ -1,2 +1,4 @@
 2025-02-13 18:39:38 - scripts.facebook - ERROR - Your album id is invalid, check your configs
 NoneType: None
+2025-02-14 01:36:28 - scripts.facebook - ERROR - Your is seted but it is not a valid album id
+NoneType: None
