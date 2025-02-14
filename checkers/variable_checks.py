@@ -6,6 +6,7 @@ from scripts.logger import get_logger
 from scripts.load_configs import load_configs
 
 logger = get_logger(__name__)
+
 FB_PAGE_NAME = load_configs().get("your_page_name")
 SUMMARY_FILE = os.getenv("GITHUB_STEP_SUMMARY")
 

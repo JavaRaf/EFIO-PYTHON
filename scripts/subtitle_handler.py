@@ -164,7 +164,7 @@ def get_subtitle_message(episode_num: int, frame_number: int) -> str:
                 )
 
             if subtitle_msg:
-                message += "Subtitle:" + subtitle_msg + "\n\n"
+                message += "Subtitle:\n" + subtitle_msg + "\n\n"
 
     else:
         subtitle_file = subtitle_dir / os.listdir(subtitle_dir)[0]
@@ -179,7 +179,7 @@ def get_subtitle_message(episode_num: int, frame_number: int) -> str:
             )
 
         if subtitle_msg:
-            message += "Subtitle:" + subtitle_msg + "\n\n"
+            message += "Subtitle:\n" + subtitle_msg + "\n\n"
 
     return message
 
