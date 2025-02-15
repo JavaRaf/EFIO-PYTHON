@@ -8,7 +8,9 @@ __pycache__/
 
 # arquivo de testes
 test.py
+test2.py
 teste.sh
+
 
 # arquivos temporários
 temp*.py

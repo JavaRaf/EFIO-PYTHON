@@ -30,29 +30,12 @@ jobs:
         with:
           python-version: "3.13"
       
-      # Cache APT packages
-      - name: Cache apt packages
-        id: apt-cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            /var/cache/apt/archives
-            /var/lib/apt/lists
-          key: ${{ runner.os }}-apt-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-
-
-      # instala o ImageMagick
-      - name: install ImageMagick
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y imagemagick
-        
       # checa se o workflow já está rodando, se sim, não roda o main.py
       - name: Is it already running?
         run: |
           WORKFLOW_NAME="${{ github.workflow }}"
-          RUN_COUNT=$(gh run list --status=in_progress --json name | jq "[.[] | select(.name == \"$WORKFLOW_NAME\")] | length")
+          RUN_COUNT=$(gh run list --status=in_progress --json name |
+            jq "[.[] | select(.name == \"$WORKFLOW_NAME\")] | length")
         
           if [ "$RUN_COUNT" -gt 1 ]; then
             echo "The workflow init banner is already running"
@@ -79,7 +62,17 @@ jobs:
             echo "No more episodes"
             exit 1
           fi
-      
+
+      # cache de dependencias
+      - name: Cache dependencies
+        uses: actions/cache@v4.2.0
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+
       # instala dependencias
       - name: Install dependencies
         run: |

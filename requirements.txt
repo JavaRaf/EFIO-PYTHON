@@ -3,3 +3,4 @@ langdetect==1.0.9
 Pillow==11.1.0
 PyYAML==6.0.2
 ruamel.yaml==0.18.10
+Pillow==11.1.0
