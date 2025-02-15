@@ -50,7 +50,7 @@ jobs:
           current_episode=$(grep '^current_episode:' frame_counter.yaml | awk '{print $2}')
 
           if [ -z "$current_episode" ]; then
-            echo " <p align="center">| The episode ${current_episode} is empty</p> |" >> $GITHUB_STEP_SUMMARY
+            echo " <p align="center">The episode ${current_episode} is empty</p>" >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
 
@@ -60,7 +60,7 @@ jobs:
 
           if [ ! -d "episodes/frames/$current_episode" ]; then
              >> $GITHUB_STEP_SUMMARY
-            echo "<p align="center">| The ${current_episode} episode is not available</p> |" >> $GITHUB_STEP_SUMMARY
+            echo "<p align="center">The episode ${current_episode} is not available</p>" >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
 
