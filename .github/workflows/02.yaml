@@ -34,6 +34,6 @@ jobs:
                 python -m pip install --upgrade pip 
                 pip install -r sys/requirements.txt
                 
-                    - name: Run FB Token Check
-                      run: |
-                        python -m checkers.variable_checks
+            - name: Run FB Token Check
+              run: |
+                python -m checkers.variable_checks
