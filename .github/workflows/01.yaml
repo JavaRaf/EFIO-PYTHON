@@ -30,19 +30,20 @@ jobs:
         with:
           python-version: "3.13"
       
-      # Cache ImageMagick
-      - name: Cache ImageMagick
-        id: cache-imagemagick
+      # Cache APT packages
+      - name: Cache apt packages
+        id: apt-cache
         uses: actions/cache@v3
         with:
-          path: /usr/local/bin/convert
-          key: ${{ runner.os }}-imagemagick-${{ hashFiles('**/requirements.txt') }}
+          path: |
+            /var/cache/apt/archives
+            /var/lib/apt/lists
+          key: ${{ runner.os }}-apt-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-imagemagick-
+            ${{ runner.os }}-apt-
 
       # instala o ImageMagick
       - name: install ImageMagick
-        if: steps.cache-imagemagick.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick
@@ -88,7 +89,7 @@ jobs:
       # So roda o main.py se o workflow não estiver rodando
       - name: Main
         run: |
-          if [[ "$IS_RUNNING" == "false" ]]; then 
+          if [[ "$IS_RUNNING" != "true" ]]; then 
             python main.py
           fi
           
