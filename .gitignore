@@ -1,17 +1,15 @@
-# Cache Python
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Arquivos de IDE
-.vscode/
-
-# arquivo de testes
-test.py
-test2.py
-teste.sh
+# Ignorar arquivos temporários do sistema
+*.tmp
+*.log
 
 
-# arquivos temporários
-temp*.py
-episodes/temp*.jpg
+# Ignorar diretórios específicos
+temp/
+logs/
+
+# Ignorar arquivos específicos
+
+*\temp_crop.jpg
+__pycache__
+z
+
