@@ -18,11 +18,22 @@ jobs:
               with:
                 python-version: "3.13"
 
+            # cache de dependencias
+            - name: Cache dependencies
+              uses: actions/cache@v4.2.0
+              with:
+                path: ~/.cache/pip
+                key: ${{ runner.os }}-pip-${{ hashFiles('sys/requirements.txt') }}
+                restore-keys: |
+                  ${{ runner.os }}-pip-
+                  ${{ runner.os }}-
+
+            # instala dependencias
             - name: Install dependencies
               run: |
                 python -m pip install --upgrade pip 
-                pip install -r requirements.txt 
-        
-            - name: Run FB Token Check
-              run: |
-                python -m checkers.variable_checks
+                pip install -r sys/requirements.txt
+                
+                    - name: Run FB Token Check
+                      run: |
+                        python -m checkers.variable_checks
