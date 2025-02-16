@@ -1,7 +1,7 @@
+from ruamel.yaml import YAML
+
 from scripts.logger import get_logger
 from scripts.paths import configs_path, frame_counter_path
-
-from ruamel.yaml import YAML
 
 logger = get_logger(__name__)
 

@@ -1,15 +1,15 @@
 from time import sleep
+
+from scripts.facebook import fb_posting, fb_update_bio, repost_images_in_album
 from scripts.frame_utils import (
     build_frame_file_path,
-    random_crop_generator,
     get_total_episode_frames,
+    random_crop_generator,
 )
 from scripts.load_configs import load_configs, load_frame_counter, save_frame_counter
-from scripts.facebook import fb_posting, fb_update_bio, repost_images_in_album
 from scripts.logger import get_logger, update_fb_log
 from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
-
 
 logger = get_logger(__name__)
 
@@ -77,7 +77,6 @@ def update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted
         logger.error("Error updating frame counter", exc_info=True)
 
 
-
 def main():
     """Main function"""
     frame_counter = load_frame_counter()
@@ -115,17 +114,16 @@ def main():
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
 
-        sleep(configs.get("posting").get("posting_interval") * 60)  # Sleep for the interval time (default 2 minutes)
+        sleep(
+            configs.get("posting").get("posting_interval") * 60
+        )  # Sleep for the interval time (default 2 minutes)
 
     if len(posts_data) > 0:
-
         # repost images in album (Essa função deve ficar antes de update_bio_and_frame_counter)
-        repost_images_in_album(posts_data, configs, frame_counter) 
+        repost_images_in_album(posts_data, configs, frame_counter)
 
         update_fb_log(frame_counter, posts_data)
         update_bio_and_frame_counter(frame_counter, configs, len(posts_data))
-
-        
 
 
 if __name__ == "__main__":

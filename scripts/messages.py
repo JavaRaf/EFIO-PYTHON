@@ -1,7 +1,7 @@
+from scripts.frame_utils import get_total_episode_frames
 from scripts.logger import get_logger
 from scripts.subtitle_handler import get_frame_timestamp
 from scripts.workflow_utils import get_workflow_execution_interval
-from scripts.frame_utils import get_total_episode_frames
 
 logger = get_logger(__name__)
 

@@ -1,6 +1,8 @@
-from PIL import Image
 import random
 from pathlib import Path
+
+from PIL import Image
+
 from scripts.load_configs import load_configs, load_frame_counter
 from scripts.logger import get_logger
 from scripts.paths import episodes_dir, frames_dir
@@ -51,7 +53,7 @@ def random_crop_generator(frame_path: str, frame_number: int) -> tuple[str, str]
     Returns:
         tuple[str, str]: (caminho do arquivo gerado, mensagem descritiva)
     """
-    
+
     min_x = load_configs().get("posting")["random_crop"].get("min_x")
     min_y = load_configs().get("posting")["random_crop"].get("min_y")
 
@@ -65,7 +67,9 @@ def random_crop_generator(frame_path: str, frame_number: int) -> tuple[str, str]
         crop_y = random.randint(0, image_height - crop_height)
 
         # Realizando o recorte
-        cropped_img = img.crop((crop_x, crop_y, crop_x + crop_width, crop_y + crop_height))
+        cropped_img = img.crop(
+            (crop_x, crop_y, crop_x + crop_width, crop_y + crop_height)
+        )
 
         # Caminho para salvar a imagem recortada
         output_crop_path = Path(episodes_dir) / "temp_crop.jpg"
@@ -73,7 +77,9 @@ def random_crop_generator(frame_path: str, frame_number: int) -> tuple[str, str]
         # Salvando a imagem recortada
         cropped_img.save(output_crop_path)
 
-        message = f"Random Crop. [{crop_width}x{crop_height} ~ X: {crop_x}, Y: {crop_y}]"
+        message = (
+            f"Random Crop. [{crop_width}x{crop_height} ~ X: {crop_x}, Y: {crop_y}]"
+        )
         return str(output_crop_path), message
 
 

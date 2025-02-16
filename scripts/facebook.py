@@ -130,6 +130,7 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
 
 # functions to repost images in album
 
+
 @with_retries(max_attempts=2, delay=2.0)
 def get_image_url(post_id, api_version="v21.0"):
     """
@@ -152,6 +153,7 @@ def get_image_url(post_id, api_version="v21.0"):
     except Exception as e:
         logger.error(f"Erro inesperado ao obter URL da imagem: {e}", exc_info=True)
         raise
+
 
 @with_retries(max_attempts=2, delay=2.0)
 def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
@@ -177,8 +179,8 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
         )
         response.raise_for_status()
         ALBUM_NAME = response.json().get("name")
-        
-    except httpx.HTTPStatusError as e:
+
+    except httpx.HTTPStatusError:
         logger.error(
             f"Falha ao encontrar o álbum. Status code: {response.status_code}, message: {response.text}",
             exc_info=True,
@@ -189,6 +191,7 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
         raise
 
     return ALBUM_ID, ALBUM_NAME
+
 
 @with_retries(max_attempts=2, delay=2.0)
 def repost_images_in_album(posts_data, configs, frame_counter) -> None:
@@ -228,7 +231,7 @@ def repost_images_in_album(posts_data, configs, frame_counter) -> None:
                 else:
                     print(
                         f"\t'{message} ' has been reposted in album '{ALBUM_NAME}' with id '{ALBUM_ID}'",
-                        flush=True
+                        flush=True,
                     )
 
     except httpx.HTTPStatusError as e:

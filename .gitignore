@@ -6,6 +6,7 @@
 # Ignorar diretórios específicos
 temp/
 logs/
+.ruff_cache
 
 # Ignorar arquivos específicos
 

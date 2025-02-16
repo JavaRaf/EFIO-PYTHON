@@ -5,9 +5,8 @@ from datetime import datetime, timedelta
 from langdetect import detect
 
 from scripts.load_configs import load_configs
-from scripts.paths import subtitles_dir
-
 from scripts.logger import get_logger
+from scripts.paths import subtitles_dir
 
 logger = get_logger(__name__)
 

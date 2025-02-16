@@ -1,7 +1,7 @@
 import logging
 import os
-from scripts.paths import fb_log_path
 
+from scripts.paths import fb_log_path
 
 # Cria o diretório sys se não existir
 os.makedirs("sys", exist_ok=True)
