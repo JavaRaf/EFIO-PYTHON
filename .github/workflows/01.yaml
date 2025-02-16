@@ -93,9 +93,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update"
-          file_pattern: |
-            frame_counter.yaml
-            sys/Error.log
-            fb/fb_log.txt
-
           push_options: --force

@@ -1,0 +1,380 @@
+[Script Info]
+Title: [Erai-raws] English (US)
+ScaledBorderAndShadow: yes
+
+ScriptType: v4.00+
+Collisions: Normal
+PlayResX: 640
+PlayResY: 360
+Timer: 0.0000
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,Strikeout,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
+Style: Signs,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,2,0,8,0010,0010,0018,1
+Style: Main,Trebuchet MS,24,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,0020,0020,0018,0
+Style: Main - Italics,Trebuchet MS,24,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,-1,0,0,100,100,0,0,1,2,2,2,0020,0020,0018,0
+Style: Main - Top,Trebuchet MS,24,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,8,0010,0010,0018,0
+Style: Main - Top + Italics,Trebuchet MS,24,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,-1,0,0,100,100,0,0,1,2,2,8,0010,0010,0018,0
+Style: Flashback,Trebuchet MS,24,&H00FFFFFF,&H000000FF,&H00400000,&H00400000,0,0,0,0,100,100,0,0,1,2,2,2,0010,0010,0018,1
+Style: Flashback - Italics,Trebuchet MS,24,&H00FFFFFF,&H000000FF,&H00400000,&H00400000,0,-1,0,0,100,100,0,0,1,2,2,2,0010,0010,0018,1
+Style: Flashback - Top,Trebuchet MS,24,&H00FFFFFF,&H000000FF,&H00400000,&H00400000,0,0,0,0,100,100,0,0,1,2,2,8,0010,0010,0018,1
+Style: Flashback - Top + Italics,Trebuchet MS,24,&H00FFFFFF,&H000000FF,&H00400000,&H00400000,0,0,0,0,100,100,0,0,1,2,2,8,0010,0010,0018,1
+
+[Events]
+Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
+Dialogue: 0,0:00:19.89,0:00:21.18,Main,,0000,0000,0000,,I made it!
+Dialogue: 0,0:01:59.03,0:02:03.91,Main,,0000,0000,0000,,{\an8\c&HFA5DD4&\3c&HC3008B&\shad0\fnArial\b1}Deer Meets Darkness Girl
+Dialogue: 0,0:02:10.17,0:02:16.42,Main,,0000,0000,0000,,{\i1}Introducing once more,\NKoshi Torako, former delinquent.{\i}
+Dialogue: 0,0:02:17.05,0:02:21.55,Main,,0000,0000,0000,,{\i1}Covering up her past upon joining high school,\Nshe climbed the ranks as an honor student{\i}
+Dialogue: 0,0:02:21.68,0:02:26.60,Main,,0000,0000,0000,,{\i1}and is now president of\Nthe student council, as well as class rep.{\i}
+Dialogue: 0,0:02:26.73,0:02:31.31,Main,,0000,0000,0000,,{\i1}However a transfer deer (?) named \NShikanoko Noko revealed her past,{\i}
+Dialogue: 0,0:02:31.44,0:02:33.36,Main,,0000,0000,0000,,{\i1}revealed that she was a virgin,{\i}
+Dialogue: 0,0:02:33.48,0:02:35.73,Main,,0000,0000,0000,,{\i1}and because she was a total pushover,{\i}
+Dialogue: 0,0:02:35.86,0:02:39.66,Main,,0000,0000,0000,,{\i1}she was duped into becoming\Nthe president of the mysterious Deer Club.{\i}
+Dialogue: 0,0:02:39.78,0:02:42.62,Main,,0000,0000,0000,,{\i1}And once again, she reluctantly\Nheads to the club.{\i}
+Dialogue: 0,0:02:43.16,0:02:45.54,Main,,0000,0000,0000,,Yay! It's time for Deer Club!
+Dialogue: 0,0:02:45.66,0:02:47.66,Main,,0000,0000,0000,,{\i1}Maybe she doesn't sound reluctant?{\i}
+Dialogue: 0,0:02:47.79,0:02:51.67,Main,,0000,0000,0000,,Well, it's not like I'm actually\Nlooking forward to going to the club.
+Dialogue: 0,0:02:51.79,0:02:53.42,Main,,0000,0000,0000,,{\i1}Oh? Then what is it?{\i}
+Dialogue: 0,0:02:53.54,0:02:57.13,Main,,0000,0000,0000,,When I gave the clubhouse\Na little makeover this morning,
+Dialogue: 0,0:02:57.26,0:02:59.80,Main,,0000,0000,0000,,it turned out so good!
+Dialogue: 0,0:02:59.93,0:03:04.30,Main,,0000,0000,0000,,But it's not like I'm {\i1}super excited{\i0}\Nfor club activities today
+Dialogue: 0,0:03:04.43,0:03:07.43,Main,,0000,0000,0000,,or anything like that.
+Dialogue: 0,0:03:07.56,0:03:08.43,Main,,0000,0000,0000,,{\i1}Is that so?{\i}
+Dialogue: 0,0:03:09.06,0:03:12.77,Main,,0000,0000,0000,,{\i1}It's the president's job to make\Nthe clubhouse a comfortable place.{\i}
+Dialogue: 0,0:03:12.90,0:03:14.69,Main,,0000,0000,0000,,{\i1}I can't wait to see how she reacts!{\i}
+Dialogue: 0,0:03:15.36,0:03:17.82,Main,,0000,0000,0000,,You're amazing, Koshitan!\NI was wrong about you!
+Dialogue: 0,0:03:17.94,0:03:18.94,Main,,0000,0000,0000,,Of course!
+Dialogue: 0,0:03:19.61,0:03:23.62,Main,,0000,0000,0000,,All that's left is the wallpaper... \NOh! And maybe I'll get a cabinet!
+Dialogue: 0,0:03:23.74,0:03:26.03,Main,,0000,0000,0000,,There's still so much to be done!
+Dialogue: 0,0:03:27.24,0:03:29.91,Main,,0000,0000,0000,,Just you wait! It'll be my own utopia!
+Dialogue: 0,0:03:36.63,0:03:38.26,Signs,,0000,0000,0000,,{\c&H0800CA&\3c&HE4E9E7&}I won't forgive you, Deer
+Dialogue: 0,0:03:41.05,0:03:43.26,Main,,0000,0000,0000,,{\i1}And thus, the utopia came to an end.{\i}
+Dialogue: 0,0:03:46.35,0:03:48.52,Main,,0000,0000,0000,,Kumagoro!
+Dialogue: 0,0:03:48.64,0:03:52.52,Main,,0000,0000,0000,,Wh-What is this? My utopia!
+Dialogue: 0,0:03:52.64,0:03:58.73,Main,,0000,0000,0000,,The utopia I spent my life savings on\Nand four hours of my morning!
+Dialogue: 0,0:03:59.44,0:04:01.53,Main,,0000,0000,0000,,{\i1}She woke up at 3 AM.{\i}
+Dialogue: 0,0:04:01.65,0:04:03.36,Main,,0000,0000,0000,,Are you okay, Koshitan?
+Dialogue: 0,0:04:04.99,0:04:07.83,Main,,0000,0000,0000,,It's dangerous there. Come over here.
+Dialogue: 0,0:04:07.95,0:04:10.08,Main,,0000,0000,0000,,You! Did you do this?!
+Dialogue: 0,0:04:10.20,0:04:13.92,Main,,0000,0000,0000,,Did you do this to my utopia?!
+Dialogue: 0,0:04:14.04,0:04:15.79,Main,,0000,0000,0000,,Hm? What are you talking about?
+Dialogue: 0,0:04:15.92,0:04:19.80,Main,,0000,0000,0000,,It was already like this when I got here.
+Dialogue: 0,0:04:20.96,0:04:22.59,Main,,0000,0000,0000,,Also, this room is dangerous.
+Dialogue: 0,0:04:23.68,0:04:24.59,Main,,0000,0000,0000,,What do you mean?
+Dialogue: 0,0:04:24.72,0:04:28.05,Main,,0000,0000,0000,,Someone's trying to kill me today.
+Dialogue: 0,0:04:28.60,0:04:29.81,Main,,0000,0000,0000,,Who? And why?
+Dialogue: 0,0:04:30.43,0:04:31.39,Main,,0000,0000,0000,,I don't know.
+Dialogue: 0,0:04:31.52,0:04:34.56,Main,,0000,0000,0000,,But it's probably the same person\Nwho trashed our room.
+Dialogue: 0,0:04:35.31,0:04:37.81,Main,,0000,0000,0000,,{\i1}I fell into a five-meter-deep pitfall\Non the way to school,{\i}
+Dialogue: 0,0:04:38.44,0:04:40.07,Main,,0000,0000,0000,,{\i1}spears came falling out of the sky,{\i}
+Dialogue: 0,0:04:40.19,0:04:43.07,Main,,0000,0000,0000,,{\i1}and there were plastic bottles\Nfilled with water everywhere.{\i}
+Dialogue: 0,0:04:43.70,0:04:46.62,Main,,0000,0000,0000,,How are you still alive?!\NDidn't a spear stab you in the head?!
+Dialogue: 0,0:04:46.74,0:04:51.12,Main,,0000,0000,0000,,And water bottles? Not even cats are\Nscared of those anymore!
+Dialogue: 0,0:04:51.24,0:04:53.62,Main,,0000,0000,0000,,And my antlers totally\Ngot stuck in the door, too!
+Dialogue: 0,0:04:54.29,0:04:56.12,Main,,0000,0000,0000,,You broke it again?!
+Dialogue: 0,0:04:56.25,0:04:58.67,Main,,0000,0000,0000,,Anyway! I'm telling you,\Nthis place is dangerous!
+Dialogue: 0,0:04:58.79,0:04:59.88,Main,,0000,0000,0000,,Now, calm down.
+Dialogue: 0,0:05:00.00,0:05:03.13,Main,,0000,0000,0000,,Just think about it.\NThere's no way someone's after you.
+Dialogue: 0,0:05:03.26,0:05:04.38,Main,,0000,0000,0000,,You think so?
+Dialogue: 0,0:05:04.51,0:05:05.43,Main,,0000,0000,0000,,Of course.
+Dialogue: 0,0:05:05.55,0:05:10.06,Main,,0000,0000,0000,,Let's just step outside,\Nget some fresh air and think calmly—
+Dialogue: 0,0:05:12.97,0:05:16.19,Main,,0000,0000,0000,,Hey, how could you step\Nout of cover so carelessly?
+Dialogue: 0,0:05:16.31,0:05:17.44,Main,,0000,0000,0000,,This is a battlefield!
+Dialogue: 0,0:05:17.56,0:05:18.44,Main,,0000,0000,0000,,Who are you?!
+Dialogue: 0,0:05:18.56,0:05:21.44,Main,,0000,0000,0000,,I thought I taught you that\Ncarelessness will get you killed!
+Dialogue: 0,0:05:21.57,0:05:24.95,Main,,0000,0000,0000,,You never taught me a damn thing!\NI was born in the Heisei era of peace!
+Dialogue: 0,0:05:25.07,0:05:28.20,Main,,0000,0000,0000,,But more importantly,\Nis someone seriously after you?
+Dialogue: 0,0:05:28.32,0:05:29.32,Main,,0000,0000,0000,,Looks like it.
+Dialogue: 0,0:05:29.95,0:05:31.70,Main,,0000,0000,0000,,Man, screw this! I'm leaving!
+Dialogue: 0,0:05:31.83,0:05:35.46,Main,,0000,0000,0000,,What?! You're going to abandon\Nyour teacher and run away?!
+Dialogue: 0,0:05:35.58,0:05:38.46,Main,,0000,0000,0000,,Shut up! Since when am I your student?
+Dialogue: 0,0:05:39.21,0:05:41.80,Main,,0000,0000,0000,,I'm done getting caught up\Nin all this annoying—
+Dialogue: 0,0:05:45.05,0:05:46.97,Main,,0000,0000,0000,,Koshitan, is your head all right?
+Dialogue: 0,0:05:47.09,0:05:48.01,Main,,0000,0000,0000,,{\i1}That's not an insult.{\i}
+Dialogue: 0,0:05:48.89,0:05:50.68,Main,,0000,0000,0000,,Who the hell are you?
+Dialogue: 0,0:05:50.80,0:05:54.39,Main,,0000,0000,0000,,Give me back my utopia!
+Dialogue: 0,0:05:54.52,0:05:55.77,Main,,0000,0000,0000,,{\i1}Now she's pissed.{\i}
+Dialogue: 0,0:05:55.89,0:05:57.89,Main,,0000,0000,0000,,You're going down!
+Dialogue: 0,0:05:58.02,0:06:01.27,Main,,0000,0000,0000,,I don't care if you're\N a soldier or an assassin.
+Dialogue: 0,0:06:01.86,0:06:04.03,Main,,0000,0000,0000,,Bring it on!
+Dialogue: 0,0:06:19.00,0:06:20.79,Main,,0000,0000,0000,,Crap! Grenade! Get down!
+Dialogue: 0,0:06:23.63,0:06:25.38,Main,,0000,0000,0000,,Deer crackers?!
+Dialogue: 0,0:06:26.17,0:06:27.47,Main,,0000,0000,0000,,Hey! It's a trap!
+Dialogue: 0,0:06:29.76,0:06:32.97,Main,,0000,0000,0000,,Wait, you moron! Wait, wait, wait!
+Dialogue: 0,0:06:33.10,0:06:34.72,Main,,0000,0000,0000,,What, Koshitan?!
+Dialogue: 0,0:06:34.85,0:06:37.52,Main,,0000,0000,0000,,Open your eyes! It's a trap!\NIt's the trap of all traps!
+Dialogue: 0,0:06:38.39,0:06:41.61,Main,,0000,0000,0000,,What kind of idiot drools\Nand walks right into a trap?!
+Dialogue: 0,0:06:42.36,0:06:43.94,Main,,0000,0000,0000,,- A trap...\N- Shikanoko?
+Dialogue: 0,0:06:45.11,0:06:48.24,Main,,0000,0000,0000,,Long, long ago, a deer was asked,
+Dialogue: 0,0:06:48.36,0:06:51.11,Main,,0000,0000,0000,,"Why do deer eat deer crackers?"
+Dialogue: 0,0:06:51.82,0:06:53.58,Main,,0000,0000,0000,,This is how they answered.
+Dialogue: 0,0:06:54.28,0:06:56.33,Main,,0000,0000,0000,,"Because there are\Ndeer crackers before me!"
+Dialogue: 0,0:07:07.76,0:07:09.59,Main,,0000,0000,0000,,Shikanoko!
+Dialogue: 0,0:07:09.72,0:07:11.38,Main,,0000,0000,0000,,{\i1}I'm sorry, Koshitan.{\i}
+Dialogue: 0,0:07:11.51,0:07:15.10,Main,,0000,0000,0000,,{\i1}But I love deer crackers\Nmore than anything in this world!{\i}
+Dialogue: 0,0:07:19.21,0:07:20.71,Main,,0000,0000,0000,,Yippee!
+Dialogue: 0,0:07:27.90,0:07:28.94,Main,,0000,0000,0000,,Well, I messed up.
+Dialogue: 0,0:07:29.07,0:07:31.11,Main,,0000,0000,0000,,I told you that this was a trap—
+Dialogue: 0,0:07:31.24,0:07:35.49,Main,,0000,0000,0000,,I lost a little speed at the end\Nand couldn't reach the deer crackers!
+Dialogue: 0,0:07:35.62,0:07:36.70,Main,,0000,0000,0000,,You're still on that?!
+Dialogue: 0,0:07:39.41,0:07:41.67,Main,,0000,0000,0000,,Hey! You over there trying to get me!
+Dialogue: 0,0:07:41.79,0:07:43.08,Main,,0000,0000,0000,,I know you can hear me!
+Dialogue: 0,0:07:43.21,0:07:46.34,Main,,0000,0000,0000,,My name is Nokotan! Show yourself!
+Dialogue: 0,0:07:46.46,0:07:49.51,Main,,0000,0000,0000,,I accept this fight fair and square!
+Dialogue: 0,0:07:49.63,0:07:51.68,Main,,0000,0000,0000,,Haven't you lost already?
+Dialogue: 0,0:07:51.80,0:07:53.47,Main,,0000,0000,0000,,{\i1}The deer's distant cry of defeat.{\i}
+Dialogue: 0,0:07:53.59,0:07:56.14,Main,,0000,0000,0000,,And bring me more deer crackers, please!
+Dialogue: 0,0:07:56.26,0:07:58.43,Main,,0000,0000,0000,,You're asking them for favors?
+Dialogue: 0,0:07:58.56,0:08:00.73,Main,,0000,0000,0000,,You're quite bold for a pest.
+Dialogue: 0,0:08:01.85,0:08:04.60,Main,,0000,0000,0000,,I planned to exterminate you earlier
+Dialogue: 0,0:08:04.73,0:08:06.98,Main,,0000,0000,0000,,but my calculations were all wrong.
+Dialogue: 0,0:08:07.11,0:08:09.61,Main,,0000,0000,0000,,A fight? I'll happily accept.
+Dialogue: 0,0:08:09.73,0:08:12.65,Main,,0000,0000,0000,,I'll send you on your way to hell.
+Dialogue: 0,0:08:12.78,0:08:13.78,Main,,0000,0000,0000,,{\i1}This girl...{\i}
+Dialogue: 0,0:08:13.91,0:08:17.37,Main,,0000,0000,0000,,{\i1}I've managed to survive countless battles{\i}
+Dialogue: 0,0:08:17.49,0:08:19.37,Main,,0000,0000,0000,,{\i1}but she was able to capture me with ease.{\i}
+Dialogue: 0,0:08:19.49,0:08:20.70,Main,,0000,0000,0000,,{\i1}She's on another level.{\i}
+Dialogue: 0,0:08:20.83,0:08:22.46,Main,,0000,0000,0000,,Who the hell are you?!
+Dialogue: 0,0:08:22.58,0:08:24.12,Main,,0000,0000,0000,,- Anko?\N- Anko?
+Dialogue: 0,0:08:24.25,0:08:26.84,Main,,0000,0000,0000,,What the hell are you doing here?
+Dialogue: 0,0:08:28.88,0:08:30.51,Main,,0000,0000,0000,,Onee-chan!
+Dialogue: 0,0:08:31.34,0:08:32.88,Main,,0000,0000,0000,,I missed you so much!
+Dialogue: 0,0:08:33.01,0:08:35.93,Main,,0000,0000,0000,,You missed me?\NYou see me at home every day.
+Dialogue: 0,0:08:36.05,0:08:40.64,Main,,0000,0000,0000,,I want to be with you 365 days a year,\N24 hours a day, every minute and second!
+Dialogue: 0,0:08:42.35,0:08:44.52,Main,,0000,0000,0000,,I can't get enough of your scent!
+Dialogue: 0,0:08:44.64,0:08:46.44,Main,,0000,0000,0000,,Cut it out, will you?
+Dialogue: 0,0:08:46.56,0:08:48.77,Main,,0000,0000,0000,,And why aren't you at school?
+Dialogue: 0,0:08:48.90,0:08:51.61,Main,,0000,0000,0000,,Even your angry face is so adorable! \NI wuv you so much!
+Dialogue: 0,0:08:51.74,0:08:52.90,Main,,0000,0000,0000,,Are you even listening?
+Dialogue: 0,0:08:53.53,0:08:55.03,Main,,0000,0000,0000,,Who's she, Koshitan?
+Dialogue: 0,0:08:55.16,0:08:58.16,Main,,0000,0000,0000,,My bad, this is Koshi Anko.
+Dialogue: 0,0:08:58.28,0:08:59.41,Main,,0000,0000,0000,,My little sister.
+Dialogue: 0,0:08:59.53,0:09:04.04,Main,,0000,0000,0000,,Koshi... Anko... Red bean... paste!
+Dialogue: 0,0:09:04.75,0:09:08.04,Main,,0000,0000,0000,,You're imagining something\Ndelicious, aren't you?
+Dialogue: 0,0:09:09.59,0:09:12.63,Main,,0000,0000,0000,,Don't stare at me like that, you vermin!
+Dialogue: 0,0:09:14.05,0:09:17.18,Main,,0000,0000,0000,,Shikanoko Noko. I cannot forgive you.
+Dialogue: 0,0:09:17.30,0:09:19.80,Main,,0000,0000,0000,,What's your deal with her?
+Dialogue: 0,0:09:20.43,0:09:23.31,Main,,0000,0000,0000,,Wait, did you do all this?
+Dialogue: 0,0:09:23.93,0:09:25.94,Main,,0000,0000,0000,,Yes. It was me.
+Dialogue: 0,0:09:26.06,0:09:27.44,Main,,0000,0000,0000,,Why would you...
+Dialogue: 0,0:09:27.56,0:09:30.94,Main,,0000,0000,0000,,It's all this deer's fault! All of it!
+Dialogue: 0,0:09:31.57,0:09:34.32,Main,,0000,0000,0000,,It's her fault you changed!
+Dialogue: 0,0:09:34.94,0:09:39.45,Main,,0000,0000,0000,,You used to come running home\Nto me after school.
+Dialogue: 0,0:09:39.57,0:09:42.58,Main,,0000,0000,0000,,To {\i1}you{\i0}? That's where we live as a family.
+Dialogue: 0,0:09:42.70,0:09:44.70,Main,,0000,0000,0000,,You've been coming home so late...
+Dialogue: 0,0:09:44.83,0:09:46.87,Main,,0000,0000,0000,,I'm always home by seven!
+Dialogue: 0,0:09:47.00,0:09:50.54,Main,,0000,0000,0000,,I followed you because I was curious \Nabout why you were out so late
+Dialogue: 0,0:09:50.67,0:09:53.13,Main,,0000,0000,0000,,and you were alone with\Nthat deer in your "club."
+Dialogue: 0,0:09:53.25,0:09:54.38,Main,,0000,0000,0000,,How obscene!
+Dialogue: 0,0:09:54.51,0:09:56.97,Main,,0000,0000,0000,,What's obscene is your damn way of thinking!
+Dialogue: 0,0:09:57.59,0:10:00.97,Main,,0000,0000,0000,,And you left early again this morning...
+Dialogue: 0,0:10:01.60,0:10:04.22,Main,,0000,0000,0000,,All you think about\Nis your little deer love nest!
+Dialogue: 0,0:10:04.35,0:10:09.60,Main,,0000,0000,0000,,That comfy couch, those cute rugs?!\NIs all of that necessary for a club room?
+Dialogue: 0,0:10:09.73,0:10:12.86,Main,,0000,0000,0000,,Obscene! What were you two\N planning on doing in there?!
+Dialogue: 0,0:10:12.98,0:10:14.57,Main,,0000,0000,0000,,W-Well...
+Dialogue: 0,0:10:14.69,0:10:17.82,Main,,0000,0000,0000,,{\i1}She wanted to retort, but couldn't admit\Nthat the setup was for herself.{\i}
+Dialogue: 0,0:10:17.95,0:10:19.95,Main,,0000,0000,0000,,You can't answer? Does that mean...
+Dialogue: 0,0:10:21.95,0:10:23.16,Main,,0000,0000,0000,,You slept together?
+Dialogue: 0,0:10:23.28,0:10:24.45,Main,,0000,0000,0000,,Of course not!
+Dialogue: 0,0:10:24.58,0:10:26.12,Main,,0000,0000,0000,,Are you mentally ill?
+Dialogue: 0,0:10:26.25,0:10:30.17,Main,,0000,0000,0000,,And what's with the kunai?!\NAre you Iga? Koga? A Hokage?
+Dialogue: 0,0:10:30.29,0:10:33.04,Main,,0000,0000,0000,,Hey, help me out here.
+Dialogue: 0,0:10:33.71,0:10:35.55,Main,,0000,0000,0000,,Koshitan is my girl!
+Dialogue: 0,0:10:35.67,0:10:36.80,Main,,0000,0000,0000,,That's not helping!
+Dialogue: 0,0:10:36.92,0:10:41.18,Main,,0000,0000,0000,,Why are you complicating things?\NThat's not what's going on here!
+Dialogue: 0,0:10:41.30,0:10:44.64,Main,,0000,0000,0000,,I don't know if you're chunky or smooth,\Nbut I will protect Koshitan!
+Dialogue: 0,0:10:44.76,0:10:47.18,Main,,0000,0000,0000,,You've done it now, you idiot!
+Dialogue: 0,0:10:47.31,0:10:50.48,Main,,0000,0000,0000,,I knew it! You took my\Nsister's virginity, didn't you?!
+Dialogue: 0,0:10:50.60,0:10:52.44,Main,,0000,0000,0000,,See?! I knew this would happen!
+Dialogue: 0,0:10:52.56,0:10:57.24,Main,,0000,0000,0000,,Do you know how hard I've been\Nprotecting my sister's virginity?!
+Dialogue: 0,0:10:57.36,0:10:59.45,Main,,0000,0000,0000,,I don't remember asking for that.
+Dialogue: 0,0:11:00.07,0:11:01.28,Main,,0000,0000,0000,,I won't forgive you...
+Dialogue: 0,0:11:01.41,0:11:03.95,Main,,0000,0000,0000,,The deer that took my sister from me
+Dialogue: 0,0:11:04.08,0:11:06.08,Main,,0000,0000,0000,,and my sister who crossed\Nthat line with a deer.
+Dialogue: 0,0:11:06.20,0:11:08.91,Main,,0000,0000,0000,,I haven't crossed any lines!\NNot even the Chuo Line!
+Dialogue: 0,0:11:06.20,0:11:09.02,Signs,,0000,0000,0000,,{\c&H000000&\2c&HFFFFFF&\3c&HFFFFFF&}Setting: Hino City
+Dialogue: 0,0:11:09.58,0:11:12.33,Main,,0000,0000,0000,,I belong by your side.
+Dialogue: 0,0:11:12.46,0:11:14.92,Main,,0000,0000,0000,,Anyone who stands in my way is my enemy.
+Dialogue: 0,0:11:15.55,0:11:18.42,Main,,0000,0000,0000,,That's why I decided to destroy it all.
+Dialogue: 0,0:11:19.01,0:11:19.80,Main,,0000,0000,0000,,Anko...
+Dialogue: 0,0:11:20.47,0:11:23.51,Main,,0000,0000,0000,,I thought that if I destroyed\Nthis ridiculous Deer Club of yours
+Dialogue: 0,0:11:23.64,0:11:28.18,Main,,0000,0000,0000,,and exterminated that vermin,\Nmy sister would come back home to me.
+Dialogue: 0,0:11:28.98,0:11:30.69,Main,,0000,0000,0000,,But I've changed my mind.
+Dialogue: 0,0:11:33.02,0:11:36.07,Main,,0000,0000,0000,,You mentioned something\Nabout fighting fair and square, right?
+Dialogue: 0,0:11:36.19,0:11:39.90,Main,,0000,0000,0000,,That sounds fun. I accept.
+Dialogue: 0,0:11:40.03,0:11:41.82,Main,,0000,0000,0000,,But if I win,
+Dialogue: 0,0:11:42.45,0:11:46.58,Main,,0000,0000,0000,,you'll spend the rest of your life\Nas a deer at Nara Park.
+Dialogue: 0,0:11:46.70,0:11:47.54,Main,,0000,0000,0000,,Nara?
+Dialogue: 0,0:11:48.16,0:11:52.50,Main,,0000,0000,0000,,If I lose, I will accept the festering\Nrelationship you have with my sister
+Dialogue: 0,0:11:52.62,0:11:54.46,Main,,0000,0000,0000,,and leave you alone.
+Dialogue: 0,0:11:54.58,0:11:56.29,Main,,0000,0000,0000,,You're gonna give people the wrong idea!
+Dialogue: 0,0:11:56.42,0:11:59.09,Main,,0000,0000,0000,,Pull yourself together, Anko.
+Dialogue: 0,0:11:59.21,0:12:02.68,Main,,0000,0000,0000,,This is ridiculous.\NThere's no point in fighting.
+Dialogue: 0,0:12:03.34,0:12:07.26,Main,,0000,0000,0000,,Why? It was the deer's idea.
+Dialogue: 0,0:12:07.39,0:12:09.89,Main,,0000,0000,0000,,That is true...
+Dialogue: 0,0:12:10.02,0:12:12.06,Main,,0000,0000,0000,,Fine. Let's fight.
+Dialogue: 0,0:12:13.31,0:12:15.77,Main,,0000,0000,0000,,Wait, are you serious?
+Dialogue: 0,0:12:15.90,0:12:20.15,Main,,0000,0000,0000,,If you become a Nara Park deer,\Nwhat will happen to the club?
+Dialogue: 0,0:12:20.28,0:12:21.90,Main,,0000,0000,0000,,Don't worry, Koshitan.
+Dialogue: 0,0:12:23.24,0:12:24.70,Main,,0000,0000,0000,,Trust me!
+Dialogue: 0,0:12:25.45,0:12:29.58,Main,,0000,0000,0000,,The Deer Club has a bond\Nharder than deer crackers!
+Dialogue: 0,0:12:29.70,0:12:31.41,Main,,0000,0000,0000,,Shikanoko...
+Dialogue: 0,0:12:32.33,0:12:33.96,Main,,0000,0000,0000,,What are you even talking about?!
+Dialogue: 0,0:12:34.08,0:12:36.75,Main,,0000,0000,0000,,Deer crackers aren't hard! They're flaky!
+Dialogue: 0,0:12:36.88,0:12:39.34,Main,,0000,0000,0000,,I have one condition, too.
+Dialogue: 0,0:12:39.46,0:12:40.26,Main,,0000,0000,0000,,What?
+Dialogue: 0,0:12:40.38,0:12:43.01,Main,,0000,0000,0000,,If I win the fight...
+Dialogue: 0,0:12:46.51,0:12:48.60,Main,,0000,0000,0000,,Give me tons of deer crackers.
+Dialogue: 0,0:12:48.72,0:12:49.89,Main,,0000,0000,0000,,Just go to Nara already!
+Dialogue: 0,0:12:50.01,0:12:52.81,Main,,0000,0000,0000,,{\i1}The Deer Club faces its first huge crisis!{\i}
+Dialogue: 0,0:12:52.93,0:12:55.52,Main,,0000,0000,0000,,{\i1}What will happen to the club? To Nokotan?{\i}
+Dialogue: 0,0:12:55.65,0:13:00.07,Main,,0000,0000,0000,,{\i1}The battle that will decide the fate of\NDeer Club and deer crackers begins now!{\i}
+Dialogue: 0,0:13:00.19,0:13:03.57,Main,,0000,0000,0000,,I'm deporting you to Nara Park immediately!
+Dialogue: 0,0:13:03.70,0:13:05.74,Main,,0000,0000,0000,,All the deer crackers I can eat...
+Dialogue: 0,0:13:06.49,0:13:08.41,Main,,0000,0000,0000,,Can I go home now?
+Dialogue: 0,0:13:08.53,0:13:11.91,Signs,,0000,0000,0000,,MIYAJIMA\NO-TORII
+Dialogue: 0,0:13:12.04,0:13:15.42,Signs,,0000,0000,0000,,MIYAJIMA\NITSUKUSHIMA SHRINE
+Dialogue: 0,0:13:15.52,0:13:20.52,Signs,,0000,0000,0000,,{\3c&H08E9F9&\c&H0000C4&}1st Hinominami High School\N{\c&H0FCA26&}Chitty Chitty {\c&HCB3E93&}King of Koshi Torako Competition!!
+Dialogue: 0,0:13:16.17,0:13:22.13,Main,,0000,0000,0000,,The first-ever Hinominami High School Chitty\NChitty King of Koshi Torako Competition!
+Dialogue: 0,0:13:22.92,0:13:25.68,Main,,0000,0000,0000,,Let's introduce our competitors!
+Dialogue: 0,0:13:25.80,0:13:27.05,Main,,0000,0000,0000,,What the hell is this?!
+Dialogue: 0,0:13:27.76,0:13:31.22,Main,,0000,0000,0000,,Koshi Torako's little sister\Nwith a fierce sister complex,
+Dialogue: 0,0:13:31.35,0:13:32.81,Main,,0000,0000,0000,,Koshi Anko-chan!
+Dialogue: 0,0:13:32.93,0:13:36.39,Main,,0000,0000,0000,,Does anything in this world even\Nmatter other than me and my sister?
+Dialogue: 0,0:13:36.52,0:13:38.06,Main,,0000,0000,0000,,No, really! What is this?!
+Dialogue: 0,0:13:38.19,0:13:41.07,Main,,0000,0000,0000,,The Deer Club's resident deer,\NShikanoko Noko-san!
+Dialogue: 0,0:13:41.19,0:13:43.32,Main,,0000,0000,0000,,I'll do it for the deer crackers!
+Dialogue: 0,0:13:43.44,0:13:44.94,Main,,0000,0000,0000,,Are any of you listening to me?!
+Dialogue: 0,0:13:45.07,0:13:49.41,Main,,0000,0000,0000,,How do you feel about\Nthe competitors, Koshi-san?
+Dialogue: 0,0:13:49.53,0:13:51.45,Main,,0000,0000,0000,,I... I'm so lost right now.
+Dialogue: 0,0:13:51.58,0:13:53.62,Main,,0000,0000,0000,,You sure sound excited!
+Dialogue: 0,0:13:53.75,0:13:55.46,Main,,0000,0000,0000,,Are my words reaching you at all?!
+Dialogue: 0,0:13:56.12,0:13:58.46,Main,,0000,0000,0000,,And today's grand prizes are...
+Dialogue: 0,0:13:58.58,0:14:03.21,Main,,0000,0000,0000,,For Anko-chan, the right to deport\NNokotan to Nara Park!
+Dialogue: 0,0:14:03.34,0:14:06.47,Main,,0000,0000,0000,,And for Nokotan,\Na 100-year supply of deer crackers!
+Dialogue: 0,0:14:06.59,0:14:08.26,Main,,0000,0000,0000,,Where did you even get all of these?
+Dialogue: 0,0:14:08.89,0:14:13.85,Main,,0000,0000,0000,,And your host will be me, Ukai,\Nthe advisor of the Deer Club!
+Dialogue: 0,0:14:13.97,0:14:15.39,Main,,0000,0000,0000,,Do teachers have nothing else to do?
+Dialogue: 0,0:14:16.02,0:14:18.14,Main,,0000,0000,0000,,All right! Let's get started!
+Dialogue: 0,0:14:18.27,0:14:20.40,Main,,0000,0000,0000,,You spent way too much money on this set.
+Dialogue: 0,0:14:21.02,0:14:23.57,Main,,0000,0000,0000,,Question one.\NWhat does Koshi-san do every—
+Dialogue: 0,0:14:24.44,0:14:27.53,Main,,0000,0000,0000,,What does Koshi-san do\Nevery night before bed?
+Dialogue: 0,0:14:28.20,0:14:33.03,Main,,0000,0000,0000,,She talks the plushies in her room\Nand gives them all a goodnight kiss.
+Dialogue: 0,0:14:33.16,0:14:34.08,Main,,0000,0000,0000,,Correct!
+Dialogue: 0,0:14:34.20,0:14:39.17,Main,,0000,0000,0000,,Stop! What kind of question is that?!\NWhy are you violating my privacy?!
+Dialogue: 0,0:14:39.29,0:14:40.54,Main,,0000,0000,0000,,Is that a bad thing?
+Dialogue: 0,0:14:40.67,0:14:42.54,Main,,0000,0000,0000,,Of course it is!
+Dialogue: 0,0:14:42.67,0:14:45.55,Main,,0000,0000,0000,,But it's making your fans\Nlove you even more!
+Dialogue: 0,0:14:46.26,0:14:49.26,Main,,0000,0000,0000,,- She likes plushies?\N- Adorable!
+Dialogue: 0,0:14:49.38,0:14:50.18,Main,,0000,0000,0000,,Fan for life!
+Dialogue: 0,0:14:50.30,0:14:52.43,Main,,0000,0000,0000,,That's not the issue here!
+Dialogue: 0,0:14:52.55,0:14:54.93,Main,,0000,0000,0000,,Here's a photo to prove it!
+Dialogue: 0,0:14:57.43,0:14:59.81,Main,,0000,0000,0000,,Privacy! My privacy!
+Dialogue: 0,0:14:59.94,0:15:02.06,Main,,0000,0000,0000,,Stop it with these questions!
+Dialogue: 0,0:15:02.19,0:15:04.57,Main,,0000,0000,0000,,- On to the second question!\N- You're ignoring me?!
+Dialogue: 0,0:15:05.32,0:15:06.98,Main,,0000,0000,0000,,Is Koshi-san currently—
+Dialogue: 0,0:15:07.09,0:15:07.59,Main,,0000,0000,0000,,Tch!
+Dialogue: 0,0:15:08.24,0:15:11.57,Main,,0000,0000,0000,,Nokotan was quicker this time! \NYour answer, please!
+Dialogue: 0,0:15:11.70,0:15:14.20,Main,,0000,0000,0000,,Is Koshitan currently without a bra?
+Dialogue: 0,0:15:14.33,0:15:17.70,Main,,0000,0000,0000,,The answer is she's wearing\Na bra top, therefore, without a bra.
+Dialogue: 0,0:15:17.83,0:15:19.25,Main,,0000,0000,0000,,Again, what are these questions?!
+Dialogue: 0,0:15:24.25,0:15:25.21,Main,,0000,0000,0000,,Correct!
+Dialogue: 0,0:15:25.34,0:15:28.30,Main,,0000,0000,0000,,Y-You can't prove that without looking!
+Dialogue: 0,0:15:28.42,0:15:30.09,Main,,0000,0000,0000,,{\i1}Schrödinger's bra.{\i}
+Dialogue: 0,0:15:30.22,0:15:32.09,Main,,0000,0000,0000,,Let's take a look at the footage!
+Dialogue: 0,0:15:35.81,0:15:41.31,Main,,0000,0000,0000,,Stop! Stop! Stop! \NSeriously! Why do you have this footage?!
+Dialogue: 0,0:15:41.44,0:15:42.31,Main,,0000,0000,0000,,Question three!
+Dialogue: 0,0:15:42.44,0:15:43.90,Main,,0000,0000,0000,,Can I go home now?!
+Dialogue: 0,0:15:44.52,0:15:46.44,Main,,0000,0000,0000,,Koshi-san has da—
+Dialogue: 0,0:15:47.02,0:15:51.49,Main,,0000,0000,0000,,Koshi-san has dated\Nhow many boys or girls in total?
+Dialogue: 0,0:15:51.61,0:15:53.11,Main,,0000,0000,0000,,The answer is zero!
+Dialogue: 0,0:15:53.24,0:15:55.32,Main,,0000,0000,0000,,Uh, I might have dated someone!
+Dialogue: 0,0:15:55.45,0:15:56.28,Main,,0000,0000,0000,,{\i1}She hasn't.{\i}
+Dialogue: 0,0:15:58.08,0:15:59.66,Main,,0000,0000,0000,,Sorry, incorrect!
+Dialogue: 0,0:16:00.54,0:16:05.96,Main,,0000,0000,0000,,Koshi-san has dated\Nzero boys or girls in total,
+Dialogue: 0,0:16:06.09,0:16:08.00,Main,,0000,0000,0000,,but what is the reason for this?
+Dialogue: 0,0:16:08.13,0:16:10.63,Main,,0000,0000,0000,,Please answer in sixty characters or less.
+Dialogue: 0,0:16:10.76,0:16:13.18,Main,,0000,0000,0000,,Do you really need to dig that deep?!
+Dialogue: 0,0:16:14.97,0:16:16.97,Main,,0000,0000,0000,,The answer please, Anko-chan!
+Dialogue: 0,0:16:17.10,0:16:22.96,Signs,,0000,0000,0000,,{\c&H000000&\3c&HFFFFFF&}Anko
+Dialogue: 0,0:16:18.26,0:16:29.48,Main,,0000,0000,0000,,Others dated as she waited for\Nher first love due to shojo manga brain rot.
+Dialogue: 0,0:16:29.61,0:16:31.11,Main,,0000,0000,0000,,{\i1}Exactly sixty characters.{\i}
+Dialogue: 0,0:16:32.82,0:16:33.61,Main,,0000,0000,0000,,Correct!
+Dialogue: 0,0:16:33.74,0:16:35.70,Main,,0000,0000,0000,,Stop analyzing me!
+Dialogue: 0,0:16:35.82,0:16:37.83,Main,,0000,0000,0000,,{\i1}Her favorite manga magazine\Nis {\i0}Bessatsu Friend{\i1}.{\i}
+Dialogue: 0,0:16:38.58,0:16:39.70,Main,,0000,0000,0000,,Question four!
+Dialogue: 0,0:16:40.24,0:16:44.00,Main,,0000,0000,0000,,What is Koshi-san's childhood secret?
+Dialogue: 0,0:16:44.12,0:16:46.46,Main,,0000,0000,0000,,She wet the bed until she was ten.
+Dialogue: 0,0:16:46.58,0:16:47.50,Main,,0000,0000,0000,,Correct!
+Dialogue: 0,0:16:47.63,0:16:49.00,Main,,0000,0000,0000,,Don't say that!
+Dialogue: 0,0:16:49.13,0:16:51.71,Main,,0000,0000,0000,,What is something that Koshi-san\Nsurprisingly likes?
+Dialogue: 0,0:16:51.84,0:16:54.13,Main,,0000,0000,0000,,- She likes kids' anime.\N- Correct!
+Dialogue: 0,0:16:54.26,0:16:56.72,Main,,0000,0000,0000,,Why is that surprising? Who cares?
+Dialogue: 0,0:16:57.26,0:16:59.14,Main,,0000,0000,0000,,Question five! What is Koshi-san's—
+Dialogue: 0,0:16:59.26,0:17:01.47,Main,,0000,0000,0000,,- Egg on rice!\N- Correct!
+Dialogue: 0,0:17:01.60,0:17:04.19,Main,,0000,0000,0000,,How were you able to answer that?!
+Dialogue: 0,0:17:09.98,0:17:11.69,Main,,0000,0000,0000,,What's happened here?
+Dialogue: 0,0:17:11.82,0:17:14.45,Main,,0000,0000,0000,,The contestants are locked in a tie!
+Dialogue: 0,0:17:15.82,0:17:18.82,Main,,0000,0000,0000,,How much longer are they going to\Nviolate my privacy?
+Dialogue: 0,0:17:21.20,0:17:22.66,Main,,0000,0000,0000,,Something isn't right!
+Dialogue: 0,0:17:23.41,0:17:26.54,Main,,0000,0000,0000,,Why does this freaky deer\Nknow so much about my sister?
+Dialogue: 0,0:17:26.67,0:17:28.96,Main,,0000,0000,0000,,There must be something going on!
+Dialogue: 0,0:17:29.09,0:17:34.84,Main,,0000,0000,0000,,I know! She's connected to the all-deer\N network, Shika Shika Network (SSN)!
+Dialogue: 0,0:17:34.97,0:17:39.05,Main,,0000,0000,0000,,It's collecting my sister's data, \Nsending it to the supercomputer Shikagaku
+Dialogue: 0,0:17:39.18,0:17:41.39,Main,,0000,0000,0000,,to be analyzed and\Ntransmitted to her antlers!
+Dialogue: 0,0:17:42.01,0:17:44.14,Main,,0000,0000,0000,,Now, I'll have to show you my true power!
+Dialogue: 0,0:17:49.40,0:17:53.23,Main,,0000,0000,0000,,You've let your guard down.\NI have plenty more traps left!
+Dialogue: 0,0:17:53.36,0:17:56.11,Main,,0000,0000,0000,,{\i1}Doesn't this make\Nthe quiz completely pointless?{\i}
+Dialogue: 0,0:17:56.24,0:17:59.28,Main,,0000,0000,0000,,{\i1}Koshitan's privacy\Nwas violated for nothing.{\i}
+Dialogue: 0,0:17:59.91,0:18:04.58,Main,,0000,0000,0000,,I'll make Shish Kebab out of you\Nbefore I send you to Nara Park!
+Dialogue: 0,0:18:08.00,0:18:09.42,Main,,0000,0000,0000,,You can dodge them?!
+Dialogue: 0,0:18:10.04,0:18:11.67,Main,,0000,0000,0000,,What is up with this deer?
+Dialogue: 0,0:18:11.79,0:18:13.46,Main,,0000,0000,0000,,Take my knives like an adult!
+Dialogue: 0,0:18:13.59,0:18:15.26,Main,,0000,0000,0000,,Take this! And this!
+Dialogue: 0,0:18:15.97,0:18:20.01,Main,,0000,0000,0000,,{\i1}I'm tired. No one's looking.\NMaybe I'll just leave.{\i}
+Dialogue: 0,0:18:20.14,0:18:21.60,Main,,0000,0000,0000,,You vermin!
+Dialogue: 0,0:18:24.56,0:18:25.56,Main,,0000,0000,0000,,Onee-chan!
+Dialogue: 0,0:18:39.86,0:18:41.24,Main,,0000,0000,0000,,Shikanoko!
+Dialogue: 0,0:18:41.37,0:18:43.12,Main,,0000,0000,0000,,Hey, Shikanoko!
+Dialogue: 0,0:18:45.45,0:18:49.62,Main,,0000,0000,0000,,Koshitan... I'm getting really sleepy...
+Dialogue: 0,0:18:49.75,0:18:53.46,Main,,0000,0000,0000,,What are you saying?!\NStay with me, Shikanoko!
+Dialogue: 0,0:18:53.59,0:18:56.96,Main,,0000,0000,0000,,Open your eyes, Shikanoko! Shikanoko!
+Dialogue: 0,0:18:58.84,0:19:00.34,Main,,0000,0000,0000,,Why?
+Dialogue: 0,0:19:00.47,0:19:04.10,Main,,0000,0000,0000,,Following me around,\Nmaking me join your club...
+Dialogue: 0,0:19:04.22,0:19:06.35,Main,,0000,0000,0000,,Getting us into this mess...
+Dialogue: 0,0:19:07.18,0:19:08.73,Main,,0000,0000,0000,,How dare you...
+Dialogue: 0,0:19:08.85,0:19:13.61,Main,,0000,0000,0000,,How dare you just leave me like this?!
+Dialogue: 0,0:20:01.95,0:20:03.03,Main,,0000,0000,0000,,Notsu!
+Dialogue: 0,0:20:09.75,0:20:11.46,Main,,0000,0000,0000,,Shikanoko, you're alive!
+Dialogue: 0,0:20:15.63,0:20:19.46,Main,,0000,0000,0000,,I'm glad you're alive, but how?
+Dialogue: 0,0:20:23.01,0:20:24.01,Main,,0000,0000,0000,,Earlier...
+Dialogue: 0,0:20:30.56,0:20:33.60,Main,,0000,0000,0000,,It looks like the crackers protected me.
+Dialogue: 0,0:20:33.73,0:20:35.23,Main,,0000,0000,0000,,What is this, an old movie?
+Dialogue: 0,0:20:35.35,0:20:38.52,Main,,0000,0000,0000,,Deer crackers aren't even hard,\Nthey're flaky!
+Dialogue: 0,0:20:39.98,0:20:41.07,Main,,0000,0000,0000,,Shikanoko.
+Dialogue: 0,0:20:42.70,0:20:45.45,Main,,0000,0000,0000,,Thank you for saving my sister.
+Dialogue: 0,0:20:45.57,0:20:47.32,Main,,0000,0000,0000,,This was my loss.
+Dialogue: 0,0:20:48.20,0:20:51.20,Main,,0000,0000,0000,,I was so foolishly blinded\Nby hate and anger,
+Dialogue: 0,0:20:51.33,0:20:53.66,Main,,0000,0000,0000,,I almost hurt my own sister.
+Dialogue: 0,0:20:53.79,0:20:56.00,Main,,0000,0000,0000,,I've failed as a little sister!
+Dialogue: 0,0:20:56.13,0:20:58.71,Main,,0000,0000,0000,,You're the one who should be by her si—
+Dialogue: 0,0:20:58.84,0:21:00.17,Main,,0000,0000,0000,,That's not true.
+Dialogue: 0,0:21:01.34,0:21:02.59,Main,,0000,0000,0000,,It's not true.
+Dialogue: 0,0:21:03.17,0:21:05.13,Main,,0000,0000,0000,,It was you, no...
+Dialogue: 0,0:21:05.26,0:21:09.68,Main,,0000,0000,0000,,Koshian, I was able to save your sister\Nthanks to the deer crackers you gave me.
+Dialogue: 0,0:21:10.22,0:21:11.89,Main,,0000,0000,0000,,You saved her life!
+Dialogue: 0,0:21:13.35,0:21:15.94,Main,,0000,0000,0000,,I think we can be good friends!
+Dialogue: 0,0:21:18.73,0:21:21.15,Main,,0000,0000,0000,,Can I call you Nokotan?
+Dialogue: 0,0:21:23.32,0:21:24.61,Main,,0000,0000,0000,,Of course!
+Dialogue: 0,0:21:25.36,0:21:29.12,Main,,0000,0000,0000,,Take care of my sister, okay, Nokotan?
+Dialogue: 0,0:21:29.24,0:21:30.62,Main,,0000,0000,0000,,Leave it to me, Koshian.
+Dialogue: 0,0:21:39.92,0:21:44.38,Main,,0000,0000,0000,,Nokotan! Koshian!
+Dialogue: 0,0:21:44.51,0:21:46.63,Main,,0000,0000,0000,,How lovely!
+Dialogue: 0,0:21:47.64,0:21:53.52,Main,,0000,0000,0000,,{\i1}In the end, Koshitan still had no idea\Nwhat was going on.{\i}
+Dialogue: 0,0:21:54.14,0:21:59.15,Main,,0000,0000,0000,,{\i1}Starting tomorrow,\NI'm going to wear a bra every day.{\i}
+Dialogue: 0,0:21:59.94,0:22:01.65,Signs,,0000,0000,0000,,The next day
+Dialogue: 0,0:22:02.40,0:22:03.53,Main,,0000,0000,0000,,It's white today!
+Dialogue: 0,0:22:03.65,0:22:04.90,Main,,0000,0000,0000,,X-ray vision?!
+
