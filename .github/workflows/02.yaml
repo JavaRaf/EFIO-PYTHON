@@ -1,6 +1,12 @@
 name: check variables
 
-on: [push]
+on:
+  push:
+    paths:
+      - "episodes/**"
+      - "frame_counter.yaml"
+      - "configs.yaml"
+
 
 jobs:
     check-variables:
