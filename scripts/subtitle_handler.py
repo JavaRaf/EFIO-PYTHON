@@ -130,7 +130,7 @@ def extract_ass_subtitle(
                 start_time = datetime.strptime(parts[1], "%H:%M:%S.%f")
                 end_time = datetime.strptime(parts[2], "%H:%M:%S.%f")
 
-                if start_time >= frame_timestamp and end_time <= end_time:
+                if start_time <= frame_timestamp <= end_time:
                     dialogue = remove_tags(dialogue.split(",,")[-1])
                     subtitle = f"[{language_name}] - {dialogue}"
 
