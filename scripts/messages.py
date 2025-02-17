@@ -1,6 +1,6 @@
 from scripts.frame_utils import get_total_episode_frames
 from scripts.logger import get_logger
-from scripts.subtitle_handler import get_frame_timestamp
+from scripts.subtitle_handler import frame_to_timestamp
 from scripts.workflow_utils import get_workflow_execution_interval
 
 logger = get_logger(__name__)
@@ -44,7 +44,7 @@ def format_message(
             "episode": frame_counter.get("current_episode", "N/A"),
             "current_frame": frame_number,
             "episode_total_frames": get_total_episode_frames(episode_number),
-            "frame_timestamp": get_frame_timestamp(
+            "frame_timestamp": frame_to_timestamp(
                 frame_counter.get("current_episode", 0), frame_number
             ),
             "fph": configs.get("posting", {}).get("fph", "N/A"),

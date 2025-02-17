@@ -37,10 +37,9 @@ def extract_srt_subtitle(
     episode_num: int, frame_number: int, subtitle_file: str
 ) -> str:
     """Extrai o texto da legenda para um frame específico."""
-    frame_timestamp = datetime(1900, 1, 1) + timedelta(
-        seconds=frame_number
-        / load_configs().get("episodes").get(episode_num).get("img_fps")
-    )
+
+    img_fps = load_configs().get("episodes").get(episode_num).get("img_fps")
+    frame_timestamp_seconds = timestamp_to_seconds(frame_to_timestamp(episode_num, frame_number))
 
     try:
         with open(subtitle_file, "r", encoding="utf-8") as file:
@@ -54,7 +53,7 @@ def extract_srt_subtitle(
                 ["\n".join(block.split("\n")[2:]) for block in subtitle_blocks]
             )
             language_code = detect(subtitle_texts)
-            language_name = LANGUAGE_CODES.get(language_code, language_code)
+            language_name = LANGUAGE_CODES.get(language_code)
 
             for block in subtitle_blocks:
                 lines = block.strip().split("\n")
@@ -63,14 +62,10 @@ def extract_srt_subtitle(
                     time_line = lines[1]
                     start_str, end_str = time_line.split(" --> ")
 
-                    start_time = datetime.strptime(
-                        start_str.replace(",", "."), "%H:%M:%S.%f"
-                    )
-                    end_time = datetime.strptime(
-                        end_str.replace(",", "."), "%H:%M:%S.%f"
-                    )
+                    start_time_seconds = timestamp_to_seconds(start_str)
+                    end_time_seconds = timestamp_to_seconds(end_str)
 
-                    if start_time >= frame_timestamp and end_time <= end_time:
+                    if start_time_seconds <= frame_timestamp_seconds <= end_time_seconds:
                         # Junta todas as linhas de texto da legenda
                         subtitle_text = " ".join(lines[2:])
                         return f"[{language_name}] - {subtitle_text}"
@@ -82,36 +77,53 @@ def extract_srt_subtitle(
 
 
 def remove_tags(message: str) -> str:
+
+    PATTERNS = re.compile(
+    r"""
+    {\s*[^}]*\s*}    |  # Remove códigos de formatação ASS/SSA entre chaves
+    \\[Nn]           |  # Substitui \N e \n por espaço
+    \[[^\]]+\]       |  # Remove tags de idioma entre colchetes
+    \\[^}]+          |  # Remove códigos de formatação ASS/SSA
+    \s+                # Remove espaços extras
+    """, re.VERBOSE
+    )
+
     """Remove tags HTML e códigos de formatação da string."""
-    # Remove códigos de formatação ASS/SSA entre chaves
-    message = re.sub(r"{[^}]*}", "", message, flags=re.IGNORECASE)
+    return PATTERNS.sub(" ", message).strip()
 
-    # Substitui \N e \n por espaço
-    message = re.sub(r"\\[Nn]", " ", message)
 
-    # Remove múltiplas quebras de linha
-    message = re.sub(r"\\[N]+", " ", message)
+def timestamp_to_seconds(time_str: str) -> float:
+    """Convert HH:MM:SS.MS format to seconds"""
+    h, m, s = map(float, time_str.split(":"))
+    return h * 3600 + m * 60 + s
 
-    # Remove tags de idioma entre colchetes
-    message = re.sub(r"\[[^\]]+\]", "", message)
+def frame_to_timestamp(episode_number: int, frame_number: int) -> str:
+    
+    configs = load_configs()
+    img_fps: int | float = configs.get("episodes", {}).get(episode_number, {}).get("img_fps")
 
-    # Remove códigos de formatação ASS/SSA
-    message = re.sub(r"\\[^}]+", "", message)
+    if not img_fps:
+        logger.error("Erro, img_fps não esta settado", exc_info=True)
+        return "0:00:00.00"
 
-    # Remove espaços em branco duplos
-    message = re.sub(r"\s+", " ", message).strip()
+    frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=frame_number / img_fps)
 
-    return message
+    hr, min, sec, ms = (
+        frame_timestamp.hour, frame_timestamp.minute,
+        frame_timestamp.second, frame_timestamp.microsecond // 10000
+        )
+    
+    return f"{hr}:{min:02d}:{sec:02d}.{ms:02d}"
 
 
 def extract_ass_subtitle(
-    episode_num: int, frame_number: int, subtitle_file: str
+    episode_number: int, frame_number: int, subtitle_file: str
 ) -> str:
     """Extrai o texto da legenda para um frame específico."""
-    frame_timestamp = datetime(1900, 1, 1) + timedelta(
-        seconds=frame_number
-        / load_configs().get("episodes").get(episode_num).get("img_fps")
-    )
+
+    img_fps = load_configs().get("episodes").get(episode_number).get("img_fps")
+
+    frame_timestamp_seconds = timestamp_to_seconds(frame_to_timestamp(episode_number, frame_number))
 
     try:
         with open(subtitle_file, "r", encoding="utf_8_sig") as file:
@@ -127,10 +139,10 @@ def extract_ass_subtitle(
 
             for dialogue in dialogues:
                 parts = dialogue.split(",")
-                start_time = datetime.strptime(parts[1], "%H:%M:%S.%f")
-                end_time = datetime.strptime(parts[2], "%H:%M:%S.%f")
+                start_time_seconds = timestamp_to_seconds(parts[1])
+                end_time_seconds = timestamp_to_seconds(parts[2])
 
-                if start_time <= frame_timestamp <= end_time:
+                if start_time_seconds <= frame_timestamp_seconds <= end_time_seconds:
                     dialogue = remove_tags(dialogue.split(",,")[-1])
                     subtitle = f"[{language_name}] - {dialogue}"
 
@@ -183,35 +195,3 @@ def get_subtitle_message(episode_num: int, frame_number: int) -> str:
     return message
 
 
-def get_frame_timestamp(episode_number: int, frame_number: int) -> str:
-    """Retorna o timestamp de um frame."""
-    try:
-        configs = load_configs()
-
-        if configs.get("episodes", {}).get(episode_number) is None:
-            raise ValueError(
-                f"Episódio {episode_number} não encontrado nas configurações."
-            )
-
-        img_fps = configs.get("episodes", {}).get(episode_number, {}).get("img_fps")
-
-        if not img_fps:
-            raise ValueError(
-                f"img_fps não encontrado para o episódio {episode_number}."
-            )
-
-        frame_timestamp = datetime(1900, 1, 1) + timedelta(
-            seconds=frame_number / img_fps
-        )
-
-        hr, min, sec, ms = (
-            frame_timestamp.hour,
-            frame_timestamp.minute,
-            frame_timestamp.second,
-            frame_timestamp.microsecond // 10000,
-        )
-        return f"{hr}:{min:02d}:{sec:02d}:{ms:02d}"
-
-    except Exception as e:
-        logger.error(f"Erro ao obter o timestamp do frame: {e}", exc_info=True)
-        return "0:00:00:00"
