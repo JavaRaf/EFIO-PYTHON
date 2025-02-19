@@ -83,8 +83,13 @@ def main():
     configs = load_configs()
     posts_data = []
 
-    for i in range(1, configs.get("posting").get("fph") + 1):
-        frame_number = frame_counter.get("frame_iterator") + i
+    posting_interval = configs.get("posting").get("posting_interval", 2) * 60   # default 2 minutes
+    fph = configs.get("posting").get("fph", 15)                                 # default 15 frames per hour
+    frame_iterator = frame_counter.get("frame_iterator", 0)                     # default 0
+
+
+    for i in range(1, fph + 1):
+        frame_number = frame_iterator + i
         frame_path, episode_number, total_frames_in_episode_dir = build_frame_file_path(
             frame_number
         )
@@ -114,9 +119,7 @@ def main():
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
 
-        sleep(
-            configs.get("posting").get("posting_interval") * 60
-        )  # Sleep for the interval time (default 2 minutes)
+        sleep(2)  
 
     if len(posts_data) > 0:
         # repost images in album (Essa função deve ficar antes de update_bio_and_frame_counter)
