@@ -137,8 +137,8 @@ def extract_ass_subtitle(
 
                 if start_time_seconds <= frame_timestamp_seconds <= end_time_seconds:
                     dialogue = remove_tags(dialogue.split(",,")[-1])
-                    subtitle = f"[{language_name}] - {dialogue}"
-
+                    subtitle = f"【 {language_name} 】- {dialogue}"
+                    
                     return subtitle
         return None
     except Exception as e:
@@ -149,7 +149,7 @@ def get_subtitle_message(episode_num: int, frame_number: int) -> str:
     """Extrai todas as legendas do episódio para um frame específico."""
 
     subtitle_dir = subtitles_dir / f"{episode_num:02d}"
-    message = "Subtitles:\n"
+    message = "𝑺𝒖𝒃𝒕𝒊𝒕𝒍𝒆𝒔:\n"
 
     if not subtitle_dir.exists():
         return None

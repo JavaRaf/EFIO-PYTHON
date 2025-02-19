@@ -119,7 +119,7 @@ def main():
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
 
-        sleep(2)  
+        sleep(posting_interval)  
 
     if len(posts_data) > 0:
         # repost images in album (Essa função deve ficar antes de update_bio_and_frame_counter)
