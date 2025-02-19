@@ -24,7 +24,7 @@ posting:
   fph: 15                                  # Frames per hour (format: integer)
   posting_interval: 2                      # Interval between posts (in minutes) (format: integer)
   posting_subtitles: true                  # Include subtitles in frames
-  multi_language_subtitles: false          # Include subtitles in multiple languages
+  multi_language_subtitles: true           # Include subtitles in multiple languages
 
   random_crop:                             # Random crop settings
     enabled: true                          # true or false
