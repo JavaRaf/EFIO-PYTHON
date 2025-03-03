@@ -1,3 +1,4 @@
+from email import message
 import os
 import time
 
@@ -92,7 +93,7 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
 
         files = {"source": open(frame_path, "rb")} if frame_path else None
 
-        response = httpx.post(endpoint, data=data, files=files, timeout=15)
+        response = httpx.post(endpoint, data=data, files=files, timeout=30)
 
         if response.status_code != 200:
             logger.error(
@@ -110,7 +111,7 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
         raise
 
 
-# example:
+# usage example:
 #     # post image
 #     post_id = fb_post(message="post title", frame_path="frame.jpg")
 
@@ -126,33 +127,6 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
 
 
 # ------------------------------------------------------------------------------------------------------------
-
-
-# functions to repost images in album
-
-
-@with_retries(max_attempts=2, delay=2.0)
-def get_image_url(post_id, api_version="v21.0"):
-    """
-    Obtém a URL da imagem de um post.
-    """
-    try:
-        url = f"https://graph.facebook.com/{api_version}/{post_id}"
-        data = {"fields": "images", "access_token": os.getenv("FB_TOKEN")}
-
-        response = httpx.get(url, params=data, timeout=15)
-        response.raise_for_status()
-        data = response.json()
-
-        if "images" in data:
-            return data["images"][0]["source"]
-
-    except httpx.HTTPStatusError as e:
-        logger.error(f"Erro HTTP ao obter URL da imagem: {e}", exc_info=True)
-        raise
-    except Exception as e:
-        logger.error(f"Erro inesperado ao obter URL da imagem: {e}", exc_info=True)
-        raise
 
 
 @with_retries(max_attempts=2, delay=2.0)
@@ -193,50 +167,48 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
     return ALBUM_ID, ALBUM_NAME
 
 
-@with_retries(max_attempts=2, delay=2.0)
-def repost_images_in_album(posts_data, configs, frame_counter) -> None:
-    """
-    Reposta imagens em um album.
-    """
-    fb_api_version = configs.get("fb_api_version", "v21.0")
 
-    # Use the new function in repost_images_in_album
+def repost_in_album(message: str, frame_path: str) -> None:
+    """
+    Reposte no álbum.
+
+    Args:
+        message (str): Mensagem a ser postada.
+        frame_path (str): Caminho do frame.
+
+    Returns:
+        None
+    """
+
+    configs = load_configs()
+    frame_counter = configs.get("frame_counter", {})
+    fb_api_version = configs.get("fb_api_version", "v21.0")
     ALBUM_ID, ALBUM_NAME = check_album_id(configs, frame_counter, fb_api_version)
+
     if not ALBUM_ID or not ALBUM_NAME:
-        return None
+        return
 
     try:
-        for post in posts_data:
-            post_id = post.get("post_id")
-            message = post.get("message")
-            image_url = get_image_url(post_id)
+        response = fb_posting(
+            message,
+            frame_path,
+            parent_id=f"{ALBUM_ID}/photos"
+        )
 
-            if all([post_id, message, image_url]):
-                response = httpx.post(
-                    f"https://graph.facebook.com/{fb_api_version}/{ALBUM_ID}/photos",
-                    data={
-                        "access_token": os.getenv("FB_TOKEN"),
-                        "url": image_url,
-                        "caption": message,
-                    },
-                    timeout=15,
-                )
+        if response.status_code != 200:
+            logger.error(
+                f"Falha ao repostar no álbum. Status code: {response.status_code}, message: {response.text}",
+                exc_info=True,
+            )
+            response.raise_for_status()
 
-                if response.status_code != 200:
-                    logger.error(
-                        f"\tFalha ao postar no album. Status code: {response.status_code}, message: {response.text}",
-                        exc_info=True,
-                    )
-                    response.raise_for_status()
-                else:
-                    print(
-                        f"\t'{message} ' has been reposted in album '{ALBUM_NAME}' with id '{ALBUM_ID}'",
-                        flush=True,
-                    )
-
+        print(f"├── Reposted in album {ALBUM_NAME} (ID: {ALBUM_ID})")
     except httpx.HTTPStatusError as e:
-        logger.error(f"Erro HTTP ao repostar imagens: {e}", exc_info=True)
+        logger.error(
+            f"Falha ao repostar no álbum. Status code: {e.response.status_code}, message: {e.response.text}",
+            exc_info=True,
+        )
         raise
     except Exception as e:
-        logger.error(f"Erro inesperado ao repostar imagens: {e}", exc_info=True)
+        logger.error(f"Erro inesperado ao repostar no álbum: {e}", exc_info=True)
         raise

@@ -4,20 +4,15 @@ fb_api_version: "v21.0"                                       # Facebook API ver
 
 episodes:
   1:
-    img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
-    album_id: 553618837717545                                 # Facebook album ID for this episode (integer | string)
+    img_fps: 2                                                # Frame rate used to generate video frames (integer | float)
+    album_id: "album_id"                                      # Facebook album ID for this episode (integer | string)
 
   2:
-    img_fps: 3.5
-    album_id: 553619064384189
+    img_fps: 2                                                # Frame rate used to generate video frames (integer | float)
+    album_id: "album_id"                                      # Facebook album ID for this episode (integer | string)
 
-  3:
-    img_fps: 3.5
-    album_id: 553619207717508
+  # add more episodes here
 
-  4:
-    img_fps: 2
-    album_id: "Your Album"
 
 # Posting Configuration
 posting:
@@ -31,15 +26,29 @@ posting:
     min_x: 200                             # Minimum crop width (format: integer)
     min_y: 600                             # Minimum crop height (format: integer)
 
+
+random_posting:                            # post frames in random order
+  enabled: false                           # true or false
+  filters:                                 # Filters to apply to random posting
+    enabled: false                         # true or false
+
+
 # Timezone configuration
 timezone_offset: "-3"                      # Timezone offset (format: string with sign)
 
-# Message Templates
+# Message Templates ------------------------------------------------------------------------------------------------
+
 post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
+
+random_post_message: |
+  "[Random_frame]"
 
 bio_message: |
   "Chopped {img_fps} FPS, Posting {fph} Frames every
   {execution_interval} hours. Total of {total_frames_posted} frames was successfully posted!!!"
+
+# Message Templates --------------------------------------------------------------------------------------------------
+
 
 # Available variables for message templates:
 # - {season}              : Current season number
