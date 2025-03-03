@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-
+import time
 from scripts.load_configs import load_configs
 from scripts.logger import get_logger
 
@@ -33,3 +33,11 @@ def get_local_time() -> str:
         logger.error(f"Erro ao processar timezone: {error}", exc_info=True)
 
     return ""
+
+
+def sleeper_function(seconds: int) -> None:
+    for i in range(seconds, 0, -1):
+        print(f"Waiting for the next post: {i}", end="\r")
+        time.sleep(1)
+    
+    print(" " * 30, end="\r")  # Limpa a linha antes da mensagem final

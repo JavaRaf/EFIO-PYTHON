@@ -10,6 +10,8 @@ from scripts.load_configs import load_configs, load_frame_counter, save_frame_co
 from scripts.logger import get_logger, update_fb_log
 from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
+from scripts.get_local_time import get_local_time, sleeper_function
+
 
 logger = get_logger(__name__)
 
@@ -114,7 +116,7 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
 
-        sleep(posting_interval)  
+        sleeper_function(posting_interval) # print a timer in the terminal
 
     if len(posts_data) > 0:
         
@@ -136,9 +138,9 @@ def main():
     frame_counter = load_frame_counter()
     configs = load_configs()
 
-    posting_interval = configs.get("posting").get("posting_interval", 2) * 60   # default 2 minutes
-    fph = configs.get("posting").get("fph", 15)                                 # default 15 frames per hour
-    frame_iterator = frame_counter.get("frame_iterator", 0)                     # default 0
+    posting_interval = int(configs.get("posting").get("posting_interval", 2))           # default 2 minutes
+    fph = configs.get("posting").get("fph", 15)                                         # default 15 frames per hour
+    frame_iterator = frame_counter.get("frame_iterator", 0)                             # default 0
 
     if configs.get("random_posting").get("enabled", False):
         random_posting()
