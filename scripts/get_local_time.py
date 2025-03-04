@@ -37,7 +37,9 @@ def get_local_time() -> str:
 
 def sleeper_function(seconds: int) -> None:
     for i in range(seconds, 0, -1):
-        print(f"Waiting for the next post: {i}", end="\r")
+        print(f"Waiting for the next post: {i:2d}", end="\r", flush=True)
         time.sleep(1)
     
-    print(" " * 30, end="\r")  # Limpa a linha antes da mensagem final
+    print(" " * 30, end="\r", flush=True)  # Limpa a linha antes da mensagem final
+
+
