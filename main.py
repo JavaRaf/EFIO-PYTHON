@@ -36,10 +36,10 @@ def post_frame(episode_number, frame_number, frame_path, configs, frame_counter)
 def handle_subtitles(episode_number, frame_number, post_id, configs):
     """Posta legendas"""
     if configs.get("posting").get("posting_subtitles"):
-        subtitle_message = get_subtitle_message(episode_number, frame_number)
+        subtitle_message, frame_timestamp = get_subtitle_message(episode_number, frame_number)
         if subtitle_message:
             fb_posting(subtitle_message, None, post_id)
-            print("├──Subtitle has been posted", flush=True)
+            print(f"├──Subtitle has been posted, timestamp: {frame_timestamp}", flush=True)
             sleep(2)
 
 

@@ -74,7 +74,7 @@ def frame_to_timestamp(episode_number: int, frame_number: int) -> str:
 def subtitle_srt(episode_number: int, frame_number: int, subtitle_file: str) -> str:
     pass
 
-def subtitle_ass(episode_number: int, frame_number: int, subtitle_file: str) -> str:
+def subtitle_ass(episode_number: int, frame_number: int, subtitle_file: str) -> tuple[str, str]:
     
     with open(subtitle_file, "r", encoding="utf-8_sig") as file:
         content = file.readlines()
@@ -100,10 +100,10 @@ def subtitle_ass(episode_number: int, frame_number: int, subtitle_file: str) -> 
     if not subtitles:
         return None
 
-    return f"【 {lang_name} 】- {'. '.join(subtitles)}"
+    return f"【 {lang_name} 】- {'. '.join(subtitles)}", f"{frame_to_timestamp(episode_number, frame_number)}"
 
 
-def get_subtitle_message(episode_number: int, frame_number: int) -> str | None:
+def get_subtitle_message(episode_number: int, frame_number: int) -> tuple[str, str] | None:
     """
     Retorna o texto da legenda para um frame específico.
     """
@@ -124,15 +124,19 @@ def get_subtitle_message(episode_number: int, frame_number: int) -> str | None:
         subtitle_file = subtitle_dir / file
 
         if subtitle_file.suffix == ".ass":
-            subtitle_msg = subtitle_ass(episode_number, frame_number, subtitle_file)
+            result = subtitle_ass(episode_number, frame_number, subtitle_file)
+            if result:
+                subtitle_msg, frame_timestamp = result
 
         elif subtitle_file.suffix == ".srt":
-            subtitle_msg = subtitle_srt(episode_number, frame_number, subtitle_file)
+            result = subtitle_srt(episode_number, frame_number, subtitle_file)
+            if result:
+                subtitle_msg, frame_timestamp = result
 
-        if subtitle_msg:
+        if 'subtitle_msg' in locals() and subtitle_msg:
             message += subtitle_msg + "\n\n"
 
     if not message:
-        return None
+        return None, None
 
-    return "𝑺𝒖𝒃𝒕𝒊𝒕𝒍𝒆𝒔:\n" + message
+    return "𝑺𝒖𝒃𝒕𝒊𝒕𝒍𝒆𝒔:\n" + message, frame_timestamp

@@ -36,10 +36,19 @@ def get_local_time() -> str:
 
 
 def sleeper_function(seconds: int) -> None:
+    """
+    Mostra um timer de contagem regressiva para o próximo post.
+
+    Args:
+        seconds (int): Tempo em segundos
+
+    Returns:
+        None
+    """
     for i in range(seconds, 0, -1):
-        print(f"Waiting for the next post: {i:2d}", end="\r", flush=True)
+        print(f"\n\tWaiting for the next post: {i:2d}", end="\033[F", flush=True)
         time.sleep(1)
     
-    print(" " * 30, end="\r", flush=True)  # Limpa a linha antes da mensagem final
+    print("\n" + " " * 50, end="\r", flush=True)
 
 
