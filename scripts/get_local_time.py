@@ -48,7 +48,5 @@ def sleeper_function(seconds: int) -> None:
     for i in range(seconds, 0, -1):
         print(f"\n\tWaiting for the next post: {i:2d}", end="\033[F", flush=True)
         time.sleep(1)
-    
+
     print("\n" + " " * 50, end="\r", flush=True)
-
-

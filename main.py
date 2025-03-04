@@ -36,10 +36,14 @@ def post_frame(episode_number, frame_number, frame_path, configs, frame_counter)
 def handle_subtitles(episode_number, frame_number, post_id, configs):
     """Posta legendas"""
     if configs.get("posting").get("posting_subtitles"):
-        subtitle_message, frame_timestamp = get_subtitle_message(episode_number, frame_number)
+        subtitle_message, frame_timestamp = get_subtitle_message(
+            episode_number, frame_number
+        )
         if subtitle_message:
             fb_posting(subtitle_message, None, post_id)
-            print(f"├──Subtitle has been posted, timestamp: {frame_timestamp}", flush=True)
+            print(
+                f"├──Subtitle has been posted, timestamp: {frame_timestamp}", flush=True
+            )
             sleep(2)
 
 
@@ -78,6 +82,7 @@ def update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted
     except Exception:
         logger.error("Error updating frame counter", exc_info=True)
 
+
 # posta frames específicos (sequenciais)
 def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_interval):
     """Posta um frame específico"""
@@ -107,30 +112,36 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
             episode_number, frame_number, frame_path, configs, frame_counter
         )
 
-        posts_data.append( {
-            "post_id": post_id, "message": post_message, "episode_number": episode_number,
-            "frame_number": frame_number, "frame_path": frame_path
+        posts_data.append(
+            {
+                "post_id": post_id,
+                "message": post_message,
+                "episode_number": episode_number,
+                "frame_number": frame_number,
+                "frame_path": frame_path,
             }
         )
 
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, frame_number, post_id, configs)
 
-        sleeper_function(posting_interval) # print a timer in the terminal
+        sleeper_function(posting_interval)  # print a timer in the terminal
 
     if len(posts_data) > 0:
-        
-        for post in posts_data: # repost in album
+
+        for post in posts_data:  # repost in album
             repost_in_album(post["message"], post["frame_path"])
             sleep(2)
 
         update_fb_log(frame_counter, posts_data)
         update_bio_and_frame_counter(frame_counter, configs, len(posts_data))
 
+
 # posta frames aleatórios (only if random_posting is enabled)
-def random_posting():  
+def random_posting():
     """Posta um frame aleatório"""
     pass
+
 
 # main function
 def main():
@@ -138,16 +149,19 @@ def main():
     frame_counter = load_frame_counter()
     configs = load_configs()
 
-    posting_interval = int(configs.get("posting").get("posting_interval", 2))           # default 2 minutes
-    fph = configs.get("posting").get("fph", 15)                                         # default 15 frames per hour
-    frame_iterator = frame_counter.get("frame_iterator", 0)                             # default 0
+    posting_interval = int(
+        configs.get("posting").get("posting_interval", 2)
+    )  # default 2 minutes
+    fph = configs.get("posting").get("fph", 15)  # default 15 frames per hour
+    frame_iterator = frame_counter.get("frame_iterator", 0)  # default 0
 
     if configs.get("random_posting").get("enabled", False):
         random_posting()
-    
-    else:
-        post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_interval)
 
+    else:
+        post_frame_by_number(
+            fph, frame_iterator, frame_counter, configs, posting_interval
+        )
 
 
 if __name__ == "__main__":

@@ -188,11 +188,7 @@ def repost_in_album(message: str, frame_path: str) -> None:
         return
 
     try:
-        response = fb_posting(
-            message,
-            frame_path,
-            parent_id=f"{ALBUM_ID}/photos"
-        )
+        response = fb_posting(message, frame_path, parent_id=f"{ALBUM_ID}/photos")
 
         if response.status_code != 200:
             logger.error(
