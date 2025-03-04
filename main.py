@@ -10,7 +10,7 @@ from scripts.load_configs import load_configs, load_frame_counter, save_frame_co
 from scripts.logger import get_logger, update_fb_log
 from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
-from scripts.get_local_time import get_local_time, sleeper_function
+from scripts.get_local_time import sleeper_function
 
 
 logger = get_logger(__name__)

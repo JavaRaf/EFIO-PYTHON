@@ -167,7 +167,6 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
     return ALBUM_ID, ALBUM_NAME
 
 
-
 def repost_in_album(message: str, frame_path: str) -> None:
     """
     Reposte no álbum.

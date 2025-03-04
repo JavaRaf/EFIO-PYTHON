@@ -48,7 +48,7 @@ def remove_tags(message: str) -> str:
     return PATTERNS.sub(" ", message).strip()
 
 def timestamp_to_seconds(time_str: str) -> float:
-    """Convert HH:MM:SS.MS format to seconds"""
+    """Convert H:MM:SS.MS format to seconds"""
     h, m, s = map(float, time_str.split(":"))
     return h * 3600 + m * 60 + s
 
@@ -70,120 +70,69 @@ def frame_to_timestamp(episode_number: int, frame_number: int) -> str:
     
     return f"{hr}:{min:02d}:{sec:02d}.{ms:02d}"
 
-def extract_srt_subtitle(
-    episode_num: int, frame_number: int, subtitle_file: str
-) -> str:
-    """Extrai o texto da legenda para um frame específico."""
 
-    frame_timestamp_seconds = timestamp_to_seconds(frame_to_timestamp(episode_num, frame_number))
+def subtitle_srt(episode_number: int, frame_number: int, subtitle_file: str) -> str:
+    pass
 
-    try:
-        with open(subtitle_file, "r", encoding="utf-8") as file:
-            content = file.read()
+def subtitle_ass(episode_number: int, frame_number: int, subtitle_file: str) -> str:
+    
+    with open(subtitle_file, "r", encoding="utf-8_sig") as file:
+        content = file.readlines()
+        
+    dialogues = [line for line in content if line.startswith("Dialogue:")]
+    
+    subtitles = [remove_tags(d.split(",,")[-1]) for d in dialogues]
+    lang = detect(" ".join(subtitles))
+    lang_name = LANGUAGE_CODES.get(lang, lang)
 
-            # Divide o conteúdo em blocos de legendas
-            subtitle_blocks = content.strip().split("\n\n")
+    frame_in_seconds = timestamp_to_seconds(frame_to_timestamp(episode_number, frame_number))
+    subtitles = []
 
-            # Concatena todos os textos das legendas para detecção do idioma
-            subtitle_texts = " ".join(
-                ["\n".join(block.split("\n")[2:]) for block in subtitle_blocks]
-            )
-            language_code = detect(subtitle_texts)
-            language_name = LANGUAGE_CODES.get(language_code)
+    for line in dialogues:
+        parts = line.split(",")
+        start_time_seconds = timestamp_to_seconds(parts[1])
+        end_time_seconds = timestamp_to_seconds(parts[2])
+        text = line.split(",,")[-1]
+        
+        if start_time_seconds <= frame_in_seconds <= end_time_seconds:
+            subtitles.append(remove_tags(text))
 
-            for block in subtitle_blocks:
-                lines = block.strip().split("\n")
-                if len(lines) >= 3:  # Verifica se o bloco tem formato válido
-                    # Extrai os tempos de início e fim
-                    time_line = lines[1]
-                    start_str, end_str = time_line.split(" --> ")
-
-                    start_time_seconds = timestamp_to_seconds(start_str)
-                    end_time_seconds = timestamp_to_seconds(end_str)
-
-                    if start_time_seconds <= frame_timestamp_seconds <= end_time_seconds:
-                        # Junta todas as linhas de texto da legenda
-                        subtitle_text = " ".join(lines[2:])
-                        return f"[{language_name}] - {subtitle_text}"
-
-        return None
-    except Exception as e:
-        print(f"Error: {e}")
+    if not subtitles:
         return None
 
-def extract_ass_subtitle(
-    episode_number: int, frame_number: int, subtitle_file: str
-) -> str:
-    """Extrai o texto da legenda para um frame específico."""
+    return f"【 {lang_name} 】- {'. '.join(subtitles)}"
 
-    frame_timestamp_seconds = timestamp_to_seconds(frame_to_timestamp(episode_number, frame_number))
 
-    try:
-        with open(subtitle_file, "r", encoding="utf_8_sig") as file:
-            content = file.read()
-            dialogues = [
-                line for line in content.split("\n") if line.startswith("Dialogue:")
-            ]
+def get_subtitle_message(episode_number: int, frame_number: int) -> str | None:
+    """
+    Retorna o texto da legenda para um frame específico.
+    """
 
-            # Concatena todos os textos das legendas em uma única string para detecção
-            subtitle_texts = " ".join([d.split(",,")[-1] for d in dialogues])
-            language_code = detect(subtitle_texts)
-            language_name = LANGUAGE_CODES.get(language_code, language_code)
-
-            for dialogue in dialogues:
-                parts = dialogue.split(",")
-                start_time_seconds = timestamp_to_seconds(parts[1])
-                end_time_seconds = timestamp_to_seconds(parts[2])
-
-                if start_time_seconds <= frame_timestamp_seconds <= end_time_seconds:
-                    dialogue = remove_tags(dialogue.split(",,")[-1])
-                    subtitle = f"【 {language_name} 】- {dialogue}"
-                    
-                    return subtitle
-        return None
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
-
-def get_subtitle_message(episode_num: int, frame_number: int) -> str:
-    """Extrai todas as legendas do episódio para um frame específico."""
-
-    subtitle_dir = subtitles_dir / f"{episode_num:02d}"
-    message = "𝑺𝒖𝒃𝒕𝒊𝒕𝒍𝒆𝒔:\n"
+    subtitle_dir = subtitles_dir / f"{episode_number:02d}"
 
     if not subtitle_dir.exists():
         return None
 
-    if load_configs().get("posting").get("multi_language_subtitles"):
-        for file in sorted(os.listdir(subtitle_dir)):
-            subtitle_file = subtitle_dir / file
-            if subtitle_file.suffix == ".srt":
-                subtitle_msg = extract_srt_subtitle(
-                    episode_num, frame_number, subtitle_file
-                )
-            elif subtitle_file.suffix == ".ass":
-                subtitle_msg = extract_ass_subtitle(
-                    episode_num, frame_number, subtitle_file
-                )
+    files = os.listdir(subtitle_dir)
 
-            if subtitle_msg:
-                message += subtitle_msg + "\n\n"
+    if not load_configs().get("posting").get("multi_language_subtitles"):
+        files = [files[0]]
 
-    else:
-        subtitle_file = subtitle_dir / os.listdir(subtitle_dir)[0]
+    message = ""
 
-        if subtitle_file.suffix == ".srt":
-            subtitle_msg = extract_srt_subtitle(
-                episode_num, frame_number, subtitle_file
-            )
-        elif subtitle_file.suffix == ".ass":
-            subtitle_msg = extract_ass_subtitle(
-                episode_num, frame_number, subtitle_file
-            )
+    for file in files:
+        subtitle_file = subtitle_dir / file
+
+        if subtitle_file.suffix == ".ass":
+            subtitle_msg = subtitle_ass(episode_number, frame_number, subtitle_file)
+
+        elif subtitle_file.suffix == ".srt":
+            subtitle_msg = subtitle_srt(episode_number, frame_number, subtitle_file)
 
         if subtitle_msg:
             message += subtitle_msg + "\n\n"
 
-    return message
+    if not message:
+        return None
 
-
+    return "𝑺𝒖𝒃𝒕𝒊𝒕𝒍𝒆𝒔:\n" + message
