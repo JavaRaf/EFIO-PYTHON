@@ -12,6 +12,7 @@ from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
 from scripts.get_local_time import sleeper_function
 
+from randm_post.random_main import random_main
 
 logger = get_logger(__name__)
 
@@ -136,29 +137,40 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
 
 
 # posta frames aleatórios (only if random_posting is enabled)
-def random_posting():
-    """Posta um frame aleatório"""
-    pass
+def random_posting(fph, frame_counter, configs, frame_iterator, posting_interval):
+    """Posta frames aleatórios"""
+    random_main(fph, frame_counter, configs, frame_iterator, posting_interval
+)
 
 
 # main function
 def main():
     """Main function"""
-    frame_counter = load_frame_counter()
-    configs = load_configs()
+    frame_counter: dict = load_frame_counter()
+    configs: dict = load_configs()
 
-    posting_interval = int(
+    posting_interval: int = int(
         configs.get("posting").get("posting_interval", 2)
     )  # default 2 minutes
-    fph = configs.get("posting").get("fph", 15)  # default 15 frames per hour
-    frame_iterator = frame_counter.get("frame_iterator", 0)  # default 0
+    fph: int = configs.get("posting").get("fph", 15)  # default 15 frames per hour
+    frame_iterator: int = frame_counter.get("frame_iterator", 0)  # default 0
 
     if configs.get("random_posting").get("enabled", False):
-        random_posting()
+        random_posting(
+            fph,
+            frame_counter,
+            configs,
+            frame_iterator,
+            posting_interval,
+        )
 
     else:
         post_frame_by_number(
-            fph, frame_iterator, frame_counter, configs, posting_interval
+            fph,
+            frame_iterator,
+            frame_counter,
+            configs,
+            posting_interval,
         )
 
 

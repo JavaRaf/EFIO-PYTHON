@@ -5,11 +5,11 @@ fb_api_version: "v21.0"                                       # Facebook API ver
 episodes:
   1:
     img_fps: 2                                                # Frame rate used to generate video frames (integer | float)
-    album_id: "your_album_id"                                     # Facebook album ID for this episode (integer | string)
+    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
 
   2:
-    img_fps: 3.5                                                # Frame rate used to generate video frames (integer | float)
-    album_id: 569157099497052                                     # Facebook album ID for this episode (integer | string)
+    img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
+    album_id: 569157099497052                                 # Facebook album ID for this episode (integer | string)
 
   # add more episodes here
 
@@ -31,7 +31,13 @@ random_posting:                            # post frames in random order
   enabled: false                           # true or false
   filters:                                 # Filters to apply to random posting
     enabled: false                         # true or false
-
+    two_panel: false                       # true or false
+    mirror_image: false                    # true or false
+    negative_filter: false                 # true or false
+    generate_palette: false                # true or false
+    get_brightness: false                  # true or false
+    warp_in: false                         # true or false
+    warp_out: false                        # true or false
 
 # Timezone configuration
 timezone_offset: "-3"                      # Timezone offset (format: string with sign)
@@ -41,7 +47,8 @@ timezone_offset: "-3"                      # Timezone offset (format: string wit
 post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
 
 random_post_message: |
-  "[Random_frame]"
+  "[Random_frame]
+  Frame {current_frame} out of {episode_total_frames}, timestamp {frame_timestamp}"
 
 bio_message: |
   "Chopped {img_fps} FPS, Posting {fph} Frames every
@@ -54,7 +61,7 @@ bio_message: |
 # - {season}              : Current season number
 # - {episode}             : Current episode number
 # - {current_frame}       : Current frame number
-# - {total_frames}        : Total frames in the episode
+# - {episode_total_frames}: Total frames in the episode
 # - {frame_timestamp}     : Frame timestamp
 # - {fph}                 : Frames per interval
 # - {page_name}           : Page name
