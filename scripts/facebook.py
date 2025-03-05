@@ -4,7 +4,7 @@ import time
 
 import httpx
 
-from scripts.load_configs import load_configs
+from scripts.load_configs import load_configs, load_frame_counter
 from scripts.logger import get_logger
 
 logger = get_logger(__name__)
@@ -167,12 +167,12 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
     return ALBUM_ID, ALBUM_NAME
 
 
-def repost_in_album(message: str, frame_path: str) -> None:
+def repost_in_album(post_data: dict) -> None:
     """
     Reposte no álbum.
 
     Args:
-        message (str): Mensagem a ser postada.
+        post_data (dict): Dicionário com dados de postagem.
         frame_path (str): Caminho do frame.
 
     Returns:
@@ -180,30 +180,28 @@ def repost_in_album(message: str, frame_path: str) -> None:
     """
 
     configs = load_configs()
-    frame_counter = configs.get("frame_counter", {})
+    frame_counter = load_frame_counter()
     fb_api_version = configs.get("fb_api_version", "v21.0")
     ALBUM_ID, ALBUM_NAME = check_album_id(configs, frame_counter, fb_api_version)
 
     if not ALBUM_ID or not ALBUM_NAME:
-        return
-
-    try:
-        response = fb_posting(message, frame_path, parent_id=f"{ALBUM_ID}/photos")
-
-        if response.status_code != 200:
-            logger.error(
-                f"Falha ao repostar no álbum. Status code: {response.status_code}, message: {response.text}",
-                exc_info=True,
-            )
-            response.raise_for_status()
-
-        print(f"├── Reposted in album {ALBUM_NAME} (ID: {ALBUM_ID})")
-    except httpx.HTTPStatusError as e:
         logger.error(
-            f"Falha ao repostar no álbum. Status code: {e.response.status_code}, message: {e.response.text}",
+            f"Falha ao encontrar o álbum. ID: {ALBUM_ID}, Nome: {ALBUM_NAME}",
             exc_info=True,
         )
-        raise
-    except Exception as e:
-        logger.error(f"Erro inesperado ao repostar no álbum: {e}", exc_info=True)
-        raise
+        return
+
+    for post in post_data:
+        try:
+            fb_posting(
+                post["message"], post["frame_path"], parent_id=f"{ALBUM_ID}/photos"
+            )
+        except Exception as e:
+            logger.error(f"Erro inesperado ao repostar no álbum: {e}", exc_info=True)
+            raise
+
+        print(
+            f"├── Episode {post['episode_number']} Frame {post['frame_number']} Reposted in album ({ALBUM_NAME}) (ID: {ALBUM_ID})"
+        )
+
+        time.sleep(2)

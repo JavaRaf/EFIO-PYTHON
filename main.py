@@ -129,9 +129,7 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
 
     if len(posts_data) > 0:
 
-        for post in posts_data:  # repost in album
-            repost_in_album(post["message"], post["frame_path"])
-            sleep(2)
+        repost_in_album(posts_data)  # repost in album if enabled
 
         update_fb_log(frame_counter, posts_data)
         update_bio_and_frame_counter(frame_counter, configs, len(posts_data))
