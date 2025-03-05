@@ -1,3 +1,6 @@
+import os
+import random
+
 from time import sleep
 
 from scripts.facebook import fb_posting, fb_update_bio, repost_in_album
@@ -17,12 +20,19 @@ from randm_post.random_main import random_main
 logger = get_logger(__name__)
 
 
-def post_frame(episode_number, frame_number, frame_path, configs, frame_counter):
+def post_frame(
+    episode_number: int,
+    type_message: str,
+    frame_number: int,
+    frame_path: Path,
+    configs: dict,
+    frame_counter: dict,
+):
     """Posta um frame."""
     post_message = format_message(
         episode_number,
         frame_number,
-        configs.get("post_message"),
+        configs.get(type_message),
         frame_counter,
         configs,
     )
@@ -110,7 +120,12 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
             break
 
         post_id, post_message = post_frame(
-            episode_number, frame_number, frame_path, configs, frame_counter
+            episode_number,
+            "post_message",
+            frame_number,
+            frame_path,
+            configs,
+            frame_counter,
         )
 
         posts_data.append(
@@ -146,6 +161,8 @@ def random_posting(fph, frame_counter, configs, frame_iterator, posting_interval
 # main function
 def main():
     """Main function"""
+    frame_counter: dict = load_frame_counter()
+    configs: dict = load_configs()
     frame_counter: dict = load_frame_counter()
     configs: dict = load_configs()
 
