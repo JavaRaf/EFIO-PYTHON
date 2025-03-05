@@ -1,22 +1,22 @@
 # Facebook Configuration
-your_page_name: "Todo Sabado a mesma imagem da Hotaru"        # Exact name of your Facebook page (string)
-fb_api_version: "v21.0"                                       # Facebook API version (default: v21.0) (string) 
+your_page_name: "Todo Sabado a mesma imagem da Hotaru"         # Exact name of your Facebook page (string)
+fb_api_version: "v21.0"                                        # Facebook API version (default: v21.0) (string) 
 
 episodes:
   1:
-    img_fps: 2                                                # Frame rate used to generate video frames (integer | float)
-    album_id: "your_album_id"                                     # Facebook album ID for this episode (integer | string)
+    img_fps: 2                                                  # Frame rate used to generate video frames (integer | float)
+    album_id: "your_album_id"                                   # Facebook album ID for this episode (integer | string)
 
   2:
     img_fps: 3.5                                                # Frame rate used to generate video frames (integer | float)
-    album_id: 569157099497052                                     # Facebook album ID for this episode (integer | string)
+    album_id: 569157099497052                                   # Facebook album ID for this episode (integer | string)
 
   # add more episodes here
 
 
 # Posting Configuration
 posting:
-  fph: 2                                  # Frames per hour (format: integer)
+  fph: 2                                   # Frames per hour (format: integer)
   posting_interval: 2                      # Interval between posts (in minutes) (format: integer)
   posting_subtitles: true                  # Include subtitles in frames
   multi_language_subtitles: true           # Include subtitles in multiple languages
@@ -41,7 +41,8 @@ timezone_offset: "-3"                      # Timezone offset (format: string wit
 post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
 
 random_post_message: |
-  "[Random_frame]"
+  "[Random Frame] \n
+  Season {season}, Episode {episode}, Frame {current_frame} (Timestamp: {frame_timestamp})"
 
 bio_message: |
   "Chopped {img_fps} FPS, Posting {fph} Frames every

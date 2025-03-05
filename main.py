@@ -1,3 +1,6 @@
+import os
+import random
+
 from time import sleep
 
 from scripts.facebook import fb_posting, fb_update_bio, repost_in_album
@@ -12,16 +15,24 @@ from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
 from scripts.get_local_time import sleeper_function
 
+from random_post.find_frame import get_random_episode_and_frame
 
 logger = get_logger(__name__)
 
 
-def post_frame(episode_number, frame_number, frame_path, configs, frame_counter):
+def post_frame(
+    episode_number: int,
+    type_message: str,
+    frame_number: int,
+    frame_path: Path,
+    configs: dict,
+    frame_counter: dict,
+):
     """Posta um frame."""
     post_message = format_message(
         episode_number,
         frame_number,
-        configs.get("post_message"),
+        configs.get(type_message),
         frame_counter,
         configs,
     )
@@ -109,7 +120,12 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
             break
 
         post_id, post_message = post_frame(
-            episode_number, frame_number, frame_path, configs, frame_counter
+            episode_number,
+            "post_message",
+            frame_number,
+            frame_path,
+            configs,
+            frame_counter,
         )
 
         posts_data.append(
@@ -136,16 +152,34 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
 
 
 # posta frames aleatórios (only if random_posting is enabled)
-def random_posting():
+def random_posting(configs: dict, frame_counter: dict, posting_interval: int, fph: int):
     """Posta um frame aleatório"""
-    pass
+    for i in range(1, fph + 1):
+        episode_number, frame_number = get_random_episode_and_frame()
+        frame_path, episode_number, total_frames_in_episode_dir = build_frame_file_path(
+            frame_number
+        )
+        # TODO filtros aqui
+        post_id, post_message = post_frame(
+            episode_number,
+            "random_post_message",
+            frame_number,
+            frame_path,
+            configs,
+            frame_counter,
+        )
+
+        handle_subtitles(episode_number, frame_number, post_id, configs)
+        handle_random_crop(frame_path, frame_number, post_id, configs)
+
+        sleeper_function(posting_interval)  # print a timer in the terminal
 
 
 # main function
 def main():
     """Main function"""
-    frame_counter = load_frame_counter()
-    configs = load_configs()
+    frame_counter: dict = load_frame_counter()
+    configs: dict = load_configs()
 
     posting_interval = int(
         configs.get("posting").get("posting_interval", 2)
@@ -154,7 +188,7 @@ def main():
     frame_iterator = frame_counter.get("frame_iterator", 0)  # default 0
 
     if configs.get("random_posting").get("enabled", False):
-        random_posting()
+        random_posting(configs, frame_counter, posting_interval, fph)
 
     else:
         post_frame_by_number(
