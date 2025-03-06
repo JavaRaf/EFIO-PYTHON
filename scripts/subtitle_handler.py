@@ -123,7 +123,7 @@ def get_subtitle_message(
     episode_number: int, frame_number: int
 ) -> tuple[str, str] | None:
     """
-    Retorna o texto da legenda para um frame específico.
+    Retorna o texto da legenda para um frame específico e o timestamp.
     """
 
     subtitle_dir = subtitles_dir / f"{episode_number:02d}"

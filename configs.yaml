@@ -30,12 +30,10 @@ posting:
 random_posting:                            # post frames in random order
   enabled: false                           # true or false
   filters:                                 # Filters to apply to random posting
-    enabled: false                         # true or false
-    two_panel: false                       # true or false
+    two_panel: true                        # true or false
     mirror_image: false                    # true or false
     negative_filter: false                 # true or false
     generate_palette: false                # true or false
-    get_brightness: false                  # true or false
     warp_in: false                         # true or false
     warp_out: false                        # true or false
 
@@ -44,12 +42,22 @@ timezone_offset: "-3"                      # Timezone offset (format: string wit
 
 # Message Templates ------------------------------------------------------------------------------------------------
 
+# Message templates ------------------------------------------------------------------------------------------------
+
+# {post_message} is the message template used when posting frames in order
 post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
 
+# {random_post_message} is the message template used when posting frames in random order
+# Não pode ser customizado, pois possui placeholders que não podem ser alterados
 random_post_message: |
-  "[Random_frame]
-  Frame {current_frame} out of {episode_total_frames}, timestamp {frame_timestamp}"
+  [Random_frame]
+  Episode {episode}, Frame {current_frame}, timestamp {frame_timestamp}\n
+  -
+  -
+  -
+  Used filter: [{chosen_filter}]
 
+# {bio_message} is the message template used in the page bio
 bio_message: |
   "Chopped {img_fps} FPS, Posting {fph} Frames every
   {execution_interval} hours. Total of {total_frames_posted} frames was successfully posted!!!"

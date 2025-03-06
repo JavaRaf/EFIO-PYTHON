@@ -15,7 +15,7 @@ from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
 from scripts.get_local_time import sleeper_function
 
-from randm_post.random_main import random_main
+from random_post.random_main import random_main
 
 logger = get_logger(__name__)
 
@@ -154,8 +154,8 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
 # posta frames aleatórios (only if random_posting is enabled)
 def random_posting(fph, frame_counter, configs, frame_iterator, posting_interval):
     """Posta frames aleatórios"""
-    random_main(fph, frame_counter, configs, frame_iterator, posting_interval
-)
+    for i in range(1, fph + 1):
+        random_main()
 
 
 # main function
