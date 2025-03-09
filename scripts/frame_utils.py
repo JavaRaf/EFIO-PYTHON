@@ -42,13 +42,12 @@ def build_frame_file_path(frame_number: int) -> tuple[Path, int, int]:
     return frame_path, episode_number, get_total_episode_frames(episode_number)
 
 
-def random_crop_generator(frame_path: str, frame_number: int) -> tuple[str, str]:
+def random_crop_generator(frame_path: Path) -> tuple[Path, str]:
     """
     Gera um recorte aleatório de um frame.
 
     Args:
         frame_path: Caminho do arquivo do frame
-        frame_number: Número do frame
 
     Returns:
         tuple[str, str]: (caminho do arquivo gerado, mensagem descritiva)

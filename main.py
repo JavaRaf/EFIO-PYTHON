@@ -58,10 +58,10 @@ def handle_subtitles(episode_number, frame_number, post_id, configs):
             sleep(2)
 
 
-def handle_random_crop(frame_path, frame_number, post_id, configs):
+def handle_random_crop(frame_path, post_id, configs):
     """Posta um recorte aleatório"""
     if configs.get("posting").get("random_crop").get("enabled"):
-        crop_path, crop_message = random_crop_generator(frame_path, frame_number)
+        crop_path, crop_message = random_crop_generator(frame_path)
         fb_posting(crop_message, crop_path, post_id)
         print("└──Random Crop has been posted", flush=True)
         sleep(2)
@@ -139,7 +139,7 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
         )
 
         handle_subtitles(episode_number, frame_number, post_id, configs)
-        handle_random_crop(frame_path, frame_number, post_id, configs)
+        handle_random_crop(frame_path, post_id, configs)
 
         sleeper_function(posting_interval)  # print a timer in the terminal
 
@@ -152,7 +152,7 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
 
 
 # posta frames aleatórios (only if random_posting is enabled)
-def random_posting(fph, frame_counter, configs, frame_iterator, posting_interval):
+def random_posting(fph):
     """Posta frames aleatórios"""
     for i in range(1, fph + 1):
         random_main()
