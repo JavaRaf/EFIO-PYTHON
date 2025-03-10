@@ -92,31 +92,56 @@ def subtitle_ass(
 
     dialogues = [line for line in content if line.startswith("Dialogue:")]
 
-    subtitles = [remove_tags(d.split(",,")[-1]) for d in dialogues]
-    lang = detect(" ".join(subtitles))
-    lang_name = LANGUAGE_CODES.get(lang, lang)
+    # Cria a lista temporária para armazenar os textos das legendas
+    temporary_subtitles = [remove_tags(d.split(",,")[-1]) for d in dialogues]
+    lang_code = detect(" ".join(temporary_subtitles))
+    lang_name = LANGUAGE_CODES.get(lang_code, lang_code)
 
     frame_in_seconds = timestamp_to_seconds(
         frame_to_timestamp(episode_number, frame_number)
     )
     subtitles = []
 
+    # [0] layer
+    # [1] start
+    # [2] end
+    # [3] style
+    # [4] name
+    # [5] marginL
+    # [6] marginR
+    # [7] marginV
+    # [8] effect
+    # [9] text or [-1]
+
     for line in dialogues:
         parts = line.split(",")
         start_time_seconds = timestamp_to_seconds(parts[1])
         end_time_seconds = timestamp_to_seconds(parts[2])
-        text = line.split(",,")[-1]
+        style = parts[3]  # Estilo (por exemplo, "Lyrics" ou "Signs")
+        name = parts[4]  # Nome (opcional, usado em alguns casos)
+        text = line.split(",,")[-1]  # O texto da legenda
 
         if start_time_seconds <= frame_in_seconds <= end_time_seconds:
-            subtitles.append(remove_tags(text))
+            # Verifica se o estilo é relacionado a sinais (Signs)
+            if re.search(r"\bsigns?\b", style, re.IGNORECASE):
+                subtitles.append(f"【 {remove_tags(text)} 】\n")
+            
+            # Verifica se o nome é relacionado a letras de música (Lyrics)
+            elif re.search(r"\blyrics?\b", name, re.IGNORECASE):
+                subtitles.append(f"♪ {remove_tags(text)} ♪\n")  # Adiciona um estilo especial para letras de música
+            
+            # Caso contrário, apenas adiciona o texto
+            else:
+                subtitles.append(remove_tags(text))
 
     if not subtitles:
-        return None
+        return None, None
 
     return (
-        f"【 {lang_name} 】- {'. '.join(subtitles)}",
+        f"[{lang_name}]\n {' '.join(subtitles)}",
         f"{frame_to_timestamp(episode_number, frame_number)}",
     )
+
 
 
 def get_subtitle_message(

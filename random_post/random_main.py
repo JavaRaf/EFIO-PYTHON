@@ -96,10 +96,10 @@ def random_main():
         filter_path = two_panel(paths)  # apply two panel filter
 
         message = (
-            "[Random Frames]\n"
+            "[Random Frames]\n\n"
             f"Season {frame_counter.get('season')}, "
-            f"Episode {paths[0]['episode_number']} | {paths[1]['episode_number']}, "
-            f"Frames [{paths[0]['frame_number']} | {paths[1]['frame_number']}]\n"
+            f"Episodes ({paths[0]['episode_number']} | {paths[1]['episode_number']})\n"
+            f"Frames ({paths[0]['frame_number']} | {paths[1]['frame_number']})\n"
             f"timestamp: ({paths[0]['frame_timestamp']} | {paths[1]['frame_timestamp']})\n"
             f"-\n"
             f"-\n"
@@ -125,10 +125,10 @@ def random_main():
         filter_path = chosen_filter(paths)  # apply filter
 
         message = (
-            "[Random Frames]\n"
+            "[Random Frames]\n\n"
             f"Season {frame_counter.get('season')}, "
             f"Episode {paths[0]['episode_number']}, "
-            f"Frame [{paths[0]['frame_number']}]\n"
+            f"Frame {paths[0]['frame_number']}\n"
             f"timestamp: {paths[0]['frame_timestamp']}\n"
             f"-\n"
             f"-\n"

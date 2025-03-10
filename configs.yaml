@@ -16,7 +16,7 @@ episodes:
 
 # Posting Configuration
 posting:
-  fph: 2                                   # Frames per hour (format: integer)
+  fph: 5                                   # Frames per hour (format: integer)
   posting_interval: 2                      # Interval between posts (in minutes) (format: integer)
   posting_subtitles: true                  # Include subtitles in frames
   multi_language_subtitles: true           # Include subtitles in multiple languages
@@ -46,16 +46,6 @@ timezone_offset: "-3"                      # Timezone offset (format: string wit
 
 # {post_message} is the message template used when posting frames in order
 post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
-
-# {random_post_message} is the message template used when posting frames in random order
-# Não pode ser customizado, pois possui placeholders que não podem ser alterados
-random_post_message: |
-  [Random_frame]
-  Episode {episode}, Frame {current_frame}, timestamp {frame_timestamp}\n
-  -
-  -
-  -
-  Used filter: [{chosen_filter}]
 
 # {bio_message} is the message template used in the page bio
 bio_message: |
