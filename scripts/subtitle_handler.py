@@ -126,8 +126,8 @@ def subtitle_ass(
             if re.search(r"\bsigns?\b", style, re.IGNORECASE):
                 subtitles.append(f"【 {remove_tags(text)} 】\n")
             
-            # Verifica se o nome é relacionado a letras de música (Lyrics)
-            elif re.search(r"\blyrics?\b", name, re.IGNORECASE):
+            # Verifica se o estilo ou o nome é relacionado a letras de música (Lyrics ou Songs)
+            elif re.search(r"\b(lyrics?|songs?)\b", style, re.IGNORECASE) or re.search(r"\b(lyrics?|songs?)\b", name, re.IGNORECASE):
                 subtitles.append(f"♪ {remove_tags(text)} ♪\n")  # Adiciona um estilo especial para letras de música
             
             # Caso contrário, apenas adiciona o texto
