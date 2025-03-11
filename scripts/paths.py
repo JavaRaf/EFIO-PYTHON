@@ -9,3 +9,5 @@ subtitles_dir = episodes_dir / "subtitles"
 frame_counter_path = Path(__file__).parent.parent / "frame_counter.yaml"
 configs_path = Path(__file__).parent.parent / "configs.yaml"
 fb_log_path = Path(__file__).parent.parent / "fb" / "fb_log.txt"
+filtereds_frames_dir = Path(__file__).parent.parent / "episodes" / "filtereds_frames"
+

@@ -172,13 +172,7 @@ def main():
     frame_iterator: int = frame_counter.get("frame_iterator", 0)  # default 0
 
     if configs.get("random_posting").get("enabled", False):
-        random_posting(
-            fph,
-            frame_counter,
-            configs,
-            frame_iterator,
-            posting_interval,
-        )
+        random_posting(fph)
 
     else:
         post_frame_by_number(

@@ -28,14 +28,24 @@ posting:
 
 
 random_posting:                            # post frames in random order
-  enabled: false                           # true or false
+  enabled: true                           # true or false
   filters:                                 # Filters to apply to random posting
-    two_panel: false                       # true or false
-    mirror_image: true                     # true or false
-    negative_filter: false                 # true or false
-    generate_palette: false                # true or false
-    warp_in: false                         # true or false
-    warp_out: false                        # true or false
+    None_filter:                           # (applies no filter, original image)        true or false
+      enabled: true
+      percentage: 30
+    two_panel:                             # (Junta 2 frames em uma imagem)             true or false
+      enabled: true
+      percentage: 20
+    mirror_image:                          # (Espelha a imagem)                         true or false
+      enabled: true
+      percentage: 15
+    negative_filter:                       # (applies negative filter, inverts colors)  true or false
+      enabled: true
+      percentage: 10
+    brightness_and_contrast:               # (applies brightness and contrast filter)   true or false
+      enabled: true
+      percentage: 50
+
 
 # Timezone configuration
 timezone_offset: "-3"                      # Timezone offset (format: string with sign)

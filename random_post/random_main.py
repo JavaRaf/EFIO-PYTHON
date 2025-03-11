@@ -3,12 +3,11 @@ from time import sleep
 from pathlib import Path
 
 from random_post.filters import (
-    generate_palette,
     mirror_image,
     negative_filter,
     two_panel,
-    warp_in,
-    warp_out,
+    brightness_and_contrast,
+    None_filter,
 )
 from random_post.paths_utils import get_random_frame
 from scripts.load_configs import load_configs, load_frame_counter
@@ -24,19 +23,27 @@ frame_counter: dict = load_frame_counter()
 
 
 filters_functions = {
+    "None_filter": None_filter,
     "two_panel": two_panel,
     "mirror_image": mirror_image,
     "negative_filter": negative_filter,
-    "generate_palette": generate_palette,
-    "warp_in": warp_in,
-    "warp_out": warp_out,
+    "brightness_and_contrast": brightness_and_contrast,
 }
 
 enable_filters = [
     filter
     for filter, value in configs.get("random_posting").get("filters").items()
-    if value
+    if value.get("enabled")
 ]
+
+percentages = [
+    value.get("percentage")
+    for filter, value in configs.get("random_posting").get("filters").items()
+    if value.get("enabled")
+]
+
+if not enable_filters:
+    enable_filters = ["None_filter"]
 
 def post_frame(message: str, episode_number: int, frame_number: int, frame_path: Path):
     """Posta um frame."""
@@ -76,7 +83,7 @@ def handle_random_crop(frame_path, post_id, configs):
 def random_main():
 
     paths: list = []
-    chosen_filter = random.choice(enable_filters)
+    chosen_filter = random.choices(enable_filters, weights=percentages)[0]
     filter_function = filters_functions.get(chosen_filter)
    
     print(f"\n\n├──Selected filter: {chosen_filter}", flush=True)
