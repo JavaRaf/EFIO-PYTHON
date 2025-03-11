@@ -23,14 +23,15 @@ configs: dict = load_configs()
 frame_counter: dict = load_frame_counter()
 
 
-filters_functions = [
-    two_panel,
-    mirror_image,
-    negative_filter,
-    generate_palette,
-    warp_in,
-    warp_out,
-]
+filters_functions = {
+    "two_panel": two_panel,
+    "mirror_image": mirror_image,
+    "negative_filter": negative_filter,
+    "generate_palette": generate_palette,
+    "warp_in": warp_in,
+    "warp_out": warp_out,
+}
+
 enable_filters = [
     filter
     for filter, value in configs.get("random_posting").get("filters").items()
@@ -76,9 +77,12 @@ def random_main():
 
     paths: list = []
     chosen_filter = random.choice(enable_filters)
+    filter_function = filters_functions.get(chosen_filter)
+   
+    print(f"\n\n├──Selected filter: {chosen_filter}", flush=True)
 
     if chosen_filter == "two_panel":
-        for i in range(2):
+        for _ in range(2):
             path, frame_number, episode_number = get_random_frame()
             subtitle_message, _ = get_subtitle_message(
                 episode_number, frame_number
@@ -122,10 +126,10 @@ def random_main():
             }
         )
 
-        filter_path = chosen_filter(paths)  # apply filter
+        filter_path = filter_function(paths)  # apply filter
 
         message = (
-            "[Random Frames]\n\n"
+            "[Random Frame]\n\n"
             f"Season {frame_counter.get('season')}, "
             f"Episode {paths[0]['episode_number']}, "
             f"Frame {paths[0]['frame_number']}\n"
@@ -151,4 +155,4 @@ def random_main():
         handle_subtitles(paths[0]["episode_number"], paths[0]["frame_number"], post_id, configs)
     
     # random crop
-    handle_random_crop(paths[0]["frame_path"], post_id, configs)
+    handle_random_crop(filter_path, post_id, configs)

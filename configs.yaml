@@ -30,8 +30,8 @@ posting:
 random_posting:                            # post frames in random order
   enabled: false                           # true or false
   filters:                                 # Filters to apply to random posting
-    two_panel: true                        # true or false
-    mirror_image: false                    # true or false
+    two_panel: false                       # true or false
+    mirror_image: true                     # true or false
     negative_filter: false                 # true or false
     generate_palette: false                # true or false
     warp_in: false                         # true or false
