@@ -28,23 +28,23 @@ posting:
 
 
 random_posting:                            # post frames in random order
-  enabled: true                           # true or false
+  enabled: true                            # true or false
   filters:                                 # Filters to apply to random posting
     None_filter:                           # (applies no filter, original image)        true or false
-      enabled: true
-      percentage: 30
+      enabled: true                        # true or false
+      percentage: 30                       # percentage of frames to apply filter
     two_panel:                             # (Junta 2 frames em uma imagem)             true or false
-      enabled: true
-      percentage: 20
+      enabled: true                        # true or false
+      percentage: 20                       # percentage of frames to apply filter
     mirror_image:                          # (Espelha a imagem)                         true or false
-      enabled: true
-      percentage: 15
+      enabled: true                        # true or false
+      percentage: 15                       # percentage of frames to apply filter
     negative_filter:                       # (applies negative filter, inverts colors)  true or false
-      enabled: true
-      percentage: 10
+      enabled: true                        # true or false
+      percentage: 10                       # percentage of frames to apply filter
     brightness_and_contrast:               # (applies brightness and contrast filter)   true or false
-      enabled: true
-      percentage: 50
+      enabled: true                        # true or false
+      percentage: 50                       # percentage of frames to apply filter
 
 
 # Timezone configuration

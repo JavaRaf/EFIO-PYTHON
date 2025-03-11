@@ -3,6 +3,8 @@ import os
 import time
 
 import httpx
+from tenacity import retry, stop_after_attempt, wait_exponential
+
 
 from scripts.load_configs import load_configs, load_frame_counter
 from scripts.logger import get_logger
@@ -10,31 +12,7 @@ from scripts.logger import get_logger
 logger = get_logger(__name__)
 
 
-def with_retries(max_attempts: int = 3, delay: float = 2.0):
-    """
-    Decorator para adicionar retries a uma função.
-    """
-
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            for attempt in range(max_attempts):
-                try:
-                    return func(*args, **kwargs)
-                except Exception as e:
-                    if attempt == max_attempts - 1:
-                        raise
-                    logger.error(
-                        f"Erro ao executar {func.__name__} (tentativa {attempt + 1}/{max_attempts}): {e}",
-                        exc_info=True,
-                    )
-                    time.sleep(delay)
-
-        return wrapper
-
-    return decorator
-
-
-@with_retries(max_attempts=3, delay=2.0)
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=2, max=10))
 def fb_update_bio(biography_text: str) -> None:
     """
     Atualiza a biografia da página do Facebook.
@@ -62,7 +40,7 @@ def fb_update_bio(biography_text: str) -> None:
         raise
 
 
-@with_retries(max_attempts=3, delay=2.0)
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=2, max=10))
 def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> str:
     """
     Realiza postagens no Facebook com suporte a retry automático.
@@ -129,7 +107,7 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
 # ------------------------------------------------------------------------------------------------------------
 
 
-@with_retries(max_attempts=2, delay=2.0)
+@retry(stop=stop_after_attempt(2), wait=wait_exponential(multiplier=2, min=2, max=10))
 def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
     """
     Verifica se o ID do álbum é válido.
@@ -166,7 +144,7 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
 
     return ALBUM_ID, ALBUM_NAME
 
-
+# não tem retry, pq usar a função de postagem acima
 def repost_in_album(post_data: dict) -> None:
     """
     Reposte no álbum.

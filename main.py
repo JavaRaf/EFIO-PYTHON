@@ -94,7 +94,7 @@ def update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted
 
 
 # posta frames específicos (sequenciais)
-def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_interval):
+def post_sequencial_frames(fph, frame_iterator, frame_counter, configs, posting_interval):
     """Posta um frame específico"""
     posts_data = []
 
@@ -151,9 +151,9 @@ def post_frame_by_number(fph, frame_iterator, frame_counter, configs, posting_in
 
 
 # posta frames aleatórios (only if random_posting is enabled)
-def random_posting(fph):
+def post_random_frames(fph):
     """Posta frames aleatórios"""
-    for i in range(1, fph + 1):
+    for _ in range(1, fph + 1):
         random_main()
 
 
@@ -168,14 +168,14 @@ def main():
     posting_interval: int = int(
         configs.get("posting").get("posting_interval", 2)
     )  # default 2 minutes
-    fph: int = configs.get("posting").get("fph", 15)  # default 15 frames per hour
+    fph: int = configs.get("posting").get("fph", 15)  # default 15 frames every 2 hours
     frame_iterator: int = frame_counter.get("frame_iterator", 0)  # default 0
 
     if configs.get("random_posting").get("enabled", False):
-        random_posting(fph)
+        post_random_frames(fph)
 
     else:
-        post_frame_by_number(
+        post_sequencial_frames(
             fph,
             frame_iterator,
             frame_counter,
