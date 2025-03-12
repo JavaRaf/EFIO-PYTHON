@@ -52,7 +52,7 @@ def handle_subtitles(episode_number, frame_number, post_id, configs):
         if subtitle_message:
             fb_posting(subtitle_message, None, post_id)
             print(
-                f"├──Subtitle has been posted, timestamp: {frame_timestamp}", flush=True
+                f"├──Subtitle has been posted, subtitle_timestamp: {frame_timestamp}", flush=True
             )
             sleep(2)
 

@@ -16,7 +16,7 @@ episodes:
 
 # Posting Configuration
 posting:
-  fph: 5                                   # Frames per hour (format: integer)
+  fph: 15                                  # Frames per hour (format: integer)
   posting_interval: 2                      # Interval between posts (in minutes) (format: integer)
   posting_subtitles: true                  # Include subtitles in frames
   multi_language_subtitles: true           # Include subtitles in multiple languages
@@ -28,7 +28,7 @@ posting:
 
 
 random_posting:                            # post frames in random order
-  enabled: true                            # true or false
+  enabled: false                           # true or false
   filters:                                 # Filters to apply to random posting
     None_filter:                           # (applies no filter, original image)        true or false
       enabled: true                        # true or false

@@ -41,6 +41,19 @@ def fb_update_bio(biography_text: str) -> None:
 
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=2, max=10))
+def check_if_post_exists(message: str, posts: list) -> str:
+    """
+    Verifica se o post já existe em uma lista de posts.
+    """
+    for post in posts:
+        if post["message"] == message:
+            return post["id"]
+    return None
+
+# contador de falhas, evitar posts repetidos por causa dos timeouts
+static_fails = 0
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=2, max=10))
 def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> str:
     """
     Realiza postagens no Facebook com suporte a retry automático.
@@ -56,7 +69,22 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
     Raises:
         Exception: Se todas as tentativas de postagem falharem
     """
+    global static_fails
     configs = load_configs()
+
+    if static_fails > 0:
+        # recupera os 10 posts mais recentes
+        endpoint = f"https://graph.facebook.com/{configs.get('fb_api_version', 'v21.0')}/me/posts"
+        params = {"access_token": os.getenv("FB_TOKEN"), "limit": 10}
+        response = httpx.get(endpoint, params=params, timeout=20)
+        response.raise_for_status()
+        posts = response.json().get("data", [])
+
+        post_id = check_if_post_exists(message, posts)
+        if post_id:
+            return post_id
+
+    
     try:
         fb_api_version = configs.get("fb_api_version", "v21.0")
 
@@ -78,14 +106,18 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
                 f"Falha ao postar. Status code: {response.status_code}, message: {response.text}",
                 exc_info=True,
             )
+            static_fails += 1
             response.raise_for_status()
+            
 
         return response.json()["id"]
     except httpx.HTTPStatusError as e:
         logger.error(f"Erro HTTP ao realizar postagem: {e}", exc_info=True)
+        static_fails += 1
         raise
     except Exception as e:
         logger.error(f"Erro inesperado ao realizar postagem: {e}", exc_info=True)
+        static_fails += 1
         raise
 
 
@@ -119,8 +151,8 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
     )
 
     # um album id é valdio quando é um número inteiro presente no arquivo de configuração
-    # Essa verificção não gera erros pois album_id pode esta preenchido com uma descrição do álbum
-    if ALBUM_ID and not ALBUM_ID.isdigit():
+    if not ALBUM_ID or not ALBUM_ID.isdigit():
+        print("Album ID inválido, as imagens não serão repostadas no álbum", flush=True)
         return None, None
 
     try:
