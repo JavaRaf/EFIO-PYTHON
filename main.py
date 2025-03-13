@@ -12,7 +12,7 @@ from scripts.load_configs import load_configs, load_frame_counter, save_frame_co
 from scripts.logger import get_logger, update_fb_log
 from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
-from scripts.get_local_time import sleeper_function
+# from scripts.get_local_time import sleeper_function
 
 from random_post.random_main import random_main
 
@@ -140,9 +140,11 @@ def post_sequencial_frames(fph, frame_iterator, frame_counter, configs, posting_
         handle_subtitles(episode_number, frame_number, post_id, configs)
         handle_random_crop(frame_path, post_id, configs)
 
-        sleeper_function(posting_interval)  # print a timer in the terminal
+        print(f"Sleeping for {posting_interval / 60:.0f} minutes...")
+        sleep(posting_interval)
 
     if len(posts_data) > 0:
+        print("\n\n", "Posts completed successfully", flush=True)
 
         repost_in_album(posts_data)  # repost in album if enabled
 
