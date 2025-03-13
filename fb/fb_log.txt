@@ -1,3 +1,18 @@
 
 season: 1, episode: 2, frame: 21 https://facebook.com/570129692733126
 season: 1, episode: 2, frame: 22 https://facebook.com/570129939399768
+season: 1, episode: 2, frame: 1 https://facebook.com/576205475458881
+season: 1, episode: 2, frame: 2 https://facebook.com/576206892125406
+season: 1, episode: 2, frame: 3 https://facebook.com/576208502125245
+season: 1, episode: 2, frame: 4 https://facebook.com/576210042125091
+season: 1, episode: 2, frame: 5 https://facebook.com/576211312124964
+season: 1, episode: 2, frame: 6 https://facebook.com/576212758791486
+season: 1, episode: 2, frame: 7 https://facebook.com/576214145458014
+season: 1, episode: 2, frame: 8 https://facebook.com/576215432124552
+season: 1, episode: 2, frame: 9 https://facebook.com/576216918791070
+season: 1, episode: 2, frame: 10 https://facebook.com/576218122124283
+season: 1, episode: 2, frame: 11 https://facebook.com/576219382124157
+season: 1, episode: 2, frame: 12 https://facebook.com/576220748790687
+season: 1, episode: 2, frame: 13 https://facebook.com/576222108790551
+season: 1, episode: 2, frame: 14 https://facebook.com/576223358790426
+season: 1, episode: 2, frame: 15 https://facebook.com/576224628790299
