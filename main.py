@@ -166,7 +166,7 @@ def main():
     configs: dict = load_configs()
 
     posting_interval: int = int(
-        configs.get("posting").get("posting_interval", 2)
+        configs.get("posting").get("posting_interval", 2) * 60
     )  # default 2 minutes
     fph: int = configs.get("posting").get("fph", 15)  # default 15 frames every 2 hours
     frame_iterator: int = frame_counter.get("frame_iterator", 0)  # default 0
