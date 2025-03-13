@@ -14,5 +14,4 @@ logs/
 __pycache__
 z
 test.py
-episodes/frames
-episodes/subtitles
+
