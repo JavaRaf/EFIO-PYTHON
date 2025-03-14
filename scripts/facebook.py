@@ -34,7 +34,7 @@ def fb_update_bio(biography_text: str) -> None:
             )
             response.raise_for_status()
 
-        print(f"Biography has been updated with message\n '{biography_text}'", flush=True)
+        print(f"\n\nBiography has been updated with message:\n\t {biography_text}", flush=True)
         return response.json()
     except httpx.HTTPStatusError as e:
         logger.error(f"Erro HTTP ao atualizar a biografia: {e}", exc_info=True)
@@ -170,6 +170,7 @@ def repost_in_album(post_data: dict) -> None:
         )
         return
 
+    print("\nReposting frames in album...\n")
     for post in post_data:
         try:
             fb_posting(
@@ -179,7 +180,6 @@ def repost_in_album(post_data: dict) -> None:
             logger.error(f"Erro inesperado ao repostar no álbum: {e}", exc_info=True)
             raise
         
-        print("\nReposting frames in album...\n")
         print(
             f"├── Episode {post['episode_number']} Frame {post['frame_number']} Reposted in album ({ALBUM_NAME}) (ID: {ALBUM_ID})"
         )
