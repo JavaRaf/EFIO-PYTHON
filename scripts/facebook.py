@@ -1,9 +1,8 @@
-from email import message
 import os
 import time
 
 import httpx
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 
 from scripts.load_configs import load_configs, load_frame_counter
@@ -11,6 +10,7 @@ from scripts.logger import get_logger
 
 logger = get_logger(__name__)
 
+client = httpx.Client(timeout=(10, 30))
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=2, max=10))
 def fb_update_bio(biography_text: str) -> None:
@@ -40,84 +40,49 @@ def fb_update_bio(biography_text: str) -> None:
         raise
 
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=2, max=10))
-def check_if_post_exists(message: str, posts: list) -> str:
-    """
-    Verifica se o post já existe em uma lista de posts.
-    """
-    for post in posts:
-        if post["message"] == message:
-            return post["id"]
-    return None
-
-# contador de falhas, evitar posts repetidos por causa dos timeouts
-static_fails = 0
-
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=2, max=10))
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=2, min=2, max=10),
+    retry=retry_if_exception_type((httpx.TimeoutException, httpx.NetworkError, httpx.HTTPStatusError)),
+)
 def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> str:
-    """
-    Realiza postagens no Facebook com suporte a retry automático.
-
-    Args:
-        message (str): Mensagem/texto da postagem
-        frame_path (str, opcional): Caminho para arquivo de imagem. Padrão None
-        parent_id (str, opcional): ID do post pai para comentários. Padrão None
-
-    Returns:
-        str: ID da postagem/comentário criado
-
-    Raises:
-        Exception: Se todas as tentativas de postagem falharem
-    """
-    global static_fails
     configs = load_configs()
+    fb_api_version = configs.get("fb_api_version", "v21.0")
 
-    if static_fails > 0:
-        # recupera os 10 posts mais recentes
-        endpoint = f"https://graph.facebook.com/{configs.get('fb_api_version', 'v21.0')}/me/posts"
-        params = {"access_token": os.getenv("FB_TOKEN"), "limit": 10}
-        response = httpx.get(endpoint, params=params, timeout=20)
-        response.raise_for_status()
-        posts = response.json().get("data", [])
+    endpoint = f"https://graph.facebook.com/{fb_api_version}/me/photos"
+    if parent_id:
+        endpoint = f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
 
-        post_id = check_if_post_exists(message, posts)
-        if post_id:
-            return post_id
+    data = {"access_token": os.getenv("FB_TOKEN"), "message": message}
+    files = None
 
-    
     try:
-        fb_api_version = configs.get("fb_api_version", "v21.0")
+        if frame_path:
+            with open(frame_path, "rb") as file:
+                files = {"source": file}
+                response = client.post(endpoint, data=data, files=files)
+        else:
+            response = client.post(endpoint, data=data)
 
-        endpoint = f"https://graph.facebook.com/{fb_api_version}/me/photos"
+        response.raise_for_status()  # Levanta erro para status HTTP ruins (400+)
 
-        if parent_id:
-            endpoint = (
-                f"https://graph.facebook.com/{fb_api_version}/{parent_id}/comments"
-            )
+        return response.json().get("id")
 
-        data = {"access_token": os.getenv("FB_TOKEN"), "message": message}
-
-        files = {"source": open(frame_path, "rb")} if frame_path else None
-
-        response = httpx.post(endpoint, data=data, files=files, timeout=30)
-
-        if response.status_code != 200:
-            logger.error(
-                f"Falha ao postar. Status code: {response.status_code}, message: {response.text}",
-                exc_info=True,
-            )
-            static_fails += 1
-            response.raise_for_status()
-            
-
-        return response.json()["id"]
     except httpx.HTTPStatusError as e:
-        logger.error(f"Erro HTTP ao realizar postagem: {e}", exc_info=True)
-        static_fails += 1
+        logger.error(f"Erro HTTP: {e.response.status_code} - {e.response.reason_phrase}")
+        if e.response.status_code >= 400 and e.response.status_code < 500:
+            raise  # Erros 4xx geralmente não devem ser re-tentados
+
+    except httpx.TimeoutException as e:
+        logger.error(f"Timeout ao postar: {e}")
         raise
+
+    except httpx.NetworkError as e:
+        logger.error(f"Erro de rede: {e}")
+        raise
+
     except Exception as e:
-        logger.error(f"Erro inesperado ao realizar postagem: {e}", exc_info=True)
-        static_fails += 1
+        logger.error(f"Erro inesperado ao postar: {e}", exc_info=True)
         raise
 
 
