@@ -145,7 +145,7 @@ def post_sequencial_frames(fph, frame_iterator, frame_counter, configs, posting_
         sleep(posting_interval)
 
     if len(posts_data) > 0:
-        print("\n\n", "Posts completed successfully", flush=True)
+        print(f"{len(posts_data)} were successfully posted\n\n", flush=True)
 
         repost_in_album(posts_data)  # repost in album if enabled
 

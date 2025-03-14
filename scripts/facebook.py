@@ -12,7 +12,11 @@ logger = get_logger(__name__)
 
 client = httpx.Client(timeout=(10, 30))
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, min=2, max=10))
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=2, min=2, max=10),
+    retry=retry_if_exception_type((httpx.TimeoutException, httpx.NetworkError, httpx.HTTPStatusError)),
+)
 def fb_update_bio(biography_text: str) -> None:
     """
     Atualiza a biografia da página do Facebook.
@@ -30,7 +34,7 @@ def fb_update_bio(biography_text: str) -> None:
             )
             response.raise_for_status()
 
-        print("\n", "Biography has been updated", flush=True)
+        print(f"Biography has been updated with message\n '{biography_text}'", flush=True)
         return response.json()
     except httpx.HTTPStatusError as e:
         logger.error(f"Erro HTTP ao atualizar a biografia: {e}", exc_info=True)
@@ -174,7 +178,8 @@ def repost_in_album(post_data: dict) -> None:
         except Exception as e:
             logger.error(f"Erro inesperado ao repostar no álbum: {e}", exc_info=True)
             raise
-
+        
+        print("\nReposting frames in album...\n")
         print(
             f"├── Episode {post['episode_number']} Frame {post['frame_number']} Reposted in album ({ALBUM_NAME}) (ID: {ALBUM_ID})"
         )
