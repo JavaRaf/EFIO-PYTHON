@@ -40,6 +40,7 @@ def post_frame(
         f"\n\n├──Episode {episode_number} frame {frame_number} has been posted",
         flush=True,
     )
+    sleep(2)
     return post_id, post_message
 
 
