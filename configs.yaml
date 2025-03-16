@@ -71,6 +71,7 @@ bio_message: |
 # - {current_frame}       : Current frame number
 # - {episode_total_frames}: Total frames in the episode
 # - {frame_timestamp}     : Frame timestamp
+# - {subtitle_text}       : Subtitle in frame tittle
 # - {fph}                 : Frames per interval
 # - {page_name}           : Page name
 # - {execution_interval}  : Interval between posts

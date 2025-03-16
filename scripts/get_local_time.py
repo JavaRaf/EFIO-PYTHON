@@ -8,17 +8,17 @@ logger = get_logger(__name__)
 
 def get_local_time() -> str:
     """
-    Retorna a hora local usando o offset do config.yaml
+    Returns the local time using the offset from config.yaml
 
     Args:
-        configs (dict): Dicionário de configuração contendo TIME_ZONE_OFFSET
+        configs (dict): Configuration dictionary containing TIME_ZONE_OFFSET
 
     Returns:
-        str: String datetime formatada (YYYY-MM-DD HH:MM:SS), vazia se ocorrer erro
+        str: Formatted datetime string (YYYY-MM-DD HH:MM:SS), empty if error occurs
     """
     try:
         if "timezone_offset" not in load_configs().keys():
-            raise KeyError("timezone_offset não encontrado nas configurações")
+            raise KeyError("timezone_offset not found in configurations")
 
         time_zone = (
             load_configs()["timezone_offset"]
@@ -30,25 +30,8 @@ def get_local_time() -> str:
         )
 
     except (KeyError, ValueError, TypeError) as error:
-        logger.error(f"Erro ao processar timezone: {error}", exc_info=True)
+        logger.error(f"Error processing timezone: {error}", exc_info=True)
 
     return ""
 
 
-def sleeper_function(seconds: int) -> None:
-    """
-    Mostra um timer de contagem regressiva para o próximo post.
-
-    Args:
-        seconds (int): Tempo em segundos
-
-    Returns:
-        None
-    """
-    print("\n")
-
-    for i in range(seconds, 0, -1):
-        print(f"\r----> Waiting for the next post: {i:2d} <-----", end="", flush=True)
-        time.sleep(1)
-
-    print("\r" + " " * 70, end="\r", flush=True)  # Limpa a linha final

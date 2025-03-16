@@ -12,12 +12,12 @@ logger = get_logger(__name__)
 
 def build_frame_file_path(frame_number: int) -> tuple[Path, int, int]:
     """
-    Constrói o caminho do arquivo para um frame específico
+    Builds the file path for a specific frame
 
     Args:
-        frame_number: Número do frame desejado
+        frame_number: Desired frame number
     Returns:
-        tuple[Path, int, int]: (caminho do arquivo, número do episódio, total de quadros no episódio)
+        tuple[Path, int, int]: (file path, episode number, total frames in episode)
     """
 
     frame_counter = load_frame_counter()
@@ -44,13 +44,13 @@ def build_frame_file_path(frame_number: int) -> tuple[Path, int, int]:
 
 def random_crop_generator(frame_path: Path) -> tuple[Path, str]:
     """
-    Gera um recorte aleatório de um frame.
+    Generates a random crop from a frame.
 
     Args:
-        frame_path: Caminho do arquivo do frame
+        frame_path: Path to the frame file
 
     Returns:
-        tuple[str, str]: (caminho do arquivo gerado, mensagem descritiva)
+        tuple[str, str]: (generated file path, descriptive message)
     """
 
     min_x = load_configs().get("posting")["random_crop"].get("min_x")
@@ -84,13 +84,13 @@ def random_crop_generator(frame_path: Path) -> tuple[Path, str]:
 
 def get_total_episode_frames(episode_number: int) -> int:
     """
-    Retorna o total de quadros de um episódio.
+    Returns the total number of frames in an episode.
 
     Args:
-        episode_number: Número do episódio
+        episode_number: Episode number
 
     Returns:
-        int: Total de quadros do episódio
+        int: Total number of frames in the episode
     """
     episode_path = frames_dir / f"{episode_number:02d}"
     return len(list(episode_path.iterdir()))

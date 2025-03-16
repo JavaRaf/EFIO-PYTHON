@@ -2,6 +2,7 @@ from scripts.frame_utils import get_total_episode_frames
 from scripts.logger import get_logger
 from scripts.subtitle_handler import frame_to_timestamp
 from scripts.workflow_utils import get_workflow_execution_interval
+from scripts.subtitle_handler import get_subtitle_message
 
 logger = get_logger(__name__)
 
@@ -10,6 +11,7 @@ logger = get_logger(__name__)
 # - {current_frame}       : Número do frame atual
 # - {episode_total_frames}: Total de frames do episódio
 # - {frame_timestamp}     : Timestamp do frame
+# - {subtitle_text}       : Subtitle in frame tittle
 # - {fph}                 : Frames por intervalo
 # - {page_name}           : Nome da página
 # - {execution_interval}  : Intervalo entre postagens
@@ -47,6 +49,7 @@ def format_message(
             "frame_timestamp": frame_to_timestamp(
                 frame_counter.get("current_episode", 0), frame_number
             ),
+            "subtitle_text": get_subtitle_message(episode_number, frame_number)[0],
             "fph": configs.get("posting", {}).get("fph", "N/A"),
             "page_name": configs.get("your_page_name", "N/A"),
             "execution_interval": get_workflow_execution_interval(),
