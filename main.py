@@ -164,15 +164,13 @@ def post_random_frames(fph):
 def main():
     """Main function"""
     frame_counter: dict = load_frame_counter()
-    configs: dict = load_configs()
-    frame_counter: dict = load_frame_counter()
-    configs: dict = load_configs()
+    configs:       dict = load_configs()
 
     posting_interval: int = int(
         configs.get("posting").get("posting_interval", 2) * 60
     )  # default 2 minutes
-    fph: int = configs.get("posting").get("fph", 15)  # default 15 frames every 2 hours
-    frame_iterator: int = frame_counter.get("frame_iterator", 0)  # default 0
+    fph: int = configs.get("posting").get("fph", 15)                # default 15 frames every 2 hours
+    frame_iterator: int = frame_counter.get("frame_iterator", 0)    # default 0
 
     if configs.get("random_posting").get("enabled", False):
         post_random_frames(fph)

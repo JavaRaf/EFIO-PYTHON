@@ -18,8 +18,8 @@ episodes:
 posting:
   fph: 15                                  # Frames per hour (format: integer)
   posting_interval: 2                      # Interval between posts (in minutes) (format: integer)
-  posting_subtitles: true                  # Include subtitles in frames
-  multi_language_subtitles: true           # Include subtitles in multiple languages
+  posting_subtitles: false                 # Include subtitles in frames
+  multi_language_subtitles: false          # Include subtitles in multiple languages
 
   random_crop:                             # Random crop settings
     enabled: true                          # true or false
@@ -55,7 +55,11 @@ timezone_offset: "-3"                      # Timezone offset (format: string wit
 # Message templates ------------------------------------------------------------------------------------------------
 
 # {post_message} is the message template used when posting frames in order
-post_message: "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}"
+post_message: |
+  "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}
+  -
+  -
+  {subtitle_text}"
 
 # {bio_message} is the message template used in the page bio
 bio_message: |
