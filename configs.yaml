@@ -57,6 +57,10 @@ timezone_offset: "-3"                      # Timezone offset (format: string wit
 # {post_message} is the message template used when posting frames in order
 post_message: |
   "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}
+  timestamp: {frame_timestamp}
+  page name: {page_name}
+  fph: {fph}
+  execution interval: {execution_interval} hours
   -
   -
   {subtitle_text}"
