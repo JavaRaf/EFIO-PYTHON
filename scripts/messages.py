@@ -15,6 +15,7 @@ logger = get_logger(__name__)
 # - {fph}                 : Frames por intervalo
 # - {page_name}           : Nome da página
 # - {execution_interval}  : Intervalo entre postagens
+# - {posting_interval}    : Intervalo entre posts (in minutes) (default: 2 minutes) (format: integer)
 # - {total_frames_posted} : Total de frames já postados
 
 # - {img_fps}             :
@@ -57,9 +58,13 @@ def format_message(
             "img_fps": configs.get("episodes")
             .get(episode_number)
             .get("img_fps", "N/A"),
+            "posting_interval": configs.get("posting", {}).get("posting_interval", "N/A"),
         }
         return message.format(**attrs)
 
+    except KeyError as e:
+        logger.error(f"Key error formatting message: {e}", exc_info=True)
+        return ""
     except Exception as e:
         logger.error(f"Error formatting message: {e}", exc_info=True)
-        return message
+        return ""

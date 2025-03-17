@@ -56,19 +56,19 @@ timezone_offset: "-3"                      # Timezone offset (format: string wit
 
 # {post_message} is the message template used when posting frames in order
 post_message: |
-  "Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}
-  timestamp: {frame_timestamp}
-  page name: {page_name}
-  fph: {fph}
-  execution interval: {execution_interval} hours
+  Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}
+  Timestamp: {frame_timestamp}
+  Page name: {page_name}
+  Posting {fph} frames every {execution_interval} hours
+  Total of {total_frames_posted} frames was successfully posted in page!!!
   -
   -
-  {subtitle_text}"
+  {subtitle_text}
 
 # {bio_message} is the message template used in the page bio
 bio_message: |
-  "Chopped {img_fps} FPS, Posting {fph} Frames every
-  {execution_interval} hours. Total of {total_frames_posted} frames was successfully posted!!!"
+  Chopped {img_fps} FPS, Posting {fph} Frames every {execution_interval} hours.
+  Total of {total_frames_posted} frames was successfully posted!!!
 
 # Message Templates --------------------------------------------------------------------------------------------------
 
@@ -82,7 +82,8 @@ bio_message: |
 # - {subtitle_text}       : Subtitle in frame tittle
 # - {fph}                 : Frames per interval
 # - {page_name}           : Page name
-# - {execution_interval}  : Interval between posts
+# - {execution_interval}  : Interval between execution (in hours) (default: 2 hours) (format: integer)
+# - {posting_interval}    : Interval between posts (in minutes) (default: 2 minutes) (format: integer)
 # - {total_frames_posted} : Total frames posted
 
 # - {img_fps}             : Frame rate used to generate video frames

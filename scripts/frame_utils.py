@@ -52,11 +52,12 @@ def random_crop_generator(frame_path: Path) -> tuple[Path, str]:
     Returns:
         tuple[str, str]: (generated file path, descriptive message)
     """
+    configs = load_configs()
 
-    min_x = load_configs().get("posting")["random_crop"].get("min_x")
-    min_y = load_configs().get("posting")["random_crop"].get("min_y")
+    min_x = configs.get("posting", {}).get("random_crop", {}).get("min_x", 200)
+    min_y = configs.get("posting", {}).get("random_crop", {}).get("min_y", 600)
 
-    crop_width = crop_height = random.randint(min_x, min_y)  # min_x = 200, min_y = 600
+    crop_width = crop_height = random.randint(min_x, min_y)
 
     with Image.open(frame_path) as img:
         image_width, image_height = img.size

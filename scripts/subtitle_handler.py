@@ -8,6 +8,7 @@ from scripts.load_configs import load_configs
 from scripts.logger import get_logger
 from scripts.paths import subtitles_dir
 
+
 logger = get_logger(__name__)
 
 LANGUAGE_CODES = {
@@ -34,19 +35,10 @@ LANGUAGE_CODES = {
 
 
 def remove_tags(message: str) -> str:
-    """Remove tags HTML e códigos de formatação da string."""
+    """Remove tags ASS/SSA"""
+    PATTERNS = re.compile(r"\{\s*[^}]*\s*\}|\\N|\\[^}]+")
 
-    PATTERNS = re.compile(
-    r"""
-        {\s*[^}]*\s*}    |  # Remove códigos de formatação ASS/SSA entre chaves
-        \\[Nn]           |  # Substitui \N e \n por espaço
-        \[[^\]]+\]       |  # Remove tags de idioma entre colchetes
-        \\[^}]+          |  # Remove códigos de formatação ASS/SSA
-    """,
-        re.VERBOSE,
-    )
-
-    return PATTERNS.sub(" ", message).strip()
+    return PATTERNS.sub("", message).strip()
 
 
 def timestamp_to_seconds(time_str: str) -> float:
