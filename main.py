@@ -44,9 +44,9 @@ def post_frame(
     return post_id, post_message
 
 
-def handle_subtitles(episode_number, frame_number, post_id, configs):
+def handle_subtitles(episode_number: int, frame_number: int, post_id: str, configs: dict):
     """Posta legendas"""
-    if configs.get("posting").get("posting_subtitles"):
+    if configs.get("posting", {}).get("posting_subtitles", False):
         subtitle_message, frame_timestamp = get_subtitle_message(
             episode_number, frame_number
         )
@@ -60,7 +60,7 @@ def handle_subtitles(episode_number, frame_number, post_id, configs):
 
 def handle_random_crop(frame_path, post_id, configs):
     """Posta um recorte aleatório"""
-    if configs.get("posting").get("random_crop").get("enabled"):
+    if configs.get("posting", {}).get("random_crop", {}).get("enabled", False):
         crop_path, crop_message = random_crop_generator(frame_path)
         fb_posting(crop_message, crop_path, post_id)
         print("└──Random Crop has been posted", flush=True)

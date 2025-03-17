@@ -37,12 +37,11 @@ def remove_tags(message: str) -> str:
     """Remove tags HTML e códigos de formatação da string."""
 
     PATTERNS = re.compile(
-        r"""
-    {\s*[^}]*\s*}    |  # Remove códigos de formatação ASS/SSA entre chaves
-    \\[Nn]           |  # Substitui \N e \n por espaço
-    \[[^\]]+\]       |  # Remove tags de idioma entre colchetes
-    \\[^}]+          |  # Remove códigos de formatação ASS/SSA
-    \s+                 # Remove espaços extras
+    r"""
+        {\s*[^}]*\s*}    |  # Remove códigos de formatação ASS/SSA entre chaves
+        \\[Nn]           |  # Substitui \N e \n por espaço
+        \[[^\]]+\]       |  # Remove tags de idioma entre colchetes
+        \\[^}]+          |  # Remove códigos de formatação ASS/SSA
     """,
         re.VERBOSE,
     )
@@ -158,7 +157,7 @@ def get_subtitle_message(
 
     files = os.listdir(subtitle_dir)
 
-    if not load_configs().get("posting").get("multi_language_subtitles"):
+    if not load_configs().get("posting", {}).get("multi_language_subtitles", False):
         files = [files[0]]
 
     message = ""
