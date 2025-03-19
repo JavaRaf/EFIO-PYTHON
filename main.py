@@ -13,8 +13,6 @@ from scripts.logger import get_logger, update_fb_log
 from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
 
-# from scripts.get_local_time import sleeper_function
-
 from random_post.random_main import random_main
 
 logger = get_logger(__name__)
@@ -71,7 +69,7 @@ def handle_random_crop(frame_path, post_id, configs):
         sleep(2)
 
 
-def update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted):
+def update_bio_and_frame_counter(frame_counter: dict, configs: dict, number_of_frames_posted: int):
     """Atualiza a bio e o contador de frames"""
     frame_counter["frame_iterator"] += number_of_frames_posted
     frame_counter["total_frames_posted"] += number_of_frames_posted

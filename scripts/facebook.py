@@ -9,7 +9,6 @@ from tenacity import (
     retry_if_exception_type,
 )
 
-
 from scripts.load_configs import load_configs, load_frame_counter
 from scripts.logger import get_logger
 

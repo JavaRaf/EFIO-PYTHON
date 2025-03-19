@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-import time
 from scripts.load_configs import load_configs
 from scripts.logger import get_logger
 
