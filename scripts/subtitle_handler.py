@@ -115,11 +115,15 @@ def subtitle_ass(
             # Verifica se o estilo é relacionado a sinais (Signs)
             if re.search(r"\bsigns?\b", style, re.IGNORECASE):
                 subtitles.append(f"【 {remove_tags(text)} 】\n")
-            
+
             # Verifica se o estilo ou o nome é relacionado a letras de música (Lyrics ou Songs)
-            elif re.search(r"\b(lyrics?|songs?)\b", style, re.IGNORECASE) or re.search(r"\b(lyrics?|songs?)\b", name, re.IGNORECASE):
-                subtitles.append(f"♪ {remove_tags(text)} ♪\n")  # Adiciona um estilo especial para letras de música
-            
+            elif re.search(r"\b(lyrics?|songs?)\b", style, re.IGNORECASE) or re.search(
+                r"\b(lyrics?|songs?)\b", name, re.IGNORECASE
+            ):
+                subtitles.append(
+                    f"♪ {remove_tags(text)} ♪\n"
+                )  # Adiciona um estilo especial para letras de música
+
             # Caso contrário, apenas adiciona o texto
             else:
                 subtitles.append(remove_tags(text))
@@ -131,7 +135,6 @@ def subtitle_ass(
         f"[{lang_name}]\n {' '.join(subtitles)}",
         f"{frame_to_timestamp(episode_number, frame_number)}",
     )
-
 
 
 def get_subtitle_message(

@@ -45,6 +45,7 @@ percentages = [
 if not enable_filters:
     enable_filters = ["None_filter"]
 
+
 def post_frame(message: str, episode_number: int, frame_number: int, frame_path: Path):
     """Posta um frame."""
 
@@ -54,6 +55,7 @@ def post_frame(message: str, episode_number: int, frame_number: int, frame_path:
         flush=True,
     )
     return post_id
+
 
 def handle_subtitles(episode_number, frame_number, post_id, configs):
     """Posta legendas"""
@@ -78,22 +80,18 @@ def handle_random_crop(frame_path, post_id, configs):
         sleep(2)
 
 
-
-
 def random_main():
 
     paths: list = []
     chosen_filter = random.choices(enable_filters, weights=percentages)[0]
     filter_function = filters_functions.get(chosen_filter)
-   
+
     print(f"\n\n├──Selected filter: {chosen_filter}", flush=True)
 
     if chosen_filter == "two_panel":
         for _ in range(2):
             path, frame_number, episode_number = get_random_frame()
-            subtitle_message, _ = get_subtitle_message(
-                episode_number, frame_number
-            )
+            subtitle_message, _ = get_subtitle_message(episode_number, frame_number)
             paths.append(
                 {
                     "frame_path": path,
@@ -117,12 +115,9 @@ def random_main():
             f"Filter: {chosen_filter}\n"
         )
 
-
     else:
         path, frame_number, episode_number = get_random_frame()
-        subtitle_message, _ = get_subtitle_message(
-            episode_number, frame_number
-        )
+        subtitle_message, _ = get_subtitle_message(episode_number, frame_number)
         paths.append(
             {
                 "frame_path": path,
@@ -155,11 +150,17 @@ def random_main():
     )
     # subtitle
     if chosen_filter == "two_panel":
-        handle_subtitles(paths[0]["episode_number"], paths[0]["frame_number"], post_id, configs)
-        handle_subtitles(paths[1]["episode_number"], paths[1]["frame_number"], post_id, configs)
-    
+        handle_subtitles(
+            paths[0]["episode_number"], paths[0]["frame_number"], post_id, configs
+        )
+        handle_subtitles(
+            paths[1]["episode_number"], paths[1]["frame_number"], post_id, configs
+        )
+
     else:
-        handle_subtitles(paths[0]["episode_number"], paths[0]["frame_number"], post_id, configs)
-    
+        handle_subtitles(
+            paths[0]["episode_number"], paths[0]["frame_number"], post_id, configs
+        )
+
     # random crop
     handle_random_crop(filter_path, post_id, configs)

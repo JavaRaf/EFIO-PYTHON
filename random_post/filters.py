@@ -8,6 +8,7 @@ def None_filter(paths: list) -> Path:
     """Não aplica nenhum filtro, retornando a imagem original."""
     return paths[0]["frame_path"]
 
+
 def two_panel(paths: list) -> Path:
     with Image.open(paths[0]["frame_path"]) as img1, Image.open(
         paths[1]["frame_path"]
@@ -34,7 +35,7 @@ def mirror_image(paths: list) -> Path:
 
     with Image.open(paths[0]["frame_path"]) as img:
         output_img = Image.new("RGB", (width, height))
-        
+
         if random.choice([True, False]):  # Escolhe aleatoriamente qual lado espelhar
             # Espelhar o lado esquerdo
             half = img.crop((0, 0, width // 2, height))
@@ -47,7 +48,7 @@ def mirror_image(paths: list) -> Path:
             mirrored_half = half.transpose(Image.FLIP_LEFT_RIGHT)
             output_img.paste(mirrored_half, (0, 0))
             output_img.paste(half, (width // 2, 0))
-    
+
     output_path = filtereds_frames_dir / "_mirror_image.jpg"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_img.save(output_path)
@@ -55,12 +56,14 @@ def mirror_image(paths: list) -> Path:
     return output_path
 
 
-def brightness_and_contrast(paths: list, brightness: float = 0.8, contrast: float = 1.5) -> Path:
+def brightness_and_contrast(
+    paths: list, brightness: float = 0.8, contrast: float = 1.5
+) -> Path:
     """Aplica um filtro de brilho e contraste a uma imagem."""
-    
+
     input_path = Path(paths[0]["frame_path"])
     output_path = filtereds_frames_dir / f"_brightness_and_contrast.jpg"
-    
+
     with Image.open(input_path) as img:
         # Aplica brilho
         img = ImageEnhance.Brightness(img).enhance(brightness)
@@ -88,7 +91,7 @@ def negative_filter(paths: list) -> Path:
 def generate_palette(paths: list[dict]) -> Path:
     """Gera uma paleta de cores e salva no formato JPEG."""
     pass
-        
+
 
 def warp_in(paths: list) -> Path:
     with Image.open(paths[0]["frame_path"]) as img:

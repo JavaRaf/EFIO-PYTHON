@@ -2,7 +2,12 @@ import os
 import time
 
 import httpx
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_exponential,
+    retry_if_exception_type,
+)
 
 
 from scripts.load_configs import load_configs, load_frame_counter
@@ -15,7 +20,9 @@ client = httpx.Client(timeout=(10, 30))
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=2, min=2, max=10),
-    retry=retry_if_exception_type((httpx.TimeoutException, httpx.NetworkError, httpx.HTTPStatusError)),
+    retry=retry_if_exception_type(
+        (httpx.TimeoutException, httpx.NetworkError, httpx.HTTPStatusError)
+    ),
 )
 def fb_update_bio(biography_text: str) -> None:
     """
@@ -34,7 +41,10 @@ def fb_update_bio(biography_text: str) -> None:
             )
             response.raise_for_status()
 
-        print(f"\n\nBiography has been updated with message:\n\t {biography_text}", flush=True)
+        print(
+            f"\n\nBiography has been updated with message:\n\t {biography_text}",
+            flush=True,
+        )
         return response.json()
     except httpx.HTTPStatusError as e:
         logger.error(f"HTTP error while updating biography: {e}", exc_info=True)
@@ -43,10 +53,13 @@ def fb_update_bio(biography_text: str) -> None:
         logger.error(f"Unexpected error while updating biography: {e}", exc_info=True)
         raise
 
+
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_exponential(multiplier=2, min=2, max=10),
-    retry=retry_if_exception_type((httpx.TimeoutException, httpx.NetworkError, httpx.HTTPStatusError)),
+    retry=retry_if_exception_type(
+        (httpx.TimeoutException, httpx.NetworkError, httpx.HTTPStatusError)
+    ),
 )
 def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> str:
     configs = load_configs()
@@ -72,7 +85,9 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
         return response.json().get("id")
 
     except httpx.HTTPStatusError as e:
-        logger.error(f"HTTP Error: {e.response.status_code} - {e.response.reason_phrase}")
+        logger.error(
+            f"HTTP Error: {e.response.status_code} - {e.response.reason_phrase}"
+        )
         if e.response.status_code >= 400 and e.response.status_code < 500:
             raise  # 4xx errors usually shouldn't be retried
 
@@ -87,6 +102,7 @@ def fb_posting(message: str, frame_path: str = None, parent_id: str = None) -> s
     except Exception as e:
         logger.error(f"Unexpected error while posting: {e}", exc_info=True)
         raise
+
 
 @retry(stop=stop_after_attempt(2), wait=wait_exponential(multiplier=2, min=2, max=10))
 def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
@@ -125,6 +141,7 @@ def check_album_id(configs, frame_counter, fb_api_version) -> tuple:
 
     return ALBUM_ID, ALBUM_NAME
 
+
 # No retry because it uses the posting function above
 def repost_in_album(post_data: dict) -> None:
     """
@@ -156,9 +173,11 @@ def repost_in_album(post_data: dict) -> None:
                 post["message"], post["frame_path"], parent_id=f"{ALBUM_ID}/photos"
             )
         except Exception as e:
-            logger.error(f"Unexpected error while reposting in album: {e}", exc_info=True)
+            logger.error(
+                f"Unexpected error while reposting in album: {e}", exc_info=True
+            )
             raise
-        
+
         print(
             f"├── Episode {post['episode_number']} Frame {post['frame_number']} Reposted in album ({ALBUM_NAME}) (ID: {ALBUM_ID})"
         )

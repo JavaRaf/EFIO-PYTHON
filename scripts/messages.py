@@ -51,7 +51,13 @@ def format_message(
                 frame_counter.get("current_episode", 0), frame_number
             ),
             "subtitle_text": (
-                subtitle_message[0] if (subtitle_message := get_subtitle_message(episode_number, frame_number)) else ""
+                subtitle_message[0]
+                if (
+                    subtitle_message := get_subtitle_message(
+                        episode_number, frame_number
+                    )
+                )
+                else ""
             ),
             "fph": configs.get("posting", {}).get("fph", "N/A"),
             "page_name": configs.get("your_page_name", "N/A"),
@@ -60,7 +66,9 @@ def format_message(
             "img_fps": configs.get("episodes")
             .get(episode_number)
             .get("img_fps", "N/A"),
-            "posting_interval": configs.get("posting", {}).get("posting_interval", "N/A"),
+            "posting_interval": configs.get("posting", {}).get(
+                "posting_interval", "N/A"
+            ),
         }
         return message.format(**attrs)
 

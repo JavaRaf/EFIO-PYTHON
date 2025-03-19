@@ -12,6 +12,7 @@ from scripts.load_configs import load_configs, load_frame_counter, save_frame_co
 from scripts.logger import get_logger, update_fb_log
 from scripts.messages import format_message
 from scripts.subtitle_handler import get_subtitle_message
+
 # from scripts.get_local_time import sleeper_function
 
 from random_post.random_main import random_main
@@ -44,7 +45,9 @@ def post_frame(
     return post_id, post_message
 
 
-def handle_subtitles(episode_number: int, frame_number: int, post_id: str, configs: dict):
+def handle_subtitles(
+    episode_number: int, frame_number: int, post_id: str, configs: dict
+):
     """Posta legendas"""
     if configs.get("posting", {}).get("posting_subtitles", False):
         subtitle_message, frame_timestamp = get_subtitle_message(
@@ -53,7 +56,8 @@ def handle_subtitles(episode_number: int, frame_number: int, post_id: str, confi
         if subtitle_message:
             fb_posting(subtitle_message, None, post_id)
             print(
-                f"├──Subtitle has been posted, subtitle_timestamp: {frame_timestamp}", flush=True
+                f"├──Subtitle has been posted, subtitle_timestamp: {frame_timestamp}",
+                flush=True,
             )
             sleep(2)
 
@@ -95,7 +99,13 @@ def update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted
 
 
 # posta frames específicos (sequenciais)
-def post_sequencial_frames(fph: int, frame_iterator: int, frame_counter: dict, configs: dict, posting_interval: int):
+def post_sequencial_frames(
+    fph: int,
+    frame_iterator: int,
+    frame_counter: dict,
+    configs: dict,
+    posting_interval: int,
+):
     """Posta um frame específico"""
     posts_data = []
 
@@ -164,13 +174,13 @@ def post_random_frames(fph):
 def main():
     """Main function"""
     frame_counter: dict = load_frame_counter()
-    configs:       dict = load_configs()
+    configs: dict = load_configs()
 
     posting_interval: int = int(
         configs.get("posting").get("posting_interval", 2) * 60
     )  # default 2 minutes
-    fph: int = configs.get("posting").get("fph", 15)                # default 15 frames every 2 hours
-    frame_iterator: int = frame_counter.get("frame_iterator", 0)    # default 0
+    fph: int = configs.get("posting").get("fph", 15)  # default 15 frames every 2 hours
+    frame_iterator: int = frame_counter.get("frame_iterator", 0)  # default 0
 
     if configs.get("random_posting").get("enabled", False):
         post_random_frames(fph)

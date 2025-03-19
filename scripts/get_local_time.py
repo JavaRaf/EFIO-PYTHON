@@ -33,5 +33,3 @@ def get_local_time() -> str:
         logger.error(f"Error processing timezone: {error}", exc_info=True)
 
     return ""
-
-
