@@ -28,7 +28,6 @@ LANGUAGE_CODES = {
     "nl": "Nederlands (Dutch)",
     "uk": "Українська (Ukrainian)",
     "id": "Bahasa Indonesia (Indonesian)",
-    "ms": "Bahasa Melayu (Malay)",
     "tl": "Tagalog (Filipino)",
     # add more language codes here
 }

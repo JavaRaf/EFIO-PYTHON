@@ -50,7 +50,9 @@ def format_message(
             "frame_timestamp": frame_to_timestamp(
                 frame_counter.get("current_episode", 0), frame_number
             ),
-            "subtitle_text": get_subtitle_message(episode_number, frame_number)[0],
+            "subtitle_text": (
+                get_subtitle_message(episode_number, frame_number)[0] if get_subtitle_message(episode_number, frame_number) else ""
+            ),
             "fph": configs.get("posting", {}).get("fph", "N/A"),
             "page_name": configs.get("your_page_name", "N/A"),
             "execution_interval": get_workflow_execution_interval(),
