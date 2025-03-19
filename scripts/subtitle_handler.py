@@ -38,7 +38,7 @@ def remove_tags(message: str) -> str:
     """Remove tags ASS/SSA"""
     PATTERNS = re.compile(r"\{\s*[^}]*\s*\}|\\N|\\[^}]+")
 
-    return PATTERNS.sub("", message).strip()
+    return PATTERNS.sub(" ", message).strip()
 
 
 def timestamp_to_seconds(time_str: str) -> float:
@@ -48,7 +48,7 @@ def timestamp_to_seconds(time_str: str) -> float:
 
 
 def frame_to_timestamp(episode_number: int, frame_number: int) -> str:
-
+    """Convert frame number to timestamp"""
     configs = load_configs()
     img_fps: int | float = (
         configs.get("episodes", {}).get(episode_number, {}).get("img_fps")

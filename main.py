@@ -95,7 +95,7 @@ def update_bio_and_frame_counter(frame_counter, configs, number_of_frames_posted
 
 
 # posta frames específicos (sequenciais)
-def post_sequencial_frames(fph, frame_iterator, frame_counter, configs, posting_interval):
+def post_sequencial_frames(fph: int, frame_iterator: int, frame_counter: dict, configs: dict, posting_interval: int):
     """Posta um frame específico"""
     posts_data = []
 
