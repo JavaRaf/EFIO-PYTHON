@@ -52,12 +52,10 @@ timezone_offset: "-3"                      # Timezone offset (format: string wit
 
 # Message Templates ------------------------------------------------------------------------------------------------
 
-# Message templates ------------------------------------------------------------------------------------------------
-
 # {post_message} is the message template used when posting frames in order
 post_message: |
   Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}
-  Timestamp: {frame_timestamp}
+  minute {frame_timestamp} of Episode {episode}
   Page name: {page_name}
   Posting {fph} frames every {execution_interval} hours
   Total of {total_frames_posted} frames was successfully posted in page!!!
