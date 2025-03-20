@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import re
 from datetime import datetime, timedelta
 
@@ -68,6 +69,42 @@ def frame_to_timestamp(episode_number: int, frame_number: int) -> str:
 
     return f"{hr}:{min:02d}:{sec:02d}.{ms:02d}"
 
+def language_detect(file_path: Path, dialogues: list[str]) -> str:
+    """Detects the language based on the dialogue content and renames the file."""
+    if not file_path.exists():
+        print(f"Error: File not found: {file_path}")
+        return "Unknown"
+
+    # Divide the file name into parts
+    name_parts = file_path.stem.split(".")
+    ext = file_path.suffix.lstrip(".")  # Remove the dot from the extension
+
+    # If there is already a valid language code in the file name, use it
+    if len(name_parts) > 1 and name_parts[-1] in LANGUAGE_CODES and not any(c.isdigit() for c in name_parts[-1]):
+        return LANGUAGE_CODES.get(name_parts[-1], "Unknown")
+
+    # Detects the language of the extracted text
+    lang_code = detect(" ".join(dialogues))
+    language = LANGUAGE_CODES.get(lang_code, "Unknown")
+    
+    if language == "Unknown":
+        print("Language detection failed. Keeping original filename.")
+        return language
+    
+    # Generates a new file path with the detected language
+    new_file_path = file_path.with_name(f"{file_path.stem.split('.')[0]}.{language}.{ext}")
+
+    try:
+        if new_file_path.exists():
+            return language
+            
+        file_path.rename(new_file_path)
+        return language
+    except Exception as e:
+        logger.error(f"Error renaming file subtitle: {e}")
+        return "Unknown"
+
+
 
 def subtitle_srt(episode_number: int, frame_number: int, subtitle_file: str) -> str:
     pass
@@ -82,10 +119,7 @@ def subtitle_ass(
 
     dialogues = [line for line in content if line.startswith("Dialogue:")]
 
-    # Cria a lista temporária para armazenar os textos das legendas
-    temporary_subtitles = [remove_tags(d.split(",,")[-1]) for d in dialogues]
-    lang_code = detect(" ".join(temporary_subtitles))
-    lang_name = LANGUAGE_CODES.get(lang_code, lang_code)
+    lang_name = language_detect(Path(subtitle_file), dialogues)
 
     frame_in_seconds = timestamp_to_seconds(
         frame_to_timestamp(episode_number, frame_number)
