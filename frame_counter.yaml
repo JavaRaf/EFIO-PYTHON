@@ -3,5 +3,5 @@
 season: 1                   # Current season
 current_episode: 2          # Current episode (esse numero atualiza automaticamente ao final de cada episodio)
 
-frame_iterator: 1635        # Current frame (usada para iterar sobre os frames) (start from 0)
-total_frames_posted: 1635   # É uma soma de todos os frames postados na pagina  (start from 0)
+frame_iterator: 1650        # Current frame (usada para iterar sobre os frames) (start from 0)
+total_frames_posted: 1650   # É uma soma de todos os frames postados na pagina  (start from 0)
