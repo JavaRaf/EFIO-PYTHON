@@ -1,0 +1,93 @@
+# Facebook Configuration
+page_name: "Todo Sabado a mesma imagem da Hotaru"            # Exact name of your Facebook page (string)
+api_version: "v21.0"                                         # Facebook API version (default: v21.0) (string) 
+
+episodes:
+  1:
+    img_fps: 2                                                # Frame rate used to generate video frames (integer | float)
+    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+
+  2:
+    img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
+    album_id: 576199222126173                                 # Facebook album ID for this episode (integer | string)
+
+  # add more episodes here
+
+
+# Posting Configuration
+posting:
+  fph: 3                                  # Frames per hour (format: integer)
+  posting_interval: 2                     # Interval between posts (in minutes) (format: integer)
+  posting_subtitles: true                 # Include subtitles in comments
+  multi_language_subtitles: true          # Include subtitles in multiple languages
+
+  random_crop:                             # Random crop settings
+    enabled: true                          # true or false
+    min_x: 200                             # Minimum crop width (format: integer)
+    min_y: 600                             # Minimum crop height (format: integer)
+
+
+random_posting:                            # post frames in random order
+  enabled: false                           # true or false
+  filters:                                 # Filters to apply to random posting
+    None_filter:                           # (applies no filter, original image)        true or false
+      enabled: true                        # true or false
+      percentage: 30                       # percentage of frames to apply filter
+    two_panel:                             # (Junta 2 frames em uma imagem)             true or false
+      enabled: true                        # true or false
+      percentage: 20                       # percentage of frames to apply filter
+    mirror_image:                          # (Espelha a imagem)                         true or false
+      enabled: true                        # true or false
+      percentage: 15                       # percentage of frames to apply filter
+    negative_filter:                       # (applies negative filter, inverts colors)  true or false
+      enabled: true                        # true or false
+      percentage: 10                       # percentage of frames to apply filter
+    brightness_and_contrast:               # (applies brightness and contrast filter)   true or false
+      enabled: true                        # true or false
+      percentage: 50                       # percentage of frames to apply filter
+
+
+# Timezone configuration
+timezone_offset: "-3"                      # Timezone offset (format: string with sign)
+
+# Message Templates ------------------------------------------------------------------------------------------------
+
+# {post_message} is the message template used when posting frames in order
+post_message: |
+  Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}
+  timestamp: {frame_timestamp}
+  total of {total_frames_posted} frames was successfully posted!!!  
+  -
+  -
+  {subtitle_text}
+  
+
+# {bio_message} is the message template used in the page bio
+bio_message: |
+  Chopped {img_fps} FPS, Posting {fph} Frames every {execution_interval} hours.
+  Total of {total_frames_posted} frames was successfully posted!!!
+
+# Message Templates --------------------------------------------------------------------------------------------------
+
+# Available variables for message templates:
+# - {season}              : Current season number
+# - {episode}             : Current episode number
+# - {current_frame}       : Current frame number
+# - {episode_total_frames}: Total frames in the episode
+# - {frame_timestamp}     : Frame timestamp
+# - {subtitle_text}       : Subtitle in frame tittle
+# - {fph}                 : Frames per interval
+# - {page_name}           : Page name
+# - {execution_interval}  : Interval between execution (in hours) (default: 2 hours) (format: integer)
+# - {posting_interval}    : Interval between posts (in minutes) (default: 2 minutes) (format: integer)
+# - {total_frames_posted} : Total frames posted
+
+# - {img_fps}             : Frame rate used to generate video frames
+#                           Example ffmpeg command to generate frames:
+
+#                           ffmpeg -i "video.mkv" -vf "fps=2" -fps_mode vfr -q:v 3 frame_%00d.jpg
+
+#                           Where:
+#                           - fps=2: sets 2 frames per second 
+#                           - fps_mode vfr: variable frame rate mode
+#                           - q:v 3: JPEG quality (lower = better)
