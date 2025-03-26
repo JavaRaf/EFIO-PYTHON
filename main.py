@@ -133,6 +133,8 @@ def ordered_post(configs: dict, counter: dict, facebook: Facebook):
         counter["frame_iterator"] += 1
         counter["total_frames_posted"] += 1
 
+        sleep(configs.get("posting", {}).get("posting_interval", 2) * 60) # 2 minutes
+
         
 def random_post():
     pass
