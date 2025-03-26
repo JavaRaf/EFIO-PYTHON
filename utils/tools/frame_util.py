@@ -27,6 +27,10 @@ def counter_frames_from_this_episode(episode_number: int) -> int | None:
         logger.error("No episodes found in frames directory")
         return 0
 
+    if episode_number < 0 or episode_number > len(episodes_dirs):
+        logger.error(f"Invalid episode number: {episode_number}")
+        return 0
+
     for episode_dir in episodes_dirs:
         if episode_dir.name.isdigit():
             try:
@@ -36,7 +40,6 @@ def counter_frames_from_this_episode(episode_number: int) -> int | None:
                 logger.error(f"Unexpected directory name: {episode_dir.name}")
                 return 0
     
-    logger.error(f"Episode {episode_number} not found in frames directory")
     return 0
 
 
@@ -80,7 +83,7 @@ def random_crop(frame_path: Path, configs: dict) -> tuple[Path, str] | None:
             cropped_img = img.crop((crop_x, crop_y, crop_x + crop_width, crop_y + crop_height))
 
             # Save the cropped image
-            cropped_path = Path(__file__).parent.parent / "temp" / f"cropped_path"
+            cropped_path = Path(__file__).parent.parent / "temp" / f"cropped_path{frame_path.suffix}"
             cropped_img.save(cropped_path)
             message = f"Random Crop. [{crop_width}x{crop_height} ~ X: {crop_x}, Y: {crop_y}]"
 

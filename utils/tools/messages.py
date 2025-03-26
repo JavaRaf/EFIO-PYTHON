@@ -5,7 +5,7 @@ from utils.tools.workflow import get_workflow_execution_interval
 
 logger = get_logger(__name__)
 
-def format_message(message: str, frame_counter: dict, configs: dict) -> str:
+def format_message(message: str, frame_number: int, total_frames_posted: int, frame_counter: dict, configs: dict) -> str:
     """
     Formata uma mensagem com atributos de quadro e página.
 
@@ -26,11 +26,8 @@ def format_message(message: str, frame_counter: dict, configs: dict) -> str:
         # Obtendo valores seguros com `.get()` para evitar KeyError
         season = frame_counter.get("season", "N/A")
         current_episode = frame_counter.get("current_episode", "N/A")
-        current_frame = frame_counter.get("frame_iterator", "N/A")
         episode_total_frames = counter_frames_from_this_episode(current_episode)
-        frame_timestamp = frame_to_timestamp(current_episode, current_frame)
-        total_frames_posted = frame_counter.get("total_frames_posted", 0)
-
+        frame_timestamp = frame_to_timestamp(current_episode, frame_number)
         # Evita erro caso "episodes" ou "episode_number" não existam
         episode_config = configs.get("episodes", {}).get(current_episode, {})
         img_fps = episode_config.get("img_fps", "N/A")
@@ -44,14 +41,14 @@ def format_message(message: str, frame_counter: dict, configs: dict) -> str:
         execution_interval = get_workflow_execution_interval()
 
         # Obtendo legenda apenas uma vez (evita atribuição dentro do dicionário)
-        subtitle_message = get_subtitle_message(current_frame, current_episode, configs)
+        subtitle_message = get_subtitle_message(frame_number, current_episode, configs)
         subtitle_text = subtitle_message if subtitle_message else ""
 
         # Dicionário de placeholders
         attrs = {
             "season": season,
             "episode": current_episode,
-            "current_frame": current_frame,
+            "current_frame": frame_number,
             "episode_total_frames": episode_total_frames,
             "frame_timestamp": frame_timestamp,
             "subtitle_text": subtitle_text,

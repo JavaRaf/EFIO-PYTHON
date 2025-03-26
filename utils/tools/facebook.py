@@ -79,6 +79,10 @@ class Facebook:
         if not album_id or not str(album_id).isdigit():
             return None
 
+        print(
+            f"├──Reposting frame in album_id: {album_id}...",
+            flush=True,
+        )
         return self.post(message, frame_path, parent_id=f"{album_id}/photos")
 
     def update_bio(self, message: str) -> str | None:

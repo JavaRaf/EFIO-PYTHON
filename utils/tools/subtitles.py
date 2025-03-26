@@ -40,16 +40,15 @@ def timestamp_to_seconds(time_str: str) -> float:
     h, m, s = map(float, time_str.split(":"))
     return h * 3600 + m * 60 + s
 
-def frame_to_timestamp(img_fps: int | float, current_frame: int) -> str:
+def frame_to_timestamp(img_fps: int | float, current_frame: int) -> str | None:
     """Convert frame number to timestamp"""
 
     if not isinstance(img_fps, (int, float)) or not isinstance(current_frame, int):
-        logger.error("Erro, img_fps e frame_number devem ser inteiros", exc_info=True)
-        return "0:00:00.00"
-
-    if not img_fps:
-        logger.error("Erro, img_fps não esta settado", exc_info=True)
-        return "0:00:00.00"
+        logger.error(
+            "Error, img_fps or frame_number must be a number",
+            exc_info=True
+        )
+        return None
 
     frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=current_frame / img_fps)
 
@@ -98,11 +97,17 @@ def language_detect(file_path: Path, dialogues: list[str]) -> str:
         return "Unknown"
 
 def subtitle_ass(subtitle_file: str, current_frame: int, current_episode: int, configs: dict) -> str | None:
+    """
+    Returns the subtitle message for the current frame.
+    """
 
     img_fps = configs.get("episodes", {}).get(current_episode, {}).get("img_fps", 0)
 
     if not img_fps:
-        logger.error("Erro, img_fps não esta settado", exc_info=True)
+        logger.error(
+            "Error, img_fps not set, please define img_fps in the configs.yml file",
+            exc_info=True
+        )
         return None
 
     frame_in_seconds = timestamp_to_seconds(
@@ -151,7 +156,10 @@ def get_subtitle_message(current_frame: int, current_episode: int, configs: dict
     """
     
     if not isinstance(current_frame, int) or not isinstance(current_episode, int):
-        logger.error("Erro, current_frame e current_episode devem ser inteiros", exc_info=True)
+        logger.error(
+            "Error, current_frame and current_episode must be integers",
+            exc_info=True
+        )
         return None
     
     subtitles_dir = Path(__file__).parent.parent.parent / "subtitles"

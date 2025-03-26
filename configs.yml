@@ -16,7 +16,7 @@ episodes:
 
 # Posting Configuration
 posting:
-  fph: 3                                  # Frames per hour (format: integer)
+  fph: 10                                 # Frames per hour (format: integer)
   posting_interval: 2                     # Interval between posts (in minutes) (format: integer)
   posting_subtitles: true                 # Include subtitles in comments
   multi_language_subtitles: true          # Include subtitles in multiple languages
