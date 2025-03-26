@@ -14,33 +14,20 @@ def counter_frames_from_this_episode(episode_number: int) -> int | None:
         episode_number: Episode number (1 digit, e.g. 1, 2, etc.)
 
     Returns:
-        int: Total number of frames in the episode (or 0 if não encontrado)
+        int: Total number of frames in the episode (or 0 if nao encontrado)
     """
     if not isinstance(episode_number, int):
         logger.error("Episode number must be an integer")
         return 0
 
     frames_dir = Path(__file__).parent.parent.parent / "frames"
-    episodes_dirs = [d for d in frames_dir.iterdir() if d.is_dir()]
+    episode_dir = frames_dir / str(episode_number).zfill(2)
 
-    if not episodes_dirs:
-        logger.error("No episodes found in frames directory")
+    if not episode_dir.exists():
+        logger.error(f"Episode {episode_number} not found in frames directory")
         return 0
 
-    if episode_number < 0 or episode_number > len(episodes_dirs):
-        logger.error(f"Invalid episode number: {episode_number}")
-        return 0
-
-    for episode_dir in episodes_dirs:
-        if episode_dir.name.isdigit():
-            try:
-                if int(episode_dir.name.lstrip('0') or "0") == episode_number:
-                    return len([f for f in episode_dir.iterdir() if f.is_file()])
-            except ValueError:
-                logger.error(f"Unexpected directory name: {episode_dir.name}")
-                return 0
-    
-    return 0
+    return len([f for f in episode_dir.iterdir() if f.is_file()])
 
 
 def random_crop(frame_path: Path, configs: dict) -> tuple[Path, str] | None:
