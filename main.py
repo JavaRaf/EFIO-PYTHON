@@ -91,6 +91,7 @@ def ordered_post(configs: dict, counter: dict, facebook: Facebook):
         total_frames_posted += 1
 
         if frame_number > counter_frames_from_this_episode(current_episode):
+            print(f"current frame_number is {frame_number} and counter_frames_from_this_episode is {counter_frames_from_this_episode(current_episode)}", flush=True)
             print(f"\n\nAll frames from episode {current_episode} have been posted\n\n", flush=True)
             break
 
