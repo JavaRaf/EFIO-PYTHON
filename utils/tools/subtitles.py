@@ -131,20 +131,21 @@ def subtitle_ass(subtitle_file: str, current_frame: int, current_episode: int, c
 
         if start_time_seconds <= frame_in_seconds <= end_time_seconds:
             # Verifica se o estilo é relacionado a sinais (Signs)
-            if re.search(r"\bsigns?\b", style, re.IGNORECASE):
-                subtitles.append(f"【 {remove_tags(text)} 】\n")
+            if re.match(r"(?i)^signs?", style) or re.match(r"(?i)^signs?", name):
+                subtitle = f"【 {remove_tags(text)} 】"
+                subtitles.append(subtitle + "\n")
 
             # Verifica se o estilo ou o nome é relacionado a letras de música (Lyrics ou Songs)
-            elif re.search(r"\b(lyrics?|songs?)\b", style, re.IGNORECASE) or re.search(
-                r"\b(lyrics?|songs?)\b", name, re.IGNORECASE
+            elif re.match(r"(?i)\b(lyrics?|songs?)\b", style) or re.match(
+                r"(?i)\b(lyrics?|songs?)\b", name
             ):
-                subtitles.append(
-                    f"♪ {remove_tags(text)} ♪\n"
-                )  # Adiciona um estilo especial para letras de música
+                subtitle = f"♪ {remove_tags(text)} ♪\n"
+                subtitles.append(subtitle)
 
             # Caso contrário, apenas adiciona o texto
             else:
-                subtitles.append(remove_tags(text))
+                subtitle = remove_tags(text)
+                subtitles.append(subtitle + "\n")
     if not subtitles:
         return None
 

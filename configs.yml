@@ -11,6 +11,10 @@ episodes:
     img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
     album_id: 576199222126173                                 # Facebook album ID for this episode (integer | string)
 
+  3:
+    img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
+    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+
   # add more episodes here
 
 

@@ -43,6 +43,7 @@ def format_message(message: str, frame_number: int, total_frames_posted: int, fr
         # Obtendo legenda apenas uma vez (evita atribuição dentro do dicionário)
         subtitle_message = get_subtitle_message(frame_number, current_episode, configs)
         subtitle_text = subtitle_message if subtitle_message else ""
+        print(subtitle_text)
 
         # Dicionário de placeholders
         attrs = {
