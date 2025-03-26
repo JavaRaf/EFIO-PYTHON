@@ -70,7 +70,9 @@ def random_crop(frame_path: Path, configs: dict) -> tuple[Path, str] | None:
             cropped_img = img.crop((crop_x, crop_y, crop_x + crop_width, crop_y + crop_height))
 
             # Save the cropped image
-            cropped_path = Path(__file__).parent.parent / "temp" / f"cropped_path{frame_path.suffix}"
+            cropped_path = Path(__file__).parent.parent / "temp" / f"cropped_{frame_path.stem}{frame_path.suffix}"
+            cropped_path.parent.mkdir(exist_ok=True)
+
             cropped_img.save(cropped_path)
             message = f"Random Crop. [{crop_width}x{crop_height} ~ X: {crop_x}, Y: {crop_y}]"
 
