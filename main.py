@@ -121,14 +121,18 @@ def ordered_post(configs: dict, counter: dict, facebook: Facebook):
             break
 
         post_id = post_frame(frame_path, frame_number, message, configs, counter, facebook)
-        repost_id = facebook.repost_to_album(message, frame_path, configs, counter)
-
+        
         if not post_id:
             logger.error(f"Failed to post frame {frame_number} in episode {current_episode}")
             break
 
-        subtitle_post_id = post_subtitles(post_id, frame_number, configs, counter, facebook)
-        crop_post_id = post_random_crop(post_id, frame_path, frame_number, configs, facebook)
+        repost_id = facebook.repost_to_album(message, frame_path, configs, counter)
+        if not repost_id:
+            logger.error(f"Failed to repost frame {frame_number} in episode {current_episode}")
+            break
+
+        post_subtitles(post_id, frame_number, configs, counter, facebook)
+        post_random_crop(post_id, frame_path, frame_number, configs, facebook)
         
         counter["frame_iterator"] += 1
         counter["total_frames_posted"] += 1
