@@ -91,5 +91,9 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
+          file_pattern: |
+            counter.yml
+            fb/*
+            utils/logs/*
           commit_message: "Update"
           push_options: --force

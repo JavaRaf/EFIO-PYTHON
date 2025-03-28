@@ -12,9 +12,8 @@ logger = get_logger(__name__)
 
 
 
-configs: dict = load_configs()
-frame_counter: dict = load_counter()
-
+configs: dict = load_configs(Path.cwd() / "configs.yml")
+frame_counter: dict = load_counter(Path.cwd() / "counter.yml")
 
 
 FB_PAGE_NAME = configs.get("page_name")

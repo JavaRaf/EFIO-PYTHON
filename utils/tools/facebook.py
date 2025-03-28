@@ -74,7 +74,7 @@ class Facebook:
         Repost a frame to an album.
         Returns the post ID if successful, otherwise returns None.
         """
-        album_id: str | int = configs.get("episodes", {}).get(counter.get("current_episode", 0), {}).get("album_id")
+        album_id: str | int = configs.get("episodes", {}).get(counter.get("current_episode", 0), {}).get("album_id", None)
 
         if not album_id or not str(album_id).isdigit():
             return None
