@@ -11,7 +11,6 @@ frames_dir = Path(__file__).parent.parent.parent / "frames"
 logger = get_logger(__name__)
 
 
-
 configs: dict = load_configs(Path.cwd() / "configs.yml")
 frame_counter: dict = load_counter(Path.cwd() / "counter.yml")
 

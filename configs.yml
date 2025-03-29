@@ -15,12 +15,24 @@ episodes:
     img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
     album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
 
+  4:
+    img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
+    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+
+  5:
+    img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
+    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+
+  6:
+    img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
+    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+
   # add more episodes here
 
 
 # Posting Configuration
 posting:
-  fph: 10                                 # Frames per hour (format: integer)
+  fph: 15                                 # Frames per hour (format: integer)
   posting_interval: 2                     # Interval between posts (in minutes) (format: integer)
   posting_subtitles: true                 # Include subtitles in comments
   multi_language_subtitles: true          # Include subtitles in multiple languages
@@ -32,10 +44,10 @@ posting:
 
 
 random_posting:                            # post frames in random order
-  enabled: false                            # true or false
+  enabled: false                           # true or false
   filters:                                 # Filters to apply to random posting
     None_filter:                           # (applies no filter, original image)        true or false
-      enabled: false                       # true or false
+      enabled: true                        # true or false
       percentage: 30                       # percentage of frames to apply filter
     two_panel:                             # (Junta 2 frames em uma imagem)             true or false
       enabled: true                        # true or false
@@ -61,8 +73,8 @@ post_message: |
   Season {season}, Episode {episode}, Frame {current_frame} out of {episode_total_frames}
   timestamp: {frame_timestamp}
   total of {total_frames_posted} frames was successfully posted!!!  
-  -
-  -
+  
+  
   {subtitle_text}
   
 

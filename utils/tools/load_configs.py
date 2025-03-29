@@ -4,9 +4,9 @@ from utils.tools.logger import get_logger
 
 logger = get_logger(__name__)
 
-yaml = YAML()                                   # Criando a instância primeiro
-yaml.preserve_quotes = True                     # Configurando preserve_quotes separadamente
-yaml.indent(mapping=2, sequence=4, offset=2)    # Corrigindo a indentação corretamente
+yaml: YAML = YAML()  # Criando a instância primeiro
+yaml.preserve_quotes = True  # Configurando preserve_quotes separadamente
+yaml.indent(mapping=2, sequence=4, offset=2)  # Corrigindo a indentação corretamente
 yaml.default_flow_style = False
 
 
@@ -22,6 +22,7 @@ def load_configs(configs_path: Path) -> dict:
         logger.error(f"Error while loading configs: {e}", exc_info=True)
         return {}
 
+
 def load_counter(counter_path: Path) -> dict:
     if not counter_path.exists():
         logger.error(f"Counter file not found: {counter_path}")
@@ -34,6 +35,7 @@ def load_counter(counter_path: Path) -> dict:
         logger.error(f"Error while loading counter: {e}", exc_info=True)
         return {}
 
+
 def save_counter(counter: dict, counter_path: Path) -> None:
     try:
         with open(counter_path, "w") as file:
@@ -45,4 +47,3 @@ def save_counter(counter: dict, counter_path: Path) -> None:
 def update_counter(counter: dict, counter_path: Path, args: dict) -> None:
     counter.update(args)
     save_counter(counter, counter_path)
-    

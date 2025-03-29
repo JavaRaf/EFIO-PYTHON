@@ -5,7 +5,14 @@ from utils.tools.workflow import get_workflow_execution_interval
 
 logger = get_logger(__name__)
 
-def format_message(message: str, frame_number: int, total_frames_posted: int, frame_counter: dict, configs: dict) -> str:
+
+def format_message(
+    message: str,
+    frame_number: int,
+    total_frames_posted: int,
+    frame_counter: dict,
+    configs: dict,
+) -> str:
     """
     Formata uma mensagem com atributos de quadro e página.
 
@@ -65,4 +72,3 @@ def format_message(message: str, frame_number: int, total_frames_posted: int, fr
     except Exception as e:
         logger.error(f"Erro ao formatar a mensagem: {e}", exc_info=True)
         return ""
-    

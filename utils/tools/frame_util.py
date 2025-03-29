@@ -52,7 +52,7 @@ def random_crop(frame_path: Path, configs: dict) -> tuple[Path, str] | None:
         min_x: int = configs.get("posting", {}).get("random_crop", {}).get("min_x", 200)
         min_y: int = configs.get("posting", {}).get("random_crop", {}).get("min_y", 600)
 
-        #Random crop dimensions. perfect square.
+        # Random crop dimensions. perfect square.
         crop_width = crop_height = random.randint(min_x, min_y)
 
         with Image.open(frame_path) as img:
@@ -67,14 +67,22 @@ def random_crop(frame_path: Path, configs: dict) -> tuple[Path, str] | None:
             crop_y = random.randint(0, image_height - crop_height)
 
             # Crop image
-            cropped_img = img.crop((crop_x, crop_y, crop_x + crop_width, crop_y + crop_height))
+            cropped_img = img.crop(
+                (crop_x, crop_y, crop_x + crop_width, crop_y + crop_height)
+            )
 
             # Save the cropped image
-            cropped_path = Path(__file__).parent.parent / "temp" / f"cropped_frame{frame_path.suffix}"
+            cropped_path = (
+                Path(__file__).parent.parent
+                / "temp"
+                / f"cropped_frame{frame_path.suffix}"
+            )
             cropped_path.parent.mkdir(exist_ok=True)
 
             cropped_img.save(cropped_path)
-            message = f"Random Crop. [{crop_width}x{crop_height} ~ X: {crop_x}, Y: {crop_y}]"
+            message = (
+                f"Random Crop. [{crop_width}x{crop_height} ~ X: {crop_x}, Y: {crop_y}]"
+            )
 
             return cropped_path, message
 
@@ -109,7 +117,7 @@ def return_frame_path(frame_number: int, episode_number: int) -> Path | None:
     # Tenta encontrar o frame com diferentes formatos de nome
     possible_paths = [
         episode_dir / f"frame_{frame_number}.jpg",
-        episode_dir / f"frame_{frame_number:04d}.jpg"
+        episode_dir / f"frame_{frame_number:04d}.jpg",
     ]
 
     for frame_path in possible_paths:

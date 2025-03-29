@@ -29,25 +29,25 @@ LANGUAGE_CODES = {
     # add more language codes here
 }
 
+
 def remove_tags(message: str) -> str:
     """Remove tags ASS/SSA"""
     PATTERNS = re.compile(r"\{\s*[^}]*\s*\}|\\N|\\[^}]+")
 
     return PATTERNS.sub(" ", message).strip()
 
+
 def timestamp_to_seconds(time_str: str) -> float:
     """Convert H:MM:SS.MS format to seconds"""
     h, m, s = map(float, time_str.split(":"))
     return h * 3600 + m * 60 + s
 
+
 def frame_to_timestamp(img_fps: int | float, current_frame: int) -> str | None:
     """Convert frame number to timestamp"""
 
     if not isinstance(img_fps, (int, float)) or not isinstance(current_frame, int):
-        logger.error(
-            "Error, img_fps or frame_number must be a number",
-            exc_info=True
-        )
+        logger.error("Error, img_fps or frame_number must be a number", exc_info=True)
         return None
 
     frame_timestamp = datetime(1900, 1, 1) + timedelta(seconds=current_frame / img_fps)
@@ -61,6 +61,7 @@ def frame_to_timestamp(img_fps: int | float, current_frame: int) -> str | None:
 
     return f"{hr}:{min:02d}:{sec:02d}.{ms:02d}"
 
+
 def language_detect(file_path: Path, dialogues: list[str]) -> str:
     """Detects the language based on the dialogue content and renames the file."""
     if not file_path.exists():
@@ -72,31 +73,40 @@ def language_detect(file_path: Path, dialogues: list[str]) -> str:
     ext = file_path.suffix.lstrip(".")  # Remove the dot from the extension
 
     # If there is already a valid language code in the file name, use it
-    if len(name_parts) > 1 and name_parts[-1] in LANGUAGE_CODES and not any(c.isdigit() for c in name_parts[-1]):
+    if (
+        len(name_parts) > 1
+        and name_parts[-1] in LANGUAGE_CODES
+        and not any(c.isdigit() for c in name_parts[-1])
+    ):
         return LANGUAGE_CODES.get(name_parts[-1], "Unknown")
 
     # Detects the language of the extracted text
     lang_code = detect(" ".join(dialogues))
     language = LANGUAGE_CODES.get(lang_code, "Unknown")
-    
+
     if language == "Unknown":
         print("Language detection failed. Keeping original filename.")
         return language
-    
+
     # Generates a new file path with the detected language
-    new_file_path = file_path.with_name(f"{file_path.stem.split('.')[0]}.{language}.{ext}")
+    new_file_path = file_path.with_name(
+        f"{file_path.stem.split('.')[0]}.{language}.{ext}"
+    )
 
     try:
         if new_file_path.exists():
             return language
-            
+
         file_path.rename(new_file_path)
         return language
     except Exception as e:
         logger.error(f"Error renaming file subtitle: {e}")
         return "Unknown"
 
-def subtitle_ass(subtitle_file: str, current_frame: int, current_episode: int, configs: dict) -> str | None:
+
+def subtitle_ass(
+    subtitle_file: str, current_frame: int, current_episode: int, configs: dict
+) -> str | None:
     """
     Returns the subtitle message for the current frame.
     """
@@ -106,13 +116,11 @@ def subtitle_ass(subtitle_file: str, current_frame: int, current_episode: int, c
     if not img_fps:
         logger.error(
             "Error, img_fps not set, please define img_fps in the configs.yml file",
-            exc_info=True
+            exc_info=True,
         )
         return None
 
-    frame_in_seconds = timestamp_to_seconds(
-        frame_to_timestamp(img_fps, current_frame)
-    )
+    frame_in_seconds = timestamp_to_seconds(frame_to_timestamp(img_fps, current_frame))
 
     with open(subtitle_file, "r", encoding="utf-8_sig") as file:
         content = file.readlines()
@@ -151,24 +159,26 @@ def subtitle_ass(subtitle_file: str, current_frame: int, current_episode: int, c
 
     return f"[{lang_name}]\n {' '.join(subtitles)}"
 
-def get_subtitle_message(current_frame: int, current_episode: int, configs: dict) -> str | None:
+
+def get_subtitle_message(
+    current_frame: int, current_episode: int, configs: dict
+) -> str | None:
     """
     Returns the subtitle message for the current frame.
     """
-    
+
     if not isinstance(current_frame, int) or not isinstance(current_episode, int):
         logger.error(
-            "Error, current_frame and current_episode must be integers",
-            exc_info=True
+            "Error, current_frame and current_episode must be integers", exc_info=True
         )
         return None
-    
+
     subtitles_dir = Path(__file__).parent.parent.parent / "subtitles"
     subtitle_dir = subtitles_dir / f"{current_episode:02d}"
 
     if not subtitle_dir.exists():
         return None
-    
+
     files = [f for f in subtitle_dir.iterdir() if f.is_file() and f.suffix == ".ass"]
     if not configs.get("posting", {}).get("multi_language_subtitles", False):
         files = [files[0]]
@@ -177,9 +187,9 @@ def get_subtitle_message(current_frame: int, current_episode: int, configs: dict
 
     for file in files:
         subtitle_file = subtitle_dir / file
-        
+
         result = subtitle_ass(subtitle_file, current_frame, current_episode, configs)
         if result:
             message += result + "\n\n"
-    
+
     return "𝑺𝒖𝒃𝒕𝒊𝒕𝒍𝒆𝒔:\n" + message if message else None

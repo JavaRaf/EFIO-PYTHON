@@ -59,7 +59,9 @@ def post_frame(message: str, frame_path: Path) -> Optional[str]:
     return post_id
 
 
-def post_subtitles(post_id: str, frame_number: int, current_episode: int) -> Optional[str]:
+def post_subtitles(
+    post_id: str, frame_number: int, current_episode: int
+) -> Optional[str]:
     """Posta as legendas associadas ao frame."""
     if not CONFIGS.get("posting", {}).get("posting_subtitles", False):
         return None
@@ -67,7 +69,9 @@ def post_subtitles(post_id: str, frame_number: int, current_episode: int) -> Opt
     subtitle_message = get_subtitle_message(frame_number, current_episode, CONFIGS)
 
     if subtitle_message:
-        formated_message = f"Episode {current_episode} Frame {frame_number}\n\n{subtitle_message}"
+        formated_message = (
+            f"Episode {current_episode} Frame {frame_number}\n\n{subtitle_message}"
+        )
         subtitle_post_id = fb.post(formated_message, None, post_id)
         print(f"└── Subtitle has been posted", flush=True)
         sleep(2)
@@ -75,7 +79,9 @@ def post_subtitles(post_id: str, frame_number: int, current_episode: int) -> Opt
     return None
 
 
-def post_random_crop(post_id: str, frame_path: Path, frame_number: int, current_episode: int) -> Optional[str]:
+def post_random_crop(
+    post_id: str, frame_path: Path, frame_number: int, current_episode: int
+) -> Optional[str]:
     """Posta uma versão recortada do frame aleatório."""
     if not CONFIGS.get("posting", {}).get("random_crop", {}).get("enabled", False):
         return None
@@ -91,11 +97,15 @@ def post_random_crop(post_id: str, frame_path: Path, frame_number: int, current_
 
 def random_main():
     """Executa o processo de postagem de um frame aleatório com filtro."""
-    
+
     paths: list = []
     output_path: Path = None
     chosen_filter = random.choices(enable_filters, weights=percentages)[0]
-    IMG_FPS = CONFIGS.get("episodes", {}).get(COUNTER.get("current_episode", 0), {}).get("img_fps", 2)
+    IMG_FPS = (
+        CONFIGS.get("episodes", {})
+        .get(COUNTER.get("current_episode", 0), {})
+        .get("img_fps", 2)
+    )
 
     if not chosen_filter:
         logger.error("Failed to apply filter")
@@ -115,7 +125,9 @@ def random_main():
                 return  # Interrompe a execução se não conseguir obter 2 frames
 
             path, frame_number, episode_number = frame_data
-            subtitle_message = get_subtitle_message(frame_number, episode_number, CONFIGS)
+            subtitle_message = get_subtitle_message(
+                frame_number, episode_number, CONFIGS
+            )
             paths.append(
                 {
                     "frame_path": path,
@@ -135,7 +147,9 @@ def random_main():
             logger.error("Invalid frame path detected")
             return
 
-        output_path = filters_functions[chosen_filter](paths)  # Aplica o filtro two_panel
+        output_path = filters_functions[chosen_filter](
+            paths
+        )  # Aplica o filtro two_panel
 
         message = (
             "[Random Frames]\n\n"
@@ -160,7 +174,9 @@ def random_main():
             logger.error("Invalid frame path")
             return
 
-        output_path = filters_functions[chosen_filter]([{"frame_path": path}])  # Aplica o filtro
+        output_path = filters_functions[chosen_filter](
+            [{"frame_path": path}]
+        )  # Aplica o filtro
 
         message = (
             "[Random Frames]\n\n"
@@ -179,9 +195,14 @@ def random_main():
         return
 
     if chosen_filter == "two_panel":
-        post_subtitles(post_id, paths[0]['frame_number'], paths[0]['episode_number'])
-        post_subtitles(post_id, paths[1]['frame_number'], paths[1]['episode_number'])
-        post_random_crop(post_id, paths[0]['frame_path'], paths[0]['frame_number'], paths[0]['episode_number'])
+        post_subtitles(post_id, paths[0]["frame_number"], paths[0]["episode_number"])
+        post_subtitles(post_id, paths[1]["frame_number"], paths[1]["episode_number"])
+        post_random_crop(
+            post_id,
+            paths[0]["frame_path"],
+            paths[0]["frame_number"],
+            paths[0]["episode_number"],
+        )
     else:
         post_subtitles(post_id, frame_number, episode_number)
         post_random_crop(post_id, path, frame_number, episode_number)
