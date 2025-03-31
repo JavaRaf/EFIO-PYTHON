@@ -42,4 +42,4 @@ jobs:
                 
             - name: Run FB Token Check
               run: |
-                python -m checkers.variable_checks
+                python -m tools.checkers.variable_checks
