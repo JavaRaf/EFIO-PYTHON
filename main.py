@@ -204,7 +204,7 @@ def random_post(fph: int = 15, posting_interval: int = 2):
 def main():
     CONFIGS: dict = load_configs(Path("configs.yml"))
     COUNTER: dict = load_counter(Path("counter.yml"))
-    base_COUNTER = deepcopy(COUNTER)  # copia o contador para comparação
+    base_COUNTER = deepcopy(COUNTER)  # copy counter for comparison
 
     facebook = Facebook(CONFIGS, COUNTER)
     fph = CONFIGS.get("posting", {}).get("fph", 15)
@@ -215,7 +215,7 @@ def main():
     else:
         ordered_post(CONFIGS, COUNTER, posting_interval, facebook)
 
-    # Atualiza o bio apenas se houver alterações no contador
+    # update bio if needed
     update_bio_if_needed(facebook, CONFIGS, COUNTER, base_COUNTER)
 
 

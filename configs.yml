@@ -28,7 +28,7 @@ episodes:
     album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
 
   # add more episodes here
-
+  # set album_id if you want repost frames in an album
 
 # Posting Configuration
 posting:
