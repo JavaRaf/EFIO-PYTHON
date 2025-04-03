@@ -19,9 +19,7 @@ from utils.tools.random.main import random_main
 logger = get_logger(__name__)
 
 
-def update_bio_if_needed(
-    facebook: Facebook, CONFIGS: dict, COUNTER: dict, base_COUNTER: dict
-):
+def update_bio_if_needed(facebook: Facebook, CONFIGS: dict, COUNTER: dict, base_COUNTER: dict):
     if COUNTER == base_COUNTER:
         return  # avoid unnecessary execution
 
@@ -42,44 +40,27 @@ def update_bio_if_needed(
     )
     save_counter(COUNTER, Path("counter.yml"))
 
-def post_frame(
-    frame_path: Path,
-    frame_number: int,
-    message: str,
-    CONFIGS: dict,
-    COUNTER: dict,
-    facebook: Facebook,
-) -> str | None:
-    """
-    posta uma frame no facebook e atualiza o contador
-    """
+def post_frame(frame_path: Path, frame_number: int, message: str, CONFIGS: dict, COUNTER: dict, facebook: Facebook) -> str | None:
+    try:
+        post_id = facebook.post(message, frame_path)
+        if not post_id:
+            logger.error(f"Failed to post frame {frame_number} - No post_id returned")
+            return None
 
-    post_id = facebook.post(message, frame_path)
+        timestamp = frame_to_timestamp(
+            CONFIGS.get("episodes", {}).get(COUNTER.get("current_episode", 0), {}).get("img_fps", None),
+            frame_number,
+        )
 
-    if not post_id:
-        logger.error("Failed to post frame")
+        print(f"\n\n├──Episode {COUNTER.get('current_episode', 0)} frame {frame_number} posted | timestamp: {timestamp}", flush=True)
+        return post_id
+
+    except Exception as e:
+        logger.error(f"Error posting frame {frame_number}: {str(e)}", exc_info=True)
         return None
 
-    timestamp = frame_to_timestamp(
-        CONFIGS.get("episodes", {})
-        .get(COUNTER.get("current_episode", 0), {})
-        .get("img_fps", None),
-        frame_number,
-    )
 
-    print(
-        f"\n\n├──Episode {COUNTER.get('current_episode', 0)} "
-        f"frame {frame_number} has been posted | "
-        f"timestamp: {timestamp}",
-        flush=True,
-    )
-    sleep(2)
-    return post_id
-
-
-def post_subtitles(
-    post_id: str, frame_number: int, CONFIGS: dict, COUNTER: dict, facebook: Facebook
-) -> str | None:
+def post_subtitles(post_id: str, frame_number: int, CONFIGS: dict, COUNTER: dict, facebook: Facebook) -> str | None:
 
     if not CONFIGS.get("posting", {}).get("posting_subtitles", False):
         return None
@@ -116,9 +97,7 @@ def post_random_crop(
     return None
 
 
-def ordered_post(
-    CONFIGS: dict, COUNTER: dict, posting_interval: int, facebook: Facebook
-):
+def ordered_post(CONFIGS: dict, COUNTER: dict, posting_interval: int, facebook: Facebook):
     frame_iterator: int = COUNTER.get("frame_iterator", 0)
     current_episode: int = COUNTER.get("current_episode", 0)
     total_frames_posted: int = COUNTER.get("total_frames_posted", 0)
@@ -163,7 +142,7 @@ def ordered_post(
         )
         if not message:
             logger.error("Post message not found in CONFIGS")
-            break  # apos o break, ele salva tudo na main e fecha o programa
+            break  # after the break, it saves everything in main and closes the program
 
         frame_path: Path | None = return_frame_path(frame_number, current_episode)
 
@@ -201,8 +180,25 @@ def random_post(fph: int = 15, posting_interval: int = 2):
         sleep(posting_interval * 60)  # 2 minutes
 
 
+def validate_configs(CONFIGS: dict) -> bool:
+    required_keys = ['episodes', 'posting', 'post_message', 'bio_message']
+
+    for key in required_keys:
+        if key not in CONFIGS:
+            logger.error(f"Missing required config key: {key}")
+            return False
+
+    if not CONFIGS.get('episodes'):
+        logger.error("No episodes configured")
+        return False
+
+    return True
+
 def main():
     CONFIGS: dict = load_configs(Path("configs.yml"))
+    if not validate_configs(CONFIGS):
+        logger.error("Invalid configuration")
+        return
     COUNTER: dict = load_counter(Path("counter.yml"))
     base_COUNTER = deepcopy(COUNTER)  # copy counter for comparison
 
