@@ -1,4 +1,4 @@
-<h1 align="center">Every <sup><sub><sub>(name)</sub></sub></sup> Frame in Order BOT</h1>
+<h1 align="center">Every Frame In Order BOT</h1>
 
 <div align="center">
 
@@ -8,7 +8,7 @@
 
 
 ### Table of contents
-
+- [Prerequisites](#prerequisites)
 - [Criando um app do facebook](#criando-um-app-do-facebook)
 - [Fazendo o app do facebook publico](#fazendo-o-app-do-facebook-publico)
 - [Gerando um access token](#gerando-um-access-token)
@@ -18,43 +18,60 @@
 - [Rodar seu bot manualmente](#rodar-seu-bot-manualmente)
 
 
+
+
+### Prerequisites
+<details><summary>click to expand</summary><br>
+
+Antes de começar, você precisará de:
+
+- `Uma conta no Facebook`
+- `Uma página ativa no Facebook`
+- `Uma conta no GitHub`
+- `Git instalado em sua máquina`
+- `FFmpeg instalado (caso opte por gerar frames manualmente)`
+
+</details>
+
+---
+
 ### Criando um app do facebook
 <details><summary>click to expand</summary><br>
 
 Antes de começar, certifique-se de ter uma pagina do Facebook ativa
 
 <p align="center">
-  <img src="./utils/assets/tutorial/01.png" width="600" />
+  <img src="./utils/assets/tutorial/app_fb/01.png" width="600" />
 </p>
 
 - Clique em My Apps
 
 <p align="center">
-  <img src="./utils/assets/tutorial/02.png" width="600" />
+  <img src="./utils/assets/tutorial/app_fb/02.png" width="600" />
 </p>
 
 - Clique em Create application para criar um novo app
 
 <p align="center">
-  <img src="./utils/assets/tutorial/03.png" width="600" />
+  <img src="./utils/assets/tutorial/app_fb/03.png" width="600" />
 </p>
 
 - De um nome a seu app, pode ser qualquer nome, por exemplo EFIO, e um email
 
 <p align="center">
-  <img src="./utils/assets/tutorial/04.png" width="600" />
+  <img src="./utils/assets/tutorial/app_fb/04.png" width="600" />
 </p>
 
 - Em Use cases escolha Other
 
 <p align="center">
-  <img src="./utils/assets/tutorial/05.png" width="600" />
+  <img src="./utils/assets/tutorial/app_fb/05.png" width="600" />
 </p>
 
 - Em Type escolha Business
 
 <p align="center">
-  <img src="./utils/assets/tutorial/06.png" width="600" />
+  <img src="./utils/assets/tutorial/app_fb/06.png" width="600" />
 </p>
 
 - Clique em `Create application`, sua senha será solicitada, confirme e continue
