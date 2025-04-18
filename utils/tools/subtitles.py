@@ -12,6 +12,7 @@ LANGUAGE_CODES = {
     "en": "English",
     "pt": "Português",
     "es": "Español",
+    "spa": "Español",
     "ja": "Japanese",
     "ko": "Korean",
     "zh-cn": "Chinese (Simplified)",
@@ -144,9 +145,7 @@ def subtitle_ass(
                 subtitles.append(subtitle + "\n")
 
             # Verifica se o estilo ou o nome é relacionado a letras de música (Lyrics ou Songs)
-            elif re.match(r"(?i)\b(lyrics?|songs?)\b", style) or re.match(
-                r"(?i)\b(lyrics?|songs?)\b", name
-            ):
+            elif re.search(r"(?i)lyrics?|songs?", style) or re.search(r"(?i)lyrics?|songs?", name):
                 subtitle = f"♪ {remove_tags(text)} ♪\n"
                 subtitles.append(subtitle)
 

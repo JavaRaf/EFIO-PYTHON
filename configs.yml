@@ -5,27 +5,27 @@ api_version: "v21.0"                                         # Facebook API vers
 episodes:
   1:
     img_fps: 2                                                # Frame rate used to generate video frames (integer | float)
-    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+    album_id: ""                                 # Facebook album ID for this episode (integer | string)
 
   2:
     img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
-    album_id: 576199222126173                                 # Facebook album ID for this episode (integer | string)
+    album_id: ""                               # Facebook album ID for this episode (integer | string)
 
   3:
     img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
-    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+    album_id: ""                                 # Facebook album ID for this episode (integer | string)
 
   4:
     img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
-    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+    album_id: ""                                              # Facebook album ID for this episode (integer | string)
 
   5:
     img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
-    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+    album_id: ""                                              # Facebook album ID for this episode (integer | string)
 
   6:
     img_fps: 3.5                                              # Frame rate used to generate video frames (integer | float)
-    album_id: "your_album_id"                                 # Facebook album ID for this episode (integer | string)
+    album_id: ""                                   # Facebook album ID for this episode (integer | string)
 
   # add more episodes here
   # set album_id if you want repost frames in an album
